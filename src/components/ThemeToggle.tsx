@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNotesStore } from '../store/notesStore';
 
 const ThemeToggle = () => {
