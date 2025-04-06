@@ -4,15 +4,24 @@ A modern, offline-first note-taking application built with React and TypeScript.
 
 ## Features
 
-- 📝 Rich text editor with auto-save
-- 🌙 Dark/Light theme toggle
-- 🏷️ Tag support
-- ⭐ Favorite notes
-- 🔍 Search functionality
-- 💾 Offline-first (all data stored locally)
-- 📱 Responsive design
+- 📝 **Rich Text Editor**: Create and edit notes with a rich text editor powered by React Quill.
+- 🌙 **Dark/Light Theme Toggle**: Switch between dark and light themes for a comfortable viewing experience.
+- 🏷️ **Tag Support**: Add, update, and remove tags for better organization of your notes.
+- ⭐ **Favorite Notes**: Mark notes as favorites for quick access.
+- 🔍 **Search Functionality**: Easily search through your notes.
+- 💾 **Offline-First**: All data is stored locally, ensuring your notes are always accessible.
+- 📱 **Responsive Design**: Fully responsive design for seamless use on mobile, tablet, and desktop devices.
+- 🔔 **Toast Notifications**: Get real-time feedback with toast notifications using react-hot-toast.
+- 🗂️ **Drawer Navigation**: Access different sections of the app with a sleek drawer menu.
+- 🖼️ **404 Page**: A custom 404 page for handling undefined routes.
+- ⚡ **Fast Development**: Built with Vite for a fast and modern development experience.
+- 🎨 **Tailwind CSS Styling**: Styled with Tailwind CSS for a clean and modern UI.
+- 🔄 **State Management**: Manage app state efficiently with Zustand.
+- 🔧 **TypeScript Support**: Fully typed with TypeScript for better developer experience and fewer bugs.
+- 🔗 **React Router**: Navigate seamlessly between pages with React Router.
+- 📦 **Optimized Build**: Optimized for production with Vite and PostCSS.
 
-## Tech Stack
+## 
 
 - React + TypeScript
 - Zustand for state management
