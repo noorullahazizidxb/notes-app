@@ -1,5 +1,5 @@
 {
-  "name": "notes-app",
+  "name": "noorullah-notes-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -33,5 +33,6 @@
     "tailwindcss": "^3.4.1",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
-  }
+  },
+  "author":"noorullah azizi"
 }
