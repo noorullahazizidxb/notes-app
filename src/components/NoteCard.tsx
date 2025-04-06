@@ -21,7 +21,7 @@ const extractTagsFromHTML = (html: string): string[] => {
 const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onToggleFavorite }) => {
   const { theme } = useNotesStore();
   const navigate = useNavigate();
-  const dynamicTags = extractTagsFromHTML(note.content);
+
 
   return (
     <motion.div
