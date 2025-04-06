@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../store/notesStore';
-import { Menu} from 'lucide-react'
+import { Menu} from 'lucide-react';
+import brandLogo from '../utils/brand.png';
 
 interface NavbarButton {
   icon: React.ReactNode;
@@ -67,10 +68,10 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-light-base dark:bg-dark-base border-b border-light-border dark:border-dark-border z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-bg border-b border-border z-50">
       <div className="container mx-auto px-4">
  
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
        {!drawerOpen ? <button
         onClick={() => setDrawerOpen(true)}
         className="m-4 text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg"
@@ -79,17 +80,17 @@ const Navbar = () => {
         Open Menu
       </button>:''} 
           <div className="flex items-center">
-            <span className="text-xl font-bold text-light-text dark:text-dark-text">Noorullah Azizi's Example App a NoteBook</span>
+            <span className="text-xl font-bold text-text">Noorullah Azizi's Example App a NoteBook</span>
           </div>
           <div className="flex items-center space-x-4">
             {buttons.map((button, index) => (
               <button
                 key={index}
                 onClick={button.onClick}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`p-2 rounded-full border transition-colors ${
                   button.isActive
                     ? 'bg-light-accent dark:bg-dark-accent'
-                    : 'hover:bg-light-hover dark:hover:bg-dark-hover'
+                    : 'hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black'
                 }`}
                 style={{
                   display: button.showInRoutes.includes(pathname) ? 'block' : 'none',
@@ -99,6 +100,7 @@ const Navbar = () => {
                 {button.icon}
               </button>
             ))}
+            <img src={brandLogo} alt="Brand Logo" className="h-8 w-auto" />
           </div>
         </div>
       </div>

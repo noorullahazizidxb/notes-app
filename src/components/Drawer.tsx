@@ -28,14 +28,15 @@ const Drawer = () => {
       <div
         className={`fixed left-0 top-20 bottom-0 w-64 transform transition-transform duration-300 ${
           drawerOpen 
-            ? 'translate-x-0' 
+            ? 'translate-x-0 z-50' 
             : '-translate-x-full'
-        } z-50 border-r dark:border-dark-border border-light-border`}
+        } z-50 border-r border-border bg-bg`}
       >
         <div className="h-full flex flex-col">
-          <div className="p-4 flex flex-col flex-grow bg-light-base dark:bg-dark-base">
+          <div className="p-4 flex flex-col flex-grow bg-bg">
             <button
               onClick={() => setDrawerOpen(false)}
+              title="Close Drawer"
               className={`absolute top-4 right-4 transition-colors ${
                 theme === 'dark' 
                   ? 'text-gray-400 hover:text-gray-500' 
@@ -45,14 +46,7 @@ const Drawer = () => {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className={`text-xl font-bold mb-4 text-light-text dark:text-dark-text 
-                ${  theme === 'dark' 
-                    ? 'text-gray-400 hover:text-gray-500' 
-                    : 'text-gray-600 hover:text-gray-700'
-                    
-                    }`}>
-              Navigation
-            </h2>
+            <h2 className={`text-xl font-bold mb-4 text-text`}>Navigation</h2>
 
             <nav className="space-y-2 flex-grow">
               {navItems.map((item) => (
@@ -63,25 +57,27 @@ const Drawer = () => {
                     setDrawerOpen(false);
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors w-full ${
-                    drawerOpen 
-                      ? 'hover:bg-light-hover dark:hover:bg-dark-hover' 
-                      : 'hover:bg-transparent'
+                    theme === 'dark'
+                      ? 'hover:bg-white hover:text-black'
+                      : 'hover:bg-red-500 hover:text-white'
                   }`}
                 >
-                  <span className="text-xl text-light-text dark:text-dark-text">
-                    {item.icon}
-                  </span>
-                  <span className={`${theme === 'dark' 
-                  ? 'text-gray-400 hover:text-white-500' 
-                  : 'text-gray-600 hover:text-white-700'}`}>
-                    {item.label}
-                  </span>
+                  <span className="text-xl text-text">{item.icon}</span>
+                  <span>{item.label}</span>
                 </button>
               ))}
             </nav>
           </div>
         </div>
       </div>
+      <style>{`
+        .navbar {
+          z-index: ${drawerOpen ? 0 : 50};
+        }
+        .dashboard {
+          z-index: ${drawerOpen ? 50 : 0};
+        }
+      `}</style>
     </>
   );
 };

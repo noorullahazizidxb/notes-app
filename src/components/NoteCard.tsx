@@ -27,8 +27,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onToggleFavorite })
     <motion.div
       className={`p-5 rounded-2xl shadow-lg border transition-all hover:scale-[1.01] hover:shadow-xl cursor-pointer ${
         theme === 'dark'
-          ? 'bg-dark-card-bg border-dark-border text-dark-text'
-          : 'bg-light-card-bg border-light-border text-light-text'
+          ? 'bg-card-bg border-border text-text'
+          : 'bg-card-bg border-border text-text'
       }`}
     >
       <div className="flex justify-between items-start mb-3">
@@ -51,11 +51,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onToggleFavorite })
         {note.tags.map((tag) => (
           <span
             key={tag}
-            className={`text-xs px-3 py-1 rounded-full font-medium ${
-              theme === 'dark'
-                ? 'bg-dark-tag-bg text-dark-tag-text'
-                : 'bg-light-tag-bg text-light-tag-text'
-            }`}
+            className={`text-xs px-3 py-1 rounded-full font-medium bg-card-bg text-text`}
           >
             #{tag}
           </span>
@@ -65,14 +61,14 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onToggleFavorite })
       <div className="mt-4 flex gap-3">
         <button
           onClick={() => navigate(`/editor/${note.id}`)}
-          className="p-2 rounded-full hover:bg-primary-100 dark:hover:bg-primary-800 transition-colors"
+          className="p-2 rounded-full hover:bg-primary-100 transition-colors"
         >
           ✏️
         </button>
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => onDelete(note.id)}
-          className="p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-800 transition-colors"
+          className="p-2 rounded-full hover:bg-red-100 transition-colors"
         >
           🗑️
         </motion.button>

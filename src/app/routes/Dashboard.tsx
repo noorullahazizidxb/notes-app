@@ -10,18 +10,17 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Dashboard: React.FC = () => {
-  const { notes, deleteNote, toggleFavorite, addNote, theme } = useNotesStore();
+  const { notes, deleteNote, toggleFavorite, addNote } = useNotesStore();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
-  const [localNotes, setLocalNotes] = useState<Note[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Load notes from store on initial render
     if (notes.length > 0) {
-      setLocalNotes(notes);
+      setTags([]);
     }
   }, [notes]);
 
@@ -33,23 +32,25 @@ const Dashboard: React.FC = () => {
   };
 
   const handleAddNote = async () => {
-    const newNote = await addNote({
+    await addNote({
+      id: crypto.randomUUID(), // Use crypto for unique ID generation
       title,
       content,
       tags,
       isFavorite: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
-    // Notes will be automatically updated in the store and local state
     setTitle('');
     setContent('');
     setTags([]);
   };
 
   return (
-    <div className="p-6 space-y-10">
+    <div className="p-6 space-y-10 bg-bg text-text">
       <div className="space-y-4">
         <input
-          className="w-full px-4 py-2 rounded-lg border shadow text-lg text"
+          className="w-full border rounded"
           placeholder="Note Title"
           value={title}
           type='text'
@@ -60,7 +61,7 @@ const Dashboard: React.FC = () => {
 
         <div className="flex gap-2 items-center">
           <input
-            className="px-3 py-1 border rounded"
+            className="border rounded"
             value={tagInput}
             placeholder="Add tag"
             type='text'
@@ -77,8 +78,11 @@ const Dashboard: React.FC = () => {
 
         <button
           onClick={handleAddNote}
-          className="bg-green-600 text-white px-6 py-2 rounded-xl shadow hover:bg-green-700"
+          className="bg-green-600 text-white px-6 py-2 rounded-xl shadow hover:bg-green-700 flex items-center gap-2"
         >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
           Add
         </button>
       </div>
@@ -108,7 +112,7 @@ const Dashboard: React.FC = () => {
       </div>
       <button
         onClick={() => navigate('/editor')}
-        className="fixed bottom-4 right-4 bg-primary-600 text-white rounded-full p-3 shadow-lg hover:bg-primary-700 transition-colors"
+        className="fixed bottom-4 right-4 bg-primary-600 text-white rounded-full p-3 shadow-lg hover:bg-button-hover transition-colors"
         title="New Note"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

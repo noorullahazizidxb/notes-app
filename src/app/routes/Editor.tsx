@@ -3,13 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useNotesStore } from '../../store/notesStore';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import debounce from 'lodash/debounce';
 import { extractTagsFromHTML } from '../../utils/extractTags';
 
 const Editor = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { notes, updateNote, addNote, addTag, removeTag } = useNotesStore();
+  const { notes, updateNote, addNote, removeTag } = useNotesStore();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -20,7 +19,7 @@ const Editor = () => {
 
   const isEditMode = !!id;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title && !content) return;
 
     const parsedTags = extractTagsFromHTML(content);
@@ -29,9 +28,14 @@ const Editor = () => {
     const payload = { title, content, tags: allTags, isFavorite };
 
     if (isEditMode) {
-      updateNote(id!, payload);
+      await updateNote(id!, payload);
     } else {
-      const newNote = addNote(payload);
+      const newNote = await addNote({
+        ...payload,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
       if (newNote) {
         navigate(`/editor/${newNote.id}`, { replace: true });
       }
@@ -39,28 +43,19 @@ const Editor = () => {
     setLastSaved(new Date());
   };
 
-  const handleTagAdd = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === 'onClick' && tagInput.trim()) {
-      if (!tags.includes(tagInput.trim())) {
-        if (isEditMode) {
-          setTags([...tags, tagInput.trim()]);
-          handleSave();
-        } else {
-          setTags([...tags, tagInput.trim()]);
-          handleSave();
-        }
-      }
+  const handleTagAddClick = () => {
+    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
+      setTags((prevTags) => [...prevTags, tagInput.trim()]);
       setTagInput('');
     }
   };
 
   const handleTagRemove = (tag: string) => {
-    if (isEditMode) {
-      removeTag(id!, tag);
-    } else {
-      setTags(tags.filter(t => t !== tag));
-      handleSave();
-    }
+    setTags((prevTags) => prevTags.filter((t) => t !== tag));
+  };
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setter(e.target.value);
   };
 
   const handleToggleFavorite = () => {
@@ -88,13 +83,10 @@ const Editor = () => {
     <div className="p-6 space-y-10">
       <div className="space-y-4">
         <input
-          className="w-full px-4 py-2 rounded-lg border shadow text-lg text-light-text dark:text-dark-text"
+          className="w-full border rounded"
           placeholder="Note Title"
           value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            handleSave();
-          }}
+          onChange={handleInputChange(setTitle)}
         />
 
         <ReactQuill 
@@ -109,15 +101,15 @@ const Editor = () => {
         <div className="space-y-2">
           <div className="flex gap-2 items-center">
             <input
-              className="px-3 py-1 border rounded text-light-text dark:text-dark-text"
+              className="border rounded"
               value={tagInput}
               placeholder={isEditMode ? "Update tag" : "Add tag"}
               type='text'
               onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleTagAdd}
+              onClick={handleTagAddClick}
             />
             <button
-              onClick={handleTagAdd}
+              onClick={handleTagAddClick}
               className="bg-blue-500 text-white px-3 py-1 rounded"
             >
               {isEditMode ? 'Update Tag' : 'Add Tag'}
@@ -129,12 +121,12 @@ const Editor = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 bg-light-button-hover dark:bg-dark-hover rounded-full text-sm text-light-text dark:text-dark-text"
+                  className="px-3 py-1 bg-button-hover rounded-full text-sm text-text"
                 >
                   {tag}
                   <button
                     onClick={() => handleTagRemove(tag)}
-                    className="ml-2 text-light-text dark:text-dark-text hover:text-red-500"
+                    className="ml-2 text-text hover:text-red-500"
                   >
                     ×
                   </button>
@@ -147,20 +139,29 @@ const Editor = () => {
         <div className="flex gap-4">
           <button 
             onClick={() => navigate(-1)} 
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg"
+            className="px-4 py-2 bg-gray-600 text-white rounded-lg flex items-center gap-2"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
             Back
           </button>
           <button
             onClick={handleToggleFavorite}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
             {isFavorite ? 'Unfavorite' : 'Favorite'}
           </button>
           <button
-            onClick={handleSave}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg"
+            onClick={()=>{handleSave(); navigate('/');}}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
             {isEditMode ? 'Update' : 'Add'}
           </button>
         </div>

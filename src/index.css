@@ -5,68 +5,55 @@
 
 @layer base {
   :root {
-    --color-text-light: #1E1E1E;
-    --color-navbar-light: #4B5563;
-    --color-card-light: #F9FAFB;
-    --color-bg-light: #FFFFFF;
-    --color-navbar-bg-light: #F1F5F9;
-    --color-card-bg-light: #FFFFFF;
-    --color-button-primary-light: #2563EB;
-    --color-button-hover-light: #1D4ED8;
-    --color-button-text-light: #FFFFFF;
-    --color-border-light: #E5E7EB;
-    --color-input-border-light: #CBD5E1;
-    --color-input-text-light: #1F2937;
-    --color-input-bg-light: #F1F5F9;
-    --color-input-bg-dark: #1E293B;
-    --color-textfield-bg-light: #F1F5F9; /* Light gray for light mode */
-    --color-textfield-bg-dark: #334155; /* Dark gray for dark mode */
+    --color-text: #1E1E1E;
+    --color-navbar: #4B5563;
+    --color-card: #F9FAFB;
+    --color-bg: #FFFFFF;
+    --color-navbar-bg: #F1F5F9;
+    --color-card-bg: #FFFFFF;
+    --color-button-primary: #2563EB;
+    --color-button-hover: #1D4ED8;
+    --color-button-text: #FFFFFF;
+    --color-border: #E5E7EB;
+    --color-input-border: #CBD5E1;
+    --color-textfield-bg: #F1F5F9;
+  }
 
-    --color-text-dark: #F8FAFC;
-    --color-navbar-dark: #D1D5DB;
-    --color-card-dark: #1F2937;
-    --color-bg-dark: #0F172A;
-    --color-navbar-bg-dark: #1E293B;
-    --color-card-bg-dark: #1E293B;
-    --color-button-primary-dark: #3B82F6;
-    --color-button-hover-dark: #2563EB;
-    --color-button-text-dark: #FFFFFF;
-    --color-border-dark: #334155;
-    --color-input-border-dark: #475569;
-    --color-input-text-dark: #F8FAFC;
+  .dark {
+    --color-text: var(--color-text-dark);
+    --color-navbar: var(--color-navbar-dark);
+    --color-card: var(--color-card-dark);
+    --color-bg: var(--color-bg-dark);
+    --color-navbar-bg: var(--color-navbar-bg-dark);
+    --color-card-bg: var(--color-card-bg-dark);
+    --color-button-primary: var(--color-button-primary-dark);
+    --color-button-hover: var(--color-button-hover-dark);
+    --color-button-text: var(--color-button-text-dark);
+    --color-border: var(--color-border-dark);
+    --color-input-border: var(--color-input-border-dark);
+    --color-textfield-bg: var(--color-textfield-bg-dark);
   }
 
   body {
-    background-color: var(--color-bg-light);
-    color: var(--color-text-light);
+    background-color: var(--color-bg);
+    color: var(--color-text);
     font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
-  .dark body {
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-dark);
-  }
 }
 
+.border-text-primary {
+  border: 2px outset var(--color-border) !important;
+}
 .ql-container {
   min-height: 200px;
-  color: var(--color-text-light);
-}
-
-.dark .ql-container {
-  color: var(--color-text-dark);
+  color: var(--color-text);
 }
 
 .ql-toolbar {
-  background-color: var(--color-navbar-bg-light);
-  border-color: var(--color-border-light);
-}
-
-.dark .ql-toolbar {
-  background-color: var(--color-navbar-bg-dark);
-  border-color: var(--color-border-dark);
+  background-color: var(--color-navbar-bg);
+  border-color: var(--color-border);
 }
 
 .ql-editor {
@@ -78,88 +65,78 @@
 }
 
 .btn-primary {
-  background-color: var(--color-button-primary-light);
-  color: var(--color-button-text-light);
+  background-color: var(--color-button-primary);
+  color: var(--color-button-text);
   transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: var(--color-button-hover-light);
-}
-
-.dark .btn-primary {
-  background-color: var(--color-button-primary-dark);
-  color: var(--color-button-text-dark);
-}
-
-.dark .btn-primary:hover {
-  background-color: var(--color-button-hover-dark);
+  background-color: var(--color-button-hover);
 }
 
 .input-field {
-  border: 2px solid var(--color-input-border-light);
+  border: 2px solid var(--color-input-border);
   border-radius: 0.375rem;
-  background-color: var(--color-textfield-bg-light);
-  color: var(--color-input-text-light);
-}
-
-.dark .input-field {
-  border-color: var(--color-input-border-dark);
-  background-color: var(--color-textfield-bg-dark);
-  color: var(--color-input-text-dark);
+  background-color: var(--color-textfield-bg);
+  color: var(--color-text);
 }
 
 .card {
-  background-color: var(--color-card-bg-light);
-  color: var(--color-card-light);
-}
-
-.dark .card {
-  background-color: var(--color-card-bg-dark);
-  color: var(--color-card-dark);
+  background-color: var(--color-card-bg);
+  color: var(--color-card);
 }
 
 .navbar {
-  background-color: var(--color-navbar-bg-light);
-  color: var(--color-navbar-light);
+  background-color: var(--color-navbar-bg);
+  color: var(--color-navbar);
 }
 
-.dark .navbar {
-  background-color: var(--color-navbar-bg-dark);
-  color: var(--color-navbar-dark);
-}/* Input styles for container class */
+/* Input styles for container class */
 div input[type="text"] {
-  background-color: var(--color-textfield-bg-light);
-  color: var(--color-input-text-light);
-  border: 2px solid var(--color-input-border-light);
+  background-color: var(--color-button-primary);
+  color: var(--color-text);
   padding: 0.5rem;
   border-radius: 0.375rem;
   transition: all 0.2s ease;
 }
 
-[data-theme="dark"] div input[type="text"] {
-  background-color: var(--color-textfield-bg-dark);
-  color: var(--color-input-text-dark);
-  border-color: var(--color-input-border-dark);
-}
-
 /* Focus state */
 div input[type="text"]:focus {
   outline: none;
-  border-color: var(--color-button-primary-light);
-  box-shadow: 0 0 0 2px var(--color-button-hover-light);
-}
-
-[data-theme="dark"] div input[type="text"]:focus {
-  border-color: var(--color-button-primary-dark);
-  box-shadow: 0 0 0 2px var(--color-button-hover-dark);
+  border-color: var(--color-button-primary);
+  box-shadow: 0 0 0 2px var(--color-button-hover);
 }
 
 /* Placeholder text */
 div input[type="text"]::placeholder {
-  color: var(--color-text-light);
+  color: var(--color-text);
 }
 
-[data-theme="dark"] div input[type="text"]::placeholder {
-  color: var(--color-text-dark);
+/* Updated input styles to have a white border in dark theme */
+.dark div input[type="text"] {
+  border: 2px outset var(--color-border-dark, #FFFFFF);
 }
+
+  /* Override user-agent styles for input elements */
+  input {
+    font-style: normal !important;
+    font-variant: normal !important;
+    font-weight: 400 !important;
+    font-size: 1rem !important;
+    font-family: 'Inter', sans-serif !important;
+    color: var(--color-text) !important;
+    background-color: var(--color-textfield-bg) !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: var(--color-border) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.375rem !important;
+    appearance: none !important;
+  }
+
+  input[type="text"] {
+    padding-block: 0.5rem !important;
+    padding-inline: 1rem !important;
+    overflow-clip-margin: initial !important;
+    overflow: visible !important;
+  }

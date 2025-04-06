@@ -11,7 +11,7 @@ function App() {
   }, [theme]);
 
   return (
-    <div className={`transition-theme ${theme === 'dark' ? 'dark' : 'light'}`}>
+    <div className={`transition-theme bg-bg text-text`}>
       <RouterProvider router={router} />
     </div>
   );
