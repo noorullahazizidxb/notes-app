@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+
 import { useNotesStore } from '../store/notesStore';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './root';
