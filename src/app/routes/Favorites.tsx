@@ -1,6 +1,4 @@
 // src/pages/Favorites.tsx
-
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../../store/notesStore';
 import NoteCard from '../../components/NoteCard';
