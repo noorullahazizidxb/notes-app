@@ -1,4 +1,4 @@
-// src/pages/Settings.tsx
+
 import { useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../../store/notesStore';
 
