@@ -29,6 +29,9 @@ export type NotesState = {
   theme: 'light' | 'dark';
   setActiveNote: (id: string | null) => void;
   activeNoteId: string | null;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  filteredNotes: () => Note[];
 };
 
 export const useNotesStore = create<NotesState>()(
@@ -91,6 +94,16 @@ export const useNotesStore = create<NotesState>()(
       theme: 'light',
       setActiveNote: (id) => set({ activeNoteId: id }),
       activeNoteId: null,
+      searchQuery: '',
+      setSearchQuery: (query: string) => set({ searchQuery: query }),
+      filteredNotes: () => {
+        const query = get().searchQuery.toLowerCase();
+        return get().notes.filter(
+          (note) =>
+            note.title.toLowerCase().includes(query) ||
+            note.content.toLowerCase().includes(query)
+        );
+      },
     }),
     {
       name: 'notes-storage',

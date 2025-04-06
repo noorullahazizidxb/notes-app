@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useNotesStore } from '../../store/notesStore';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { extractTagsFromHTML } from '../../utils/extractTags';
+import debounce from 'lodash/debounce';
 
 const Editor = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { notes, updateNote, addNote, removeTag } = useNotesStore();
+  const { notes, updateNote, addNote } = useNotesStore();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -19,28 +20,37 @@ const Editor = () => {
 
   const isEditMode = !!id;
 
-  const handleSave = async () => {
-    if (!title && !content) return;
+  // Debounced save function
+  const debouncedSave = useCallback(
+    debounce(async (updatedContent: string) => {
+      if (!title && !updatedContent) return;
 
-    const parsedTags = extractTagsFromHTML(content);
-    const allTags = Array.from(new Set([...tags, ...parsedTags]));
+      const parsedTags = extractTagsFromHTML(updatedContent);
+      const allTags = Array.from(new Set([...tags, ...parsedTags]));
 
-    const payload = { title, content, tags: allTags, isFavorite };
+      const payload = { title, content: updatedContent, tags: allTags, isFavorite };
 
-    if (isEditMode) {
-      await updateNote(id!, payload);
-    } else {
-      const newNote = await addNote({
-        ...payload,
-        id: crypto.randomUUID(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
-      if (newNote) {
-        navigate(`/editor/${newNote.id}`, { replace: true });
+      if (isEditMode) {
+        await updateNote(id!, payload);
+      } else {
+        const newNote = await addNote({
+          ...payload,
+          id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
+        if (newNote) {
+          navigate(`/editor/${newNote.id}`, { replace: true });
+        }
       }
-    }
-    setLastSaved(new Date());
+      setLastSaved(new Date());
+    }, 1000), // Save after 1 second of inactivity
+    [title, tags, isFavorite, isEditMode, id, updateNote, addNote, navigate]
+  );
+
+  const handleContentChange = (value: string) => {
+    setContent(value);
+    debouncedSave(value); // Trigger debounced save
   };
 
   const handleTagAddClick = () => {
@@ -62,8 +72,6 @@ const Editor = () => {
     setIsFavorite(!isFavorite);
     if (isEditMode) {
       updateNote(id!, { isFavorite: !isFavorite });
-    } else {
-      handleSave();
     }
   };
 
@@ -91,10 +99,7 @@ const Editor = () => {
 
         <ReactQuill 
           value={content} 
-          onChange={(value) => {
-            setContent(value);
-            handleSave();
-          }} 
+          onChange={handleContentChange} // Use debounced save
           theme="snow" 
         />
 
@@ -106,7 +111,6 @@ const Editor = () => {
               placeholder={isEditMode ? "Update tag" : "Add tag"}
               type='text'
               onChange={(e) => setTagInput(e.target.value)}
-              onClick={handleTagAddClick}
             />
             <button
               onClick={handleTagAddClick}
@@ -141,27 +145,18 @@ const Editor = () => {
             onClick={() => navigate(-1)} 
             className="px-4 py-2 bg-gray-600 text-white rounded-lg flex items-center gap-2"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
             Back
           </button>
           <button
             onClick={handleToggleFavorite}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
             {isFavorite ? 'Unfavorite' : 'Favorite'}
           </button>
           <button
-            onClick={()=>{handleSave(); navigate('/');}}
+            onClick={() => { debouncedSave(content); navigate('/'); }}
             className="px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
             {isEditMode ? 'Update' : 'Add'}
           </button>
         </div>

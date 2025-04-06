@@ -92,9 +92,7 @@ const Navbar = () => {
                     ? 'bg-light-accent dark:bg-dark-accent'
                     : 'hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black'
                 }`}
-                style={{
-                  display: button.showInRoutes.includes(pathname) ? 'block' : 'none',
-                }}
+               
                 title={button.title}
               >
                 {button.icon}

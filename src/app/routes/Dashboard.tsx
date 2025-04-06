@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Dashboard: React.FC = () => {
-  const { notes, deleteNote, toggleFavorite, addNote } = useNotesStore();
+  const { notes, deleteNote, toggleFavorite, addNote, filteredNotes, setSearchQuery } = useNotesStore();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tagInput, setTagInput] = useState('');
@@ -31,6 +31,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleTagRemove = (tag: string) => {
+    setTags(tags.filter((t) => t !== tag));
+  };
+
   const handleAddNote = async () => {
     await addNote({
       id: crypto.randomUUID(), // Use crypto for unique ID generation
@@ -46,9 +50,15 @@ const Dashboard: React.FC = () => {
     setTags([]);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="p-6 space-y-10 bg-bg text-text">
       <div className="space-y-4">
+       
+
         <input
           className="w-full border rounded"
           placeholder="Note Title"
@@ -76,6 +86,18 @@ const Dashboard: React.FC = () => {
           </button>
         </div>
 
+        <div className="flex flex-wrap gap-2 mt-2">
+          {tags.map((tag) => (
+            <button
+              key={tag}
+              className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm hover:bg-blue-300"
+              onClick={() => handleTagRemove(tag)}
+            >
+              {tag} ×
+            </button>
+          ))}
+        </div>
+
         <button
           onClick={handleAddNote}
           className="bg-green-600 text-white px-6 py-2 rounded-xl shadow hover:bg-green-700 flex items-center gap-2"
@@ -87,9 +109,16 @@ const Dashboard: React.FC = () => {
         </button>
       </div>
 
+      <input
+          className="w-100 h-10   border rounded"
+          placeholder="Search Notes"
+          type="text"
+          onChange={handleSearchChange}
+        />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+ 
         <AnimatePresence>
-          {notes.map((note, index) => (
+          {filteredNotes().map((note, index) => (
             <motion.div
               key={note.id}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
