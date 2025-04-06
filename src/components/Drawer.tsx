@@ -1,7 +1,6 @@
-import React from 'react';
 import { useNotesStore } from '../store/notesStore';
 import { useNavigate } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const Drawer = () => {
   const { drawerOpen, setDrawerOpen, theme } = useNotesStore();
