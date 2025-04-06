@@ -1,11 +1,15 @@
 {
   "name": "noorullah-notes-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "A modern, offline-first note-taking application built with React and TypeScript.",
+  "author": "Noorullah Azizi",
+  "license": "MIT",
+  "homepage": "https://your-production-url.com",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -34,5 +38,10 @@
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   },
-  "author":"noorullah azizi"
+  "environment": "production",
+  "vercel": {
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "framework": "vite"
+  }
 }
