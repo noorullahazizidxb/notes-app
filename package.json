@@ -6,7 +6,7 @@
   "description": "A modern, offline-first note-taking application built with React and TypeScript.",
   "author": "Noorullah Azizi",
   "license": "MIT",
-  "homepage": "https://your-production-url.com",
+  "homepage": "https://notes-app-gray-omega.vercel.app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
