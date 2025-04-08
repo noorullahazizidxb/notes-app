@@ -20,18 +20,18 @@
   }
 
   .dark {
-    --color-text: var(--color-text-dark);
-    --color-navbar: var(--color-navbar-dark);
-    --color-card: var(--color-card-dark);
-    --color-bg: var(--color-bg-dark);
-    --color-navbar-bg: var(--color-navbar-bg-dark);
-    --color-card-bg: var(--color-card-bg-dark);
-    --color-button-primary: var(--color-button-primary-dark);
-    --color-button-hover: var(--color-button-hover-dark);
-    --color-button-text: var(--color-button-text-dark);
-    --color-border: var(--color-border-dark);
-    --color-input-border: var(--color-input-border-dark);
-    --color-textfield-bg: var(--color-textfield-bg-dark);
+    --color-text: #F9FAFB;
+    --color-navbar: #9CA3AF;
+    --color-card: #1F2937;
+    --color-bg: #1f232c;
+    --color-navbar-bg: #1F2937;
+    --color-card-bg: #1E293B;
+    --color-button-primary: #3B82F6;
+    --color-button-hover: #2563EB;
+    --color-button-text: #FFFFFF;
+    --color-border: #374151;
+    --color-input-border: #4B5563;
+    --color-textfield-bg: #1F2937;
   }
 
   body {
@@ -140,3 +140,54 @@ div input[type="text"]::placeholder {
     overflow-clip-margin: initial !important;
     overflow: visible !important;
   }
+
+@layer components {
+  .navbar-title,
+  .drawer-title {
+    @apply text-xl font-bold;
+  }
+
+  @media (max-width: 768px) { /* md */
+    .navbar-title,
+    .drawer-title {
+      @apply text-lg;
+    }
+  }
+
+  @media (max-width: 640px) { /* sm */
+    .navbar-title,
+    .drawer-title {
+      @apply text-base;
+    }
+  }
+
+  @media (max-width: 480px) { /* xs */
+    .navbar-title,
+    .drawer-title {
+      @apply text-sm;
+    }
+  }
+}
+
+/* Responsive rules for navbar and drawer titles */
+.text-xl.font-bold.text-text {
+  font-size: 1.25rem; /* Default size */
+}
+
+@media (max-width: 768px) { /* md */
+  .text-xl.font-bold.text-text {
+    font-size: 1.125rem; /* Slightly smaller */
+  }
+}
+
+@media (max-width: 640px) { /* sm */
+  .text-xl.font-bold.text-text {
+    font-size: 1rem; /* Smaller */
+  }
+}
+
+@media (max-width: 480px) { /* xs */
+  .text-xl.font-bold.text-text {
+    font-size: 0.875rem; /* Smallest */
+  }
+}

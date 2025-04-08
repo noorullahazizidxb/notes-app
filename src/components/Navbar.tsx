@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../store/notesStore';
-import { Menu} from 'lucide-react';
+import { Menu } from 'lucide-react';
 import brandLogo from '../utils/brand.png';
 
 interface NavbarButton {
@@ -15,7 +15,8 @@ interface NavbarButton {
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { theme, setTheme, setDrawerOpen,drawerOpen } = useNotesStore();
+  const { theme, setTheme, setDrawerOpen, drawerOpen } = useNotesStore();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const buttons: NavbarButton[] = [
     {
@@ -69,20 +70,22 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-bg border-b border-border z-50">
-      <div className="container mx-auto px-4">
- 
+      <div className="container mx-auto px-5">
         <div className="flex justify-between items-center h-20">
-       {!drawerOpen ? <button
-        onClick={() => setDrawerOpen(true)}
-        className="m-4 text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg"
-      >
-        <Menu className="w-5 h-5 inline mr-2" />
-        Open Menu
-      </button>:''} 
-          <div className="flex items-center">
+          {!drawerOpen && (
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className={`p-2 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black`}
+              title="Open Drawer"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          )}
+          <div className="flex justify-between flex-start items-center">
             <span className="text-xl font-bold text-text">Noorullah Azizi's Example App a NoteBook</span>
+          
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             {buttons.map((button, index) => (
               <button
                 key={index}
@@ -92,15 +95,60 @@ const Navbar = () => {
                     ? 'bg-light-accent dark:bg-dark-accent'
                     : 'hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black'
                 }`}
-               
                 title={button.title}
               >
                 {button.icon}
               </button>
             ))}
             <img src={brandLogo} alt="Brand Logo" className="h-8 w-auto" />
+       
+
           </div>
+          <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`absolute m-1 p-2 right-0 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black md:hidden`}
+              title="Toggle Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
         </div>
+        {mobileMenuOpen && (
+          <div
+            className={`fixed inset-0 z-40 ${theme === 'dark' ? 'var(--color-bg)' : 'bg-white'}`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <div
+              className="absolute top-0 right-0 w-3/4 bg-bg border-l border-border shadow-lg rounded-l-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center p-4 border-b border-border">
+                <span className="text-lg font-bold text-text">Menu</span>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black"
+                  title="Close Menu"
+                >
+                  <Menu className="w-5 h-5 rotate-45" />
+                </button>
+              </div>
+              <div className="flex flex-col space-y-2 p-4">
+                {buttons.map((button, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => {
+                      button.onClick();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 rounded-lg border border-border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black"
+                  >
+                    {button.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

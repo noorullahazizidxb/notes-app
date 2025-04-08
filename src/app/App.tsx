@@ -2,6 +2,7 @@
 import { useNotesStore } from '../store/notesStore';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './root';
+import { useEffect } from 'react';
 
 function App() {
   const { theme } = useNotesStore();

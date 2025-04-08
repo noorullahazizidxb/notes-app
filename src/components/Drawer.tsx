@@ -17,8 +17,8 @@ const Drawer = () => {
     <>
       {/* Drawer backdrop */}
       <div
-        className={`fixed inset-0 z-50 bg-black transition-opacity duration-300 ${
-          drawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-50  bg-bg bg-opacity-50 transition-opacity duration-300 ${
+          drawerOpen ? 'opacity-50`' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setDrawerOpen(false)}
       />

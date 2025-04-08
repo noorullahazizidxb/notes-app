@@ -49,5 +49,6 @@ export default {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
-  ],
+  ]
 };
+// Verify Tailwind CSS and autoprefixer are included
