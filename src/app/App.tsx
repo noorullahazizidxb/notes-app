@@ -17,6 +17,8 @@ function App() {
     if (token) void loadNotes();
   }, [token, loadNotes]);
 
+  // pages/components can import `useProgress()` directly from '@bprogress/react'
+
   return (
     <div className="transition-theme min-h-screen bg-bg text-text">
       <RouterProvider router={router} />

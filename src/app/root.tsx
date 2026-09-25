@@ -8,6 +8,7 @@ import Login from './routes/Login';
 import Register from './routes/Register';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
+import { NavigationProvider } from '../lib/navigation/NavigationProvider';
 
 const Dashboard = React.lazy(() => import('./routes/Dashboard'));
 const Editor = React.lazy(() => import('./routes/Editor'));
@@ -19,7 +20,7 @@ const ProtectedLayout = () => {
   if (!token) return <Navigate to="/login" replace />;
 
   return (
-    <>
+    <NavigationProvider>
       <Drawer />
       <Navbar />
       <Suspense fallback={<Spinner />}>
@@ -40,7 +41,7 @@ const ProtectedLayout = () => {
         }}
         containerStyle={{ zIndex: 9999 }}
       />
-    </>
+    </NavigationProvider>
   );
 };
 
@@ -49,7 +50,7 @@ const GuestLayout = () => {
   // Redirect already-authenticated users away from login/register
   if (token) return <Navigate to="/notes" replace />;
   return (
-    <>
+    <NavigationProvider>
       <Outlet />
       <Toaster
         position="bottom-right"
@@ -62,7 +63,7 @@ const GuestLayout = () => {
           },
         }}
       />
-    </>
+    </NavigationProvider>
   );
 };
 
