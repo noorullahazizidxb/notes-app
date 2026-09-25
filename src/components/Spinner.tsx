@@ -1,11 +1,9 @@
-
-
 const Spinner = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="relative">
-        <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-border"></div>
-        <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-500 animate-spin"></div>
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="relative h-14 w-14">
+        <div className="absolute inset-0 rounded-full border-2 border-border" />
+        <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[color:var(--color-accent)]" />
       </div>
     </div>
   );

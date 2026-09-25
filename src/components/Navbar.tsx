@@ -1,157 +1,153 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { LogOut, Menu, MoonStar, NotebookPen, Sun, User } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { useNotesStore } from '../store/notesStore';
-import { Menu } from 'lucide-react';
-import brandLogo from '../utils/brand.png';
-
-interface NavbarButton {
-  icon: React.ReactNode;
-  onClick: () => void;
-  showInRoutes: string[];
-  isActive?: boolean;
-  title?: string;
-}
+import { useAuthStore } from '../store/authStore';
+import { NAV_ITEMS } from '../constants/nav';
+import { useOnClickOutside } from '../hooks/useOnClickOutside';
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { theme, setTheme, setDrawerOpen, drawerOpen } = useNotesStore();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme, setDrawerOpen, drawerOpen, dataMode, clearNotes } = useNotesStore();
+  const { user, clearAuth } = useAuthStore();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const buttons: NavbarButton[] = [
-    {
-      icon: (
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-        </svg>
-      ),
-      onClick: () => navigate('/editor'),
-      showInRoutes: ['/notes', '/favorites', '/settings', '/'],
-      isActive: pathname === '/editor',
-      title: 'New Note'
-    },
-    {
-      icon: (
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-        </svg>
-      ),
-      onClick: () => navigate('/favorites'),
-      showInRoutes: ['/notes', '/editor', '/settings', '/'],
-      isActive: pathname === '/favorites',
-      title: 'Favorites'
-    },
-    {
-      icon: (
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.533 1.533 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.533 1.533 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.533 1.533 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-        </svg>
-      ),
-      onClick: () => navigate('/settings'),
-      showInRoutes: ['/notes', '/editor', '/favorites', '/'],
-      isActive: pathname === '/settings',
-      title: 'Settings'
-    },
-    {
-      icon: (
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          {theme === 'dark' ? (
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-          ) : (
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fillRule="evenodd" clipRule="evenodd" />
-          )}
-        </svg>
-      ),
-      onClick: () => setTheme(theme === 'light' ? 'dark' : 'light'),
-      showInRoutes: ['/notes', '/editor', '/favorites', '/settings', '/'],
-      title: theme === 'light' ? 'Switch to Dark Theme' : 'Switch to Light Theme'
-    }
-  ];
+  useOnClickOutside(menuRef, () => setUserMenuOpen(false));
+
+  const handleLogout = () => {
+    clearAuth();
+    clearNotes();
+    setUserMenuOpen(false);
+    navigate('/login', { replace: true });
+    toast.success('Signed out.');
+  };
+
+  const initials = user?.name
+    ? user.name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2)
+    : (user?.email?.[0] ?? '?').toUpperCase();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-bg border-b border-border z-50">
-      <div className="container mx-auto px-5">
-        <div className="flex justify-between items-center h-20">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/80 bg-[color:var(--color-nav-bg)]/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
+        <div className="flex items-center gap-3">
           {!drawerOpen && (
             <button
+              type="button"
               onClick={() => setDrawerOpen(true)}
-              className={`p-2 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black`}
-              title="Open Drawer"
+              className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+              aria-label="Open navigation"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="h-4 w-4" />
             </button>
           )}
-          <div className="flex justify-between flex-start items-center">
-            <span className="text-xl font-bold text-text">Noorullah Azizi's Example App a NoteBook</span>
-          
-          </div>
-          <div className="hidden md:flex items-center space-x-4">
-            {buttons.map((button, index) => (
-              <button
-                key={index}
-                onClick={button.onClick}
-                className={`p-2 rounded-full border transition-colors ${
-                  button.isActive
-                    ? 'bg-light-accent dark:bg-dark-accent'
-                    : 'hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black'
-                }`}
-                title={button.title}
-              >
-                {button.icon}
-              </button>
-            ))}
-            <img src={brandLogo} alt="Brand Logo" className="h-8 w-auto" />
-       
-
-          </div>
-          <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`absolute m-1 p-2 right-0 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black md:hidden`}
-              title="Toggle Menu"
-            >
-              <Menu className="w-5 h-5" />
-            </button>
+          <Link to="/notes" className="flex items-center gap-2">
+            <span className="rounded-lg bg-[color:var(--color-accent)]/10 p-1.5 text-[color:var(--color-accent)]">
+              <NotebookPen className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="font-display text-lg leading-none text-text">DevMinds Notes</p>
+              <p className="hidden text-xs uppercase tracking-[0.16em] text-text/60 sm:block">
+                Focused editorial workspace
+              </p>
+            </div>
+          </Link>
         </div>
-        {mobileMenuOpen && (
-          <div
-            className={`fixed inset-0 z-40 ${theme === 'dark' ? 'var(--color-bg)' : 'bg-white'}`}
-            onClick={() => setMobileMenuOpen(false)}
+
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex">
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.to || (pathname === '/' && item.to === '/notes');
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
+                  active
+                    ? 'bg-[color:var(--color-accent)] text-white shadow-sm'
+                    : 'text-text/75 hover:bg-card-bg hover:text-text'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <span
+            className={`hidden rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide sm:inline-flex ${
+              dataMode === 'api'
+                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                : 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
+            }`}
           >
-            <div
-              className="absolute top-0 right-0 w-3/4 bg-bg border-l border-border shadow-lg rounded-l-lg"
-              onClick={(e) => e.stopPropagation()}
+            {dataMode === 'api' ? 'Cloud' : 'Local'}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigate('/editor')}
+            className="hidden items-center gap-1 rounded-xl bg-[color:var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-110 sm:inline-flex"
+          >
+            <NotebookPen className="h-4 w-4" />
+            New note
+          </button>
+
+          {/* User avatar + dropdown */}
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              onClick={() => setUserMenuOpen((v) => !v)}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[color:var(--color-accent)]/15 text-sm font-semibold text-[color:var(--color-accent)] transition hover:bg-[color:var(--color-accent)]/25"
+              aria-label="User menu"
+              aria-expanded={userMenuOpen}
             >
-              <div className="flex justify-between items-center p-4 border-b border-border">
-                <span className="text-lg font-bold text-text">Menu</span>
+              {initials}
+            </button>
+
+            {userMenuOpen && (
+              <div className="absolute right-0 top-11 z-50 w-56 rounded-2xl border border-border bg-[color:var(--color-paper)] p-2 shadow-xl">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-semibold text-text">{user?.name ?? 'User'}</p>
+                  <p className="truncate text-xs text-text/55">{user?.email}</p>
+                </div>
+                <div className="my-1 border-t border-border" />
                 <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 rounded-full border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black"
-                  title="Close Menu"
+                  type="button"
+                  onClick={() => { navigate('/settings'); setUserMenuOpen(false); }}
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-text transition hover:bg-card-bg"
                 >
-                  <Menu className="w-5 h-5 rotate-45" />
+                  <User className="h-4 w-4" />
+                  Settings
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-rose-500 transition hover:bg-rose-500/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
                 </button>
               </div>
-              <div className="flex flex-col space-y-2 p-4">
-                {buttons.map((button, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => {
-                      button.onClick();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-2 rounded-lg border border-border transition-colors hover:bg-red-500 hover:text-white dark:hover:bg-white dark:hover:text-black"
-                  >
-                    {button.title}
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-    </nav>
+    </header>
   );
 };
 
 export default Navbar;
+

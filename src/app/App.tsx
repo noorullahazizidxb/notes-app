@@ -1,18 +1,24 @@
 
-import { useNotesStore } from '../store/notesStore';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './root';
 import { useEffect } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { useNotesStore } from '../store/notesStore';
+import { useAuthStore } from '../store/authStore';
+import { router } from './root';
 
 function App() {
-  const { theme } = useNotesStore();
+  const { theme, loadNotes } = useNotesStore();
+  const token = useAuthStore((s) => s.token);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
+  useEffect(() => {
+    if (token) void loadNotes();
+  }, [token, loadNotes]);
+
   return (
-    <div className={`transition-theme bg-bg text-text`}>
+    <div className="transition-theme min-h-screen bg-bg text-text">
       <RouterProvider router={router} />
     </div>
   );

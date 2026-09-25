@@ -1,64 +1,138 @@
-# Notes App
+# DevMinds Notes
 
-A modern, offline-first note-taking application built with React and TypeScript. Features include rich text editing, dark mode, tags, and favorites.
+A modern notes workspace built with React + TypeScript, now upgraded to support API-backed persistence with Prisma, Vercel deployment, and provider-selectable databases.
 
-## Features
+## Highlights
 
-- 📝 **Rich Text Editor**: Create and edit notes with a rich text editor powered by React Quill.
-- 🌙 **Dark/Light Theme Toggle**: Switch between dark and light themes for a comfortable viewing experience.
-- 🏷️ **Tag Support**: Add, update, and remove tags for better organization of your notes.
-- ⭐ **Favorite Notes**: Mark notes as favorites for quick access.
-- 🔍 **Search Functionality**: Easily search through your notes.
-- 💾 **Offline-First**: All data is stored locally, ensuring your notes are always accessible.
-- 📱 **Responsive Design**: Fully responsive design for seamless use on mobile, tablet, and desktop devices.
-- 🔔 **Toast Notifications**: Get real-time feedback with toast notifications using react-hot-toast.
-- 🗂️ **Drawer Navigation**: Access different sections of the app with a sleek drawer menu.
-- 🖼️ **404 Page**: A custom 404 page for handling undefined routes.
-- ⚡ **Fast Development**: Built with Vite for a fast and modern development experience.
-- 🎨 **Tailwind CSS Styling**: Styled with Tailwind CSS for a clean and modern UI.
-- 🔄 **State Management**: Manage app state efficiently with Zustand.
-- 🔧 **TypeScript Support**: Fully typed with TypeScript for better developer experience and fewer bugs.
-- 🔗 **React Router**: Navigate seamlessly between pages with React Router.
-- 📦 **Optimized Build**: Optimized for production with Vite and PostCSS.
+- Editorial-first UI refresh with improved typography, spacing, and navigation.
+- Rich text editing powered by TipTap.
+- API-first persistence with automatic local fallback when API is unavailable.
+- Prisma-powered storage layer with selectable SQLite, MySQL, or PostgreSQL schema.
+- One-time import path for existing local notes into the API database.
+- Vercel-ready frontend and serverless API routing.
 
-## 
+## Runtime Requirements
 
-- React + TypeScript
-- Zustand for state management
-- React Router for navigation
-- React Quill for rich text editing
-- Tailwind CSS for styling
+- Node.js 22+ (tested with Node 22.23.2)
+- npm 10+
 
-## Getting Started
+A `.nvmrc` file is included:
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+nvm use
+```
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+## Tech Stack
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
+- Frontend: Vite, React 18, TypeScript, Tailwind CSS, Zustand, Framer Motion, TipTap
+- API: Vercel Functions (`api/`)
+- Validation/Safety: Zod + sanitize-html
+- ORM: Prisma
+- Databases: SQLite (local), MySQL (recommended production), PostgreSQL (Vercel-compatible hosted option)
 
-## Project Structure
+## Install
 
-- `src/app`: Main app and routes
-  - `routes/`: All route components
-- `src/components/`: Reusable UI components
-- `src/store/`: Zustand state management
-- `src/types/`: TypeScript type definitions
-- `src/utils/`: Helper functions
+```bash
+npm install
+```
 
-## Development
+## Environment Setup
 
-- `npm run dev`: Start development server
-- `npm run build`: Build for production
-- `npm run preview`: Preview production build
+1. Copy or edit `.env`.
+1. Keep exactly one provider flag as `true`:
 
-## License
+```env
+DB_SQLITE=true
+DB_MYSQL=false
+DB_POSTGRES=false
+DATABASE_URL="file:./prisma/dev.db"
+```
 
-MIT
+1. For MySQL or PostgreSQL, set `DATABASE_URL` accordingly and flip flags.
+1. Leave `VITE_API_BASE_URL=""` for same-origin `/api` calls.
+
+## Database Workflow
+
+Select and generate Prisma client for the active provider:
+
+```bash
+npm run prisma:generate
+```
+
+Create local development migrations:
+
+```bash
+npm run prisma:migrate:dev -- --name init
+```
+
+Deploy migrations in hosted environments:
+
+```bash
+npm run prisma:migrate:deploy
+```
+
+## Local Development
+
+```bash
+npm run dev
+```
+
+App runs at:
+
+- <http://localhost:3000>
+
+## Quality Checks
+
+Type check frontend and API:
+
+```bash
+npm run typecheck
+```
+
+Build production assets:
+
+```bash
+npm run build
+```
+
+## Vercel Deployment
+
+### Build Configuration
+
+`vercel.json` uses:
+
+- `buildCommand`: `npm run vercel-build`
+- `outputDirectory`: `dist`
+- SPA rewrite for non-API routes to `index.html`
+
+### Required Environment Variables on Vercel
+
+Set these in Vercel Project Settings per environment:
+
+- `DB_SQLITE=false`
+- `DB_MYSQL=true` or `DB_POSTGRES=true` (pick one)
+- `DATABASE_URL=<managed database connection string>`
+- `VITE_API_BASE_URL=` (empty for same-origin)
+
+### Domain Setup (`note-app.devminds.net`)
+
+1. Open Vercel project settings and add `note-app.devminds.net` under Domains.
+2. In your DNS provider for `devminds.net`, create the CNAME record Vercel requests.
+3. Wait for verification and TLS provisioning in Vercel.
+
+## Project Scripts
+
+- `npm run dev` - Start local development server
+- `npm run build` - Build frontend assets
+- `npm run preview` - Preview production build locally
+- `npm run typecheck` - Type-check frontend and API
+- `npm run prisma:generate` - Select schema + generate Prisma client
+- `npm run prisma:migrate:dev` - Run dev migrations
+- `npm run prisma:migrate:deploy` - Run deploy migrations
+- `npm run vercel-build` - Prisma generate + Vite build
+
+## Notes on Data Modes
+
+- `Cloud mode`: API reachable, notes persisted in database through Prisma.
+- `Local mode`: API unreachable, note edits persist to browser storage.
+- On first successful cloud sync with an empty DB, legacy local notes can be imported once.

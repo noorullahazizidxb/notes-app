@@ -7,3 +7,20 @@ export interface Note {
   isFavorite: boolean;
   tags: string[];
 }
+
+export interface NoteCreateInput {
+  id?: string;
+  title: string;
+  content: string;
+  isFavorite?: boolean;
+  tags: string[];
+}
+
+export interface NoteUpdateInput {
+  title?: string;
+  content?: string;
+  isFavorite?: boolean;
+  tags?: string[];
+}
+
+export type DataMode = 'api' | 'local';

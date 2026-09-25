@@ -1,18 +1,41 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notes App</title>
+    <meta name="description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <title>DevMinds Notes</title>
     <script>
-      // Check if user prefers dark mode
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
+      (function applyInitialTheme() {
+        try {
+          const raw = localStorage.getItem('notes-storage');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.state && parsed.state.theme === 'dark') {
+              document.documentElement.classList.add('dark');
+              return;
+            }
+          }
+        } catch {}
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "DevMinds Notes",
+        "applicationCategory": "ProductivityApplication"
       }
     </script>
   </head>
-  <body class="min-h-screen bg-white dark:text-gray-100">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

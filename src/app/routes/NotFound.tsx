@@ -4,21 +4,22 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-bg text-text">
-      <h1 className="text-6xl font-bold mb-4">404</h1>
-      <p className="text-2xl mb-8">Page Not Found</p>
-      <img
-        src="/vite.svg" // Replace with a custom Not Found image if available
-        alt="Not Found"
-        className="w-1/2 h-auto mb-8"
-      />
-      <button
-        onClick={() => navigate('/')}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-      >
-        Go Back Home
-      </button>
-    </div>
+    <section className="flex min-h-[70vh] items-center justify-center">
+      <div className="w-full max-w-2xl rounded-3xl border border-border bg-[color:var(--color-paper)] p-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.09)]">
+        <p className="text-xs uppercase tracking-[0.2em] text-text/55">404</p>
+        <h1 className="mt-3 font-display text-4xl text-text sm:text-5xl">Page not found</h1>
+        <p className="mx-auto mt-3 max-w-md text-sm text-text/70 sm:text-base">
+          The page you requested does not exist in this workspace. Jump back to the notebook dashboard.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/notes')}
+          className="mt-6 rounded-xl bg-[color:var(--color-accent)] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+        >
+          Back to notes
+        </button>
+      </div>
+    </section>
   );
 };
 

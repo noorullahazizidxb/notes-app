@@ -1,84 +1,76 @@
-import { useNotesStore } from '../store/notesStore';
-import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useNotesStore } from '../store/notesStore';
+import { NAV_ITEMS } from '../constants/nav';
 
 const Drawer = () => {
-  const { drawerOpen, setDrawerOpen, theme } = useNotesStore();
   const navigate = useNavigate();
-
-  const navItems = [
-    { label: 'Dashboard', to: '/', icon: '📋' },
-    { label: 'Editor', to: '/editor', icon: '📝' },
-    { label: 'Favorites', to: '/favorites', icon: '⭐' },
-    { label: 'Settings', to: '/settings', icon: '⚙️' }
-  ];
+  const { pathname } = useLocation();
+  const { drawerOpen, setDrawerOpen } = useNotesStore();
 
   return (
     <>
-      {/* Drawer backdrop */}
       <div
-        className={`fixed inset-0 z-50  bg-bg bg-opacity-50 transition-opacity duration-300 ${
-          drawerOpen ? 'opacity-50`' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-40 bg-black/35 backdrop-blur-sm transition-opacity duration-200 ${
+          drawerOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={() => setDrawerOpen(false)}
+        aria-hidden="true"
       />
 
-      {/* Drawer content */}
-      <div
-        className={`fixed left-0 top-20 bottom-0 w-64 transform transition-transform duration-300 ${
-          drawerOpen 
-            ? 'translate-x-0 z-50' 
-            : '-translate-x-full'
-        } z-50 border-r border-border bg-bg`}
+      <aside
+        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-col border-r border-border bg-[color:var(--color-nav-bg)] p-5 shadow-2xl transition-transform duration-300 ${
+          drawerOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+        aria-hidden={!drawerOpen}
       >
-        <div className="h-full flex flex-col">
-          <div className="p-4 flex flex-col flex-grow bg-bg">
-            <button
-              onClick={() => setDrawerOpen(false)}
-              title="Close Drawer"
-              className={`absolute top-4 right-4 transition-colors ${
-                theme === 'dark' 
-                  ? 'text-gray-400 hover:text-gray-500' 
-                  : 'text-gray-600 hover:text-gray-700'
-              }`}
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            <h2 className={`text-xl font-bold mb-4 text-text`}>Navigation</h2>
-
-            <nav className="space-y-2 flex-grow">
-              {navItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => {
-                    navigate(item.to);
-                    setDrawerOpen(false);
-                  }}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors w-full ${
-                    theme === 'dark'
-                      ? 'hover:bg-white hover:text-black'
-                      : 'hover:bg-red-500 hover:text-white'
-                  }`}
-                >
-                  <span className="text-xl text-text">{item.icon}</span>
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </nav>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-display text-2xl text-text">Notebook</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-text/55">Navigation</p>
           </div>
+          <button
+            type="button"
+            aria-label="Close navigation"
+            onClick={() => setDrawerOpen(false)}
+            className="rounded-lg border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
-      </div>
-      <style>{`
-        .navbar {
-          z-index: ${drawerOpen ? 0 : 50};
-        }
-        .dashboard {
-          z-index: ${drawerOpen ? 50 : 0};
-        }
-      `}</style>
+
+        <nav className="mt-8 space-y-2">
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.to || (pathname === '/' && item.to === '/notes');
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.to}
+                type="button"
+                onClick={() => { navigate(item.to); setDrawerOpen(false); }}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition ${
+                  active
+                    ? 'bg-[color:var(--color-accent)] text-white'
+                    : 'bg-card-bg/70 text-text hover:bg-card-bg'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="mt-auto rounded-2xl border border-border bg-card-bg/70 p-4 text-sm text-text/70">
+          <p className="font-semibold text-text">Tip</p>
+          <p className="mt-1 leading-relaxed">
+            Use #hashtags inside notes to auto-capture topic tags while writing.
+          </p>
+        </div>
+      </aside>
     </>
   );
 };
 
 export default Drawer;
+

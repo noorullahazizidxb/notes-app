@@ -1,38 +1,86 @@
-import { createBrowserRouter, createRoutesFromElements, Outlet, Route } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import Spinner from '../components/Spinner';
 import Navbar from '../components/Navbar';
 import Drawer from '../components/Drawer';
 import NotFound from './routes/NotFound';
+import Login from './routes/Login';
+import Register from './routes/Register';
 import { Toaster } from 'react-hot-toast';
+import { useAuthStore } from '../store/authStore';
 
 const Dashboard = React.lazy(() => import('./routes/Dashboard'));
 const Editor = React.lazy(() => import('./routes/Editor'));
 const Favorites = React.lazy(() => import('./routes/Favorites'));
 const Settings = React.lazy(() => import('./routes/Settings'));
 
-const Layout = () => (
-  <>
-    <Drawer />
-    <Navbar />
-    <Suspense fallback={<Spinner />}>
-      <div className='container mx-auto px-4 pt-20 bg-bg text-text'>
-        <Outlet />
-      </div>
-    </Suspense>
-    <Toaster position="bottom-center" toastOptions={{ duration: 3000 }} containerStyle={{ zIndex: 9999, accentColor: '#333',animation: 'ease-in-out' }}  reverseOrder={false} />
-  </>
-);
+const ProtectedLayout = () => {
+  const token = useAuthStore((s) => s.token);
+  if (!token) return <Navigate to="/login" replace />;
+
+  return (
+    <>
+      <Drawer />
+      <Navbar />
+      <Suspense fallback={<Spinner />}>
+        <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 lg:px-10">
+          <Outlet />
+        </main>
+      </Suspense>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 2800,
+          style: {
+            border: '1px solid var(--color-border)',
+            background: 'var(--color-card-bg)',
+            color: 'var(--color-text)',
+          },
+        }}
+        containerStyle={{ zIndex: 9999 }}
+      />
+    </>
+  );
+};
+
+const GuestLayout = () => {
+  const token = useAuthStore((s) => s.token);
+  // Redirect already-authenticated users away from login/register
+  if (token) return <Navigate to="/notes" replace />;
+  return (
+    <>
+      <Outlet />
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 2800,
+          style: {
+            border: '1px solid var(--color-border)',
+            background: 'var(--color-card-bg)',
+            color: 'var(--color-text)',
+          },
+        }}
+      />
+    </>
+  );
+};
 
 const routes = createRoutesFromElements(
-  <Route element={<Layout />}>
-    <Route index element={<Dashboard />} />
-    <Route path="notes" element={<Dashboard />} />
-    <Route path="editor/:id?" element={<Editor />} />
-    <Route path="favorites" element={<Favorites />} />
-    <Route path="settings" element={<Settings />} />
+  <>
+    <Route element={<GuestLayout />}>
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
+    </Route>
+    <Route element={<ProtectedLayout />}>
+      <Route index element={<Dashboard />} />
+      <Route path="notes" element={<Dashboard />} />
+      <Route path="editor/:id?" element={<Editor />} />
+      <Route path="favorites" element={<Favorites />} />
+      <Route path="settings" element={<Settings />} />
+    </Route>
     <Route path="*" element={<NotFound />} />
-  </Route>
+  </>
 );
 
 export const router = createBrowserRouter(routes);
