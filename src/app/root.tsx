@@ -9,6 +9,7 @@ import Register from './routes/Register';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { NavigationProvider } from '../lib/navigation/NavigationProvider';
+import SiteFooter from '../components/SiteFooter';
 
 const Dashboard = React.lazy(() => import('./routes/Dashboard'));
 const Editor = React.lazy(() => import('./routes/Editor'));
@@ -21,13 +22,16 @@ const ProtectedLayout = () => {
 
   return (
     <NavigationProvider>
-      <Drawer />
-      <Navbar />
-      <Suspense fallback={<Spinner />}>
-        <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 lg:px-10">
-          <Outlet />
-        </main>
-      </Suspense>
+      <div className="flex min-h-screen flex-col">
+        <Drawer />
+        <Navbar />
+        <Suspense fallback={<Spinner />}>
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-10 pt-24 sm:px-6 lg:px-10">
+            <Outlet />
+          </main>
+        </Suspense>
+        <SiteFooter to="/notes" />
+      </div>
       <Toaster
         position="bottom-right"
         reverseOrder={false}
@@ -51,7 +55,12 @@ const GuestLayout = () => {
   if (token) return <Navigate to="/notes" replace />;
   return (
     <NavigationProvider>
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <div className="flex flex-1 flex-col">
+          <Outlet />
+        </div>
+        <SiteFooter to="/login" />
+      </div>
       <Toaster
         position="bottom-right"
         toastOptions={{

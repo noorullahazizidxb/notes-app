@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../store/notesStore';
 import { NAV_ITEMS } from '../constants/nav';
+import BrandLogo from './BrandLogo';
 
 const Drawer = () => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const Drawer = () => {
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-display text-2xl text-text">Notebook</p>
-            <p className="text-xs uppercase tracking-[0.2em] text-text/55">Navigation</p>
+            <BrandLogo className="h-8" />
+            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-text/55">Navigation</p>
           </div>
           <button
             type="button"

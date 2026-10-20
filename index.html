@@ -2,28 +2,54 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" href="/favicon-dark.ico" sizes="any" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32.png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-dark-16.png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DevMinds Notes" />
+    <meta property="og:title" content="DevMinds Notes" />
+    <meta property="og:description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <meta property="og:url" content="https://notes.devminds.net" />
+    <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
+    <meta property="og:image:alt" content="DevMinds Notes" />
+    <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DevMinds Notes" />
+    <meta name="twitter:description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
+    <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
     <title>DevMinds Notes</title>
     <script>
       (function applyInitialTheme() {
+        var theme = null;
         try {
-          const raw = localStorage.getItem('notes-storage');
+          var raw = localStorage.getItem('notes-storage');
           if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed && parsed.state && parsed.state.theme === 'dark') {
-              document.documentElement.classList.add('dark');
-              return;
-            }
+            var parsed = JSON.parse(raw);
+            var stored = parsed && parsed.state && parsed.state.theme;
+            if (stored === 'dark' || stored === 'light') theme = stored;
           }
-        } catch {}
+        } catch (error) {}
 
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
+        if (!theme) {
+          theme =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
         }
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.toggle('dark', theme === 'dark');
       })();
     </script>
     <script type="application/ld+json">
@@ -31,7 +57,9 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "DevMinds Notes",
-        "applicationCategory": "ProductivityApplication"
+        "applicationCategory": "ProductivityApplication",
+        "url": "https://notes.devminds.net",
+        "logo": "https://notes.devminds.net/brand/notes-logo-light.png"
       }
     </script>
   </head>
