@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotebookPen, Eye, EyeOff, LogIn } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
+import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
 
 const Login = () => {
@@ -14,12 +15,17 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    preloadRecaptcha();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password) return;
     setIsLoading(true);
     try {
-      const { user, token } = await authApi.login(email.trim(), password);
+      const recaptchaToken = await executeRecaptcha('login');
+      const { user, token } = await authApi.login(email.trim(), password, recaptchaToken);
       setAuth(user, token);
       toast.success(`Welcome back, ${user.name ?? user.email}!`);
       navigate('/notes', { replace: true });

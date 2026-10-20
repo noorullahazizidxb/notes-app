@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotebookPen, Eye, EyeOff, UserPlus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
+import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
 
 const Register = () => {
@@ -15,15 +16,21 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    preloadRecaptcha();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password) return;
     setIsLoading(true);
     try {
+      const recaptchaToken = await executeRecaptcha('register');
       const { user, token } = await authApi.register(
         email.trim(),
         password,
-        name.trim() || undefined
+        name.trim() || undefined,
+        recaptchaToken
       );
       setAuth(user, token);
       toast.success('Account created! Welcome aboard.');
