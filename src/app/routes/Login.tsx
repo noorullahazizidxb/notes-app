@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { NotebookPen, Eye, EyeOff, LogIn } from 'lucide-react';
+import { Eye, EyeOff, LogIn } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
 import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
+import BrandLogo from '../../components/BrandLogo';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     preloadRecaptcha();
@@ -22,6 +24,9 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password) return;
+    const keptEmail = email;
+    const keptPassword = password;
+    setErrorMessage(null);
     setIsLoading(true);
     try {
       const recaptchaToken = await executeRecaptcha('login');
@@ -30,18 +35,22 @@ const Login = () => {
       toast.success(`Welcome back, ${user.name ?? user.email}!`);
       navigate('/notes', { replace: true });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed.');
+      const message = error instanceof Error ? error.message : 'Login failed.';
+      setErrorMessage(message);
+      setEmail(keptEmail);
+      setPassword(keptPassword);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-bg px-4">
+    <div className="flex flex-1 items-center justify-center bg-bg px-4 py-10">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[color:var(--color-accent)]/10">
-            <NotebookPen className="h-7 w-7 text-[color:var(--color-accent)]" />
+          <div className="mb-4 flex justify-center">
+            <BrandLogo className="h-12" />
           </div>
           <h1 className="font-display text-3xl text-text">Welcome back</h1>
           <p className="mt-1 text-sm text-text/65">Sign in to your notes workspace</p>
@@ -94,6 +103,12 @@ const Login = () => {
               </div>
             </div>
           </div>
+
+          {errorMessage ? (
+            <p role="alert" className="mt-4 text-sm font-medium text-rose-600 dark:text-rose-300">
+              {errorMessage}
+            </p>
+          ) : null}
 
           <button
             type="submit"

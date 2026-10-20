@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { NotebookPen, Eye, EyeOff, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
 import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
+import BrandLogo from '../../components/BrandLogo';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -43,11 +44,11 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-bg px-4">
+    <div className="flex flex-1 items-center justify-center bg-bg px-4 py-10">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[color:var(--color-accent)]/10">
-            <NotebookPen className="h-7 w-7 text-[color:var(--color-accent)]" />
+          <div className="mb-4 flex justify-center">
+            <BrandLogo className="h-12" />
           </div>
           <h1 className="font-display text-3xl text-text">Create your workspace</h1>
           <p className="mt-1 text-sm text-text/65">Start writing notes in seconds</p>

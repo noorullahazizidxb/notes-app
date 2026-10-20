@@ -9,6 +9,7 @@ const ThemeToggle = () => {
     setTheme(newTheme);
     
     // Update the class on the html element
+    document.documentElement.dataset.theme = newTheme;
     if (newTheme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {

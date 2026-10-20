@@ -6,6 +6,7 @@ import { useNotesStore } from '../store/notesStore';
 import { useAuthStore } from '../store/authStore';
 import { NAV_ITEMS } from '../constants/nav';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
+import BrandLogo from './BrandLogo';
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -43,16 +44,8 @@ const Navbar = () => {
               <Menu className="h-4 w-4" />
             </button>
           )}
-          <Link to="/notes" className="flex items-center gap-2">
-            <span className="rounded-lg bg-[color:var(--color-accent)]/10 p-1.5 text-[color:var(--color-accent)]">
-              <NotebookPen className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="font-display text-lg leading-none text-text">DevMinds Notes</p>
-              <p className="hidden text-xs uppercase tracking-[0.16em] text-text/60 sm:block">
-                Focused editorial workspace
-              </p>
-            </div>
+          <Link to="/notes" className="flex items-center">
+            <BrandLogo className="h-8 sm:h-9" />
           </Link>
         </div>
 

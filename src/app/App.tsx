@@ -11,6 +11,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.dataset.theme = theme;
   }, [theme]);
 
   useEffect(() => {
