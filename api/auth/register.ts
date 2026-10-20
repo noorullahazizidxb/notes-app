@@ -3,11 +3,13 @@ import { z } from 'zod';
 import { prisma } from '../_lib/prisma.js';
 import { allowMethods, readJsonBody } from '../_lib/http.js';
 import { hashPassword, signToken } from '../_lib/auth.js';
+import { forwardedClientIp, verifyRecaptcha } from '../_lib/recaptcha.js';
 
 const registerSchema = z.object({
   email: z.string().trim().toLowerCase().email('Invalid email address.'),
   password: z.string().min(8, 'Password must be at least 8 characters.').max(128),
   name: z.string().trim().min(1).max(64).optional(),
+  recaptchaToken: z.string().max(4096).optional(),
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
@@ -15,7 +17,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   try {
     const body = readJsonBody(req);
-    const { email, password, name } = registerSchema.parse(body);
+    const { email, password, name, recaptchaToken } = registerSchema.parse(body);
+    await verifyRecaptcha(
+      recaptchaToken,
+      'register',
+      forwardedClientIp(req.headers['x-forwarded-for'])
+    );
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {

@@ -114,6 +114,8 @@ Set these in Vercel Project Settings for Production (and Preview, if previews sh
 - `DATABASE_URL=<managed database connection string>`
 - `JWT_SECRET=<long random secret>` (required in production; the API falls back to a dev secret only when this is unset)
 - `VITE_API_BASE_URL=` (empty for same-origin `/api` calls; Vite reads this at build time)
+- `VITE_RECAPTCHA_SITE_KEY=<reCAPTCHA v3 site key>` (Vite reads this at build time; login and register call `grecaptcha.execute` and send `recaptchaToken`)
+- `RECAPTCHA_SECRET_KEY=<reCAPTCHA v3 secret key>` (server verifies the token with Google; when unset, verification is skipped so local dev still works)
 
 Node.js is pinned to `22.x` in `package.json` `engines` and `.nvmrc`. An open range such as `>=22` makes Vercel select the newest supported major (currently 24.x).
 

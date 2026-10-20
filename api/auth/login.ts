@@ -3,10 +3,12 @@ import { z } from 'zod';
 import { prisma } from '../_lib/prisma.js';
 import { allowMethods, readJsonBody } from '../_lib/http.js';
 import { verifyPassword, signToken } from '../_lib/auth.js';
+import { forwardedClientIp, verifyRecaptcha } from '../_lib/recaptcha.js';
 
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email('Invalid email address.'),
   password: z.string().min(1, 'Password is required.'),
+  recaptchaToken: z.string().max(4096).optional(),
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
@@ -14,7 +16,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   try {
     const body = readJsonBody(req);
-    const { email, password } = loginSchema.parse(body);
+    const { email, password, recaptchaToken } = loginSchema.parse(body);
+    await verifyRecaptcha(
+      recaptchaToken,
+      'login',
+      forwardedClientIp(req.headers['x-forwarded-for'])
+    );
 
     const user = await prisma.user.findUnique({ where: { email } });
     // Constant-time: always run verifyPassword even on missing user to prevent timing attacks.

@@ -78,17 +78,22 @@ export const notesApi = {
 };
 
 export const authApi = {
-  register: async (email: string, password: string, name?: string): Promise<AuthResponse> => {
+  register: async (
+    email: string,
+    password: string,
+    name?: string,
+    recaptchaToken?: string
+  ): Promise<AuthResponse> => {
     return request<AuthResponse>('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ email, password, name, recaptchaToken }),
     });
   },
 
-  login: async (email: string, password: string): Promise<AuthResponse> => {
+  login: async (email: string, password: string, recaptchaToken?: string): Promise<AuthResponse> => {
     return request<AuthResponse>('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, recaptchaToken }),
     });
   },
 
