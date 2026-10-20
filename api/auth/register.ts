@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
-import { prisma } from '../_lib/prisma';
-import { allowMethods, readJsonBody } from '../_lib/http';
-import { hashPassword, signToken } from '../_lib/auth';
+import { prisma } from '../_lib/prisma.js';
+import { allowMethods, readJsonBody } from '../_lib/http.js';
+import { hashPassword, signToken } from '../_lib/auth.js';
 
 const registerSchema = z.object({
   email: z.string().trim().toLowerCase().email('Invalid email address.'),
