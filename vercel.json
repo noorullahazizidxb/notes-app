@@ -4,11 +4,6 @@
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node@5"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/auth/register",
