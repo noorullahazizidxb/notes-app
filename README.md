@@ -107,12 +107,17 @@ npm run build
 
 ### Required Environment Variables on Vercel
 
-Set these in Vercel Project Settings per environment:
+Set these in Vercel Project Settings for Production (and Preview, if previews should hit a database). `npm run vercel-build` selects the Prisma schema, generates the client, and runs `prisma migrate deploy` for that provider.
 
 - `DB_SQLITE=false`
-- `DB_MYSQL=true` or `DB_POSTGRES=true` (pick one)
+- `DB_MYSQL=true` or `DB_POSTGRES=true` (pick exactly one)
 - `DATABASE_URL=<managed database connection string>`
-- `VITE_API_BASE_URL=` (empty for same-origin)
+- `JWT_SECRET=<long random secret>` (required in production; the API falls back to a dev secret only when this is unset)
+- `VITE_API_BASE_URL=` (empty for same-origin `/api` calls; Vite reads this at build time)
+
+Node.js is pinned to `22.x` in `package.json` `engines` and `.nvmrc`. An open range such as `>=22` makes Vercel select the newest supported major (currently 24.x).
+
+For Postgres, use a connection string the build can migrate and functions can query. Add `connection_limit=1` on serverless pools. MySQL note bodies are stored as `TEXT` so editor HTML is not truncated.
 
 ### Domain Setup (`note-app.devminds.net`)
 
@@ -129,7 +134,7 @@ Set these in Vercel Project Settings per environment:
 - `npm run prisma:generate` - Select schema + generate Prisma client
 - `npm run prisma:migrate:dev` - Run dev migrations
 - `npm run prisma:migrate:deploy` - Run deploy migrations
-- `npm run vercel-build` - Prisma generate + Vite build
+- `npm run vercel-build` - Select schema, generate Prisma client, deploy migrations, Vite build
 
 ## Notes on Data Modes
 

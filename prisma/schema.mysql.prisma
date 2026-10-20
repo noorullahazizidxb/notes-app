@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -22,8 +23,8 @@ model Note {
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   title      String
-  content    String   @default("")
-  tagsJson   String   @default("[]")
+  content    String   @default("") @db.Text
+  tagsJson   String   @default("[]") @db.Text
   isFavorite Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
