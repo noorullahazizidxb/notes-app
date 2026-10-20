@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../_lib/prisma';
-import { allowMethods, readJsonBody } from '../_lib/http';
-import { toApiNote, validatePatchPayload } from '../_lib/notes';
-import { requireAuth } from '../_lib/auth';
+import { prisma } from '../_lib/prisma.js';
+import { allowMethods, readJsonBody } from '../_lib/http.js';
+import { toApiNote, validatePatchPayload } from '../_lib/notes.js';
+import { requireAuth } from '../_lib/auth.js';
 
 const getId = (req: VercelRequest): string | null => {
   const param = req.query.id;

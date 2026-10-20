@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../_lib/prisma';
-import { allowMethods } from '../_lib/http';
-import { requireAuth } from '../_lib/auth';
+import { prisma } from '../_lib/prisma.js';
+import { allowMethods } from '../_lib/http.js';
+import { requireAuth } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   if (!allowMethods(req, res, ['GET'])) return;
