@@ -12,23 +12,24 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <meta name="description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="DevMinds Notes" />
-    <meta property="og:title" content="DevMinds Notes" />
-    <meta property="og:description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
-    <meta property="og:url" content="https://notes.devminds.net" />
+    <meta property="og:title" content="DevMinds Notes — Free Note Taking App | Notes by DevMinds" />
+    <meta property="og:description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
+    <meta property="og:url" content="https://notes.devminds.net/" />
     <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
     <meta property="og:image:alt" content="DevMinds Notes" />
     <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DevMinds Notes" />
-    <meta name="twitter:description" content="DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel." />
+    <meta name="twitter:title" content="DevMinds Notes — Free Note Taking App | Notes by DevMinds" />
+    <meta name="twitter:description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
     <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
     <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
-    <title>DevMinds Notes</title>
+    <title>DevMinds Notes — Free Note Taking App | Notes by DevMinds</title>
+    <link rel="canonical" href="https://notes.devminds.net/" />
     <script>
       (function applyInitialTheme() {
         var theme = null;
@@ -53,18 +54,42 @@
       })();
     </script>
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "DevMinds Notes",
-        "applicationCategory": "ProductivityApplication",
-        "url": "https://notes.devminds.net",
-        "logo": "https://notes.devminds.net/brand/notes-logo-light.png"
-      }
+      {"@context":"https://schema.org","@graph":[
+        {"@type":"Organization","@id":"https://devminds.net/#organization","name":"DevMinds","url":"https://devminds.net","logo":"https://notes.devminds.net/brand/notes-logo-light.png","founder":{"@type":"Person","name":"Noorullah Azizi","url":"https://noorullah-azizi.devminds.net"},"sameAs":["https://github.com/noorullahazizidxb","https://noorullah-azizi.devminds.net"]},
+        {"@type":"WebSite","@id":"https://notes.devminds.net/#website","name":"DevMinds Notes","url":"https://notes.devminds.net/","publisher":{"@id":"https://devminds.net/#organization"}},
+        {"@type":"WebApplication","name":"DevMinds Notes","alternateName":["DevMinds Note App","DevMinds Note Taking"],"applicationCategory":"ProductivityApplication","operatingSystem":"Web","url":"https://notes.devminds.net/","logo":"https://notes.devminds.net/brand/notes-logo-light.png","description":"DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://devminds.net/#organization"}}
+      ]}
+    </script>
+    <script>
+      (function () {
+        var id = 'G-WPEDSMKMT8', done = false;
+        function load() {
+          if (done) return; done = true;
+          var s = document.createElement('script'); s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { dataLayer.push(arguments); };
+          gtag('js', new Date()); gtag('config', id);
+        }
+        ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (e) {
+          addEventListener(e, load, { once: true, passive: true });
+        });
+        addEventListener('load', function () {
+          (window.requestIdleCallback || function (f) { setTimeout(f, 3500); })(load, { timeout: 5000 });
+        });
+      })();
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><main style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,sans-serif;line-height:1.6">
+      <h1>DevMinds Notes — the free note taking app</h1>
+      <p>DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family.</p>
+      <h2>Why DevMinds Notes</h2>
+      <ul><li>Write notes fast in a distraction-free editor</li><li>Organize and search every note</li><li>Light and dark themes, works in any browser</li><li>Secure account sign-in, synced across devices</li></ul>
+      <p><a href="/register">Create a free account</a> · <a href="/login">Sign in</a></p>
+      <nav aria-label="DevMinds products"><h2>DevMinds products</h2><ul><li><a href="https://devminds.net">DevMinds — software studio</a></li><li><a href="https://marketplace.devminds.net">DevMinds Marketplace — buy and sell online</a></li><li><a href="https://jobs.devminds.net">DevMinds Jobs — jobs platform and education hub</a></li><li><a href="https://budget-manager.devminds.net">DevMinds Budget App — budget manager</a></li><li><a href="https://ourworks.devminds.net">DevMinds Works — our projects and work</a></li><li><a href="https://noorullah-azizi.devminds.net">Noorullah Azizi — founder portfolio</a></li></ul></nav>
+    </main></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
