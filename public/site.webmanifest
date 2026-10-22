@@ -1,7 +1,7 @@
 {
   "name": "DevMinds Notes",
   "short_name": "Notes",
-  "description": "DevMinds Notes: a modern writing workspace powered by React, Prisma, and Vercel.",
+  "description": "DevMinds Notes — free note taking app by DevMinds.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
