@@ -78,6 +78,9 @@ export const notesApi = {
 };
 
 export const authApi = {
+  googleSession: (): Promise<AuthResponse> =>
+    request<AuthResponse>('/api/auth/google/session', { method: 'POST' }),
+
   register: async (
     email: string,
     password: string,

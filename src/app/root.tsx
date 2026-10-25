@@ -6,6 +6,7 @@ import Drawer from '../components/Drawer';
 import NotFound from './routes/NotFound';
 import Login from './routes/Login';
 import Register from './routes/Register';
+import GoogleComplete from './routes/GoogleComplete';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { NavigationProvider } from '../lib/navigation/NavigationProvider';
@@ -81,6 +82,7 @@ const routes = createRoutesFromElements(
     <Route element={<GuestLayout />}>
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="auth/google/complete" element={<GoogleComplete />} />
     </Route>
     <Route element={<ProtectedLayout />}>
       <Route index element={<Dashboard />} />

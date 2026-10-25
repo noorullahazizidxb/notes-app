@@ -34,6 +34,7 @@
     "@tiptap/starter-kit": "^2.27.3",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^12.43.0",
+    "google-auth-library": "^9.15.1",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.544.0",
     "react": "^18.3.1",
