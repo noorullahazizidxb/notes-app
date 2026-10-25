@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     const user = await prisma.user.findUnique({ where: { email } });
     // Constant-time: always run verifyPassword even on missing user to prevent timing attacks.
     const passwordHash = user?.password ?? '$2a$12$invalidhashpadding00000000000000000000';
-    const valid = user ? await verifyPassword(password, passwordHash) : false;
+    const valid = user?.password ? await verifyPassword(password, passwordHash) : false;
 
     if (!user || !valid) {
       res.status(401).json({ error: 'Invalid email or password.' });

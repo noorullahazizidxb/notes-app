@@ -6,6 +6,7 @@ import { authApi } from '../../lib/notesApi';
 import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
 import BrandLogo from '../../components/BrandLogo';
+import GoogleButton from '../../components/GoogleButton';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -123,6 +124,8 @@ const Login = () => {
             {isLoading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        <GoogleButton />
 
         <p className="text-center text-sm text-text/65">
           No account yet?{' '}
