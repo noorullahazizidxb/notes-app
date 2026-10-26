@@ -1,7 +1,7 @@
 import { createContext, useContext, ReactNode, useMemo } from 'react';
 import { useNavigate, useLocation, NavigateFunction, Location } from 'react-router-dom';
 
-type NavOptions = { replace?: boolean; state?: any } | undefined;
+type NavOptions = { replace?: boolean; state?: unknown } | undefined;
 
 type NavigationContextValue = {
   navigate: (to: string, opts?: NavOptions) => void;

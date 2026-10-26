@@ -6,6 +6,8 @@ import { authApi } from '../../lib/notesApi';
 import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
 import BrandLogo from '../../components/BrandLogo';
+import Seo from '../../seo/Seo';
+import { pageJsonLd } from '../../seo/site';
 import GoogleButton from '../../components/GoogleButton';
 
 const Login = () => {
@@ -48,6 +50,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-1 items-center justify-center bg-bg px-4 py-10">
+      <Seo title="Sign in — DevMinds Notes | Online Notes" description="Sign in to DevMinds Notes, the free note taking app, to open your online notes on any device. Continue with Google or email." path="/login" jsonLd={pageJsonLd('Sign in', '/login')} />
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div className="mb-4 flex justify-center">

@@ -2,34 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="icon" href="/favicon-dark.ico" sizes="any" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32.png" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-dark-16.png" media="(prefers-color-scheme: dark)" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)" />
-    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevMinds Notes" />
-    <meta property="og:title" content="DevMinds Notes — Free Note Taking App | Notes by DevMinds" />
-    <meta property="og:description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
-    <meta property="og:url" content="https://notes.devminds.net/" />
-    <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
-    <meta property="og:image:alt" content="DevMinds Notes" />
-    <meta property="og:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DevMinds Notes — Free Note Taking App | Notes by DevMinds" />
-    <meta name="twitter:description" content="DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family." />
-    <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-light.png" />
-    <meta name="twitter:image" content="https://notes.devminds.net/brand/notes-logo-dark.png" media="(prefers-color-scheme: dark)" />
-    <title>DevMinds Notes — Free Note Taking App | Notes by DevMinds</title>
-    <link rel="canonical" href="https://notes.devminds.net/" />
+    <title>DevMinds Notes — Free Note Taking App for Online Notes</title>
+    <meta data-seo name="description" content="DevMinds Notes is a free online note taking app. Write rich-text notes, organize them with tags and favorites, search instantly and sync across devices. Sign in with Google." />
+    <meta data-seo name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link data-seo rel="canonical" href="https://notes.devminds.net/" />
+    <link data-seo rel="alternate" hreflang="en" href="https://notes.devminds.net/" />
+    <link data-seo rel="alternate" hreflang="x-default" href="https://notes.devminds.net/" />
+    <meta data-seo property="og:type" content="website" />
+    <meta data-seo property="og:site_name" content="DevMinds Notes" />
+    <meta data-seo property="og:locale" content="en_US" />
+    <meta data-seo property="og:title" content="DevMinds Notes — Free Note Taking App for Online Notes" />
+    <meta data-seo property="og:description" content="DevMinds Notes is a free online note taking app. Write rich-text notes, organize them with tags and favorites, search instantly and sync across devices. Sign in with Google." />
+    <meta data-seo property="og:url" content="https://notes.devminds.net/" />
+    <meta data-seo property="og:image" content="https://notes.devminds.net/og-image.png" />
+    <meta data-seo property="og:image:type" content="image/png" />
+    <meta data-seo property="og:image:width" content="1200" />
+    <meta data-seo property="og:image:height" content="630" />
+    <meta data-seo property="og:image:alt" content="DevMinds Notes — the free note taking app for online notes" />
+    <meta data-seo name="twitter:card" content="summary_large_image" />
+    <meta data-seo name="twitter:title" content="DevMinds Notes — Free Note Taking App for Online Notes" />
+    <meta data-seo name="twitter:description" content="DevMinds Notes is a free online note taking app. Write rich-text notes, organize them with tags and favorites, search instantly and sync across devices. Sign in with Google." />
+    <meta data-seo name="twitter:image" content="https://notes.devminds.net/og-image.png" />
+    <!--seo-jsonld-->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64 96x96" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="application-name" content="DevMinds Notes" />
+    <meta name="apple-mobile-web-app-title" content="DevMinds Notes" />
+    <meta name="theme-color" content="#f7f2e7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#181a1e" media="(prefers-color-scheme: dark)" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <script>
       (function applyInitialTheme() {
         var theme = null;
@@ -53,13 +60,16 @@
         document.documentElement.classList.toggle('dark', theme === 'dark');
       })();
     </script>
-    <script type="application/ld+json">
-      {"@context":"https://schema.org","@graph":[
-        {"@type":"Organization","@id":"https://devminds.net/#organization","name":"DevMinds","url":"https://devminds.net","logo":"https://notes.devminds.net/brand/notes-logo-light.png","founder":{"@type":"Person","name":"Noorullah Azizi","url":"https://noorullah-azizi.devminds.net"},"sameAs":["https://github.com/noorullahazizidxb","https://noorullah-azizi.devminds.net"]},
-        {"@type":"WebSite","@id":"https://notes.devminds.net/#website","name":"DevMinds Notes","url":"https://notes.devminds.net/","publisher":{"@id":"https://devminds.net/#organization"}},
-        {"@type":"WebApplication","name":"DevMinds Notes","alternateName":["DevMinds Note App","DevMinds Note Taking"],"applicationCategory":"ProductivityApplication","operatingSystem":"Web","url":"https://notes.devminds.net/","logo":"https://notes.devminds.net/brand/notes-logo-light.png","description":"DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://devminds.net/#organization"}}
-      ]}
-    </script>
+    <style>
+      html { background: #f7f2e7; color: #1f2020; }
+      html.dark { background: #181a1e; color: #f5efe3; color-scheme: dark; }
+      body { margin: 0; }
+      .seo-static { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      .boot-splash { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; animation: boot-in 0.3s ease-out 0.6s forwards; }
+      .boot-splash img { width: 72px; height: 72px; }
+      @keyframes boot-in { to { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { .boot-splash { animation: none; } }
+    </style>
     <script>
       (function () {
         var id = 'G-WPEDSMKMT8', done = false;
@@ -67,6 +77,7 @@
           if (done) return; done = true;
           var s = document.createElement('script'); s.async = true;
           s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+          s.onerror = function () { s.remove(); };
           document.head.appendChild(s);
           window.dataLayer = window.dataLayer || [];
           window.gtag = function () { dataLayer.push(arguments); };
@@ -82,14 +93,8 @@
     </script>
   </head>
   <body>
-    <div id="root"><main style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,sans-serif;line-height:1.6">
-      <h1>DevMinds Notes — the free note taking app</h1>
-      <p>DevMinds Notes is a free, fast note taking app: write, organize and search your notes in a clean workspace. Part of the DevMinds product family.</p>
-      <h2>Why DevMinds Notes</h2>
-      <ul><li>Write notes fast in a distraction-free editor</li><li>Organize and search every note</li><li>Light and dark themes, works in any browser</li><li>Secure account sign-in, synced across devices</li></ul>
-      <p><a href="/register">Create a free account</a> · <a href="/login">Sign in</a></p>
-      <nav aria-label="DevMinds products"><h2>DevMinds products</h2><ul><li><a href="https://devminds.net">DevMinds — software studio</a></li><li><a href="https://marketplace.devminds.net">DevMinds Marketplace — buy and sell online</a></li><li><a href="https://jobs.devminds.net">DevMinds Jobs — jobs platform and education hub</a></li><li><a href="https://budget-manager.devminds.net">DevMinds Budget App — budget manager</a></li><li><a href="https://ourworks.devminds.net">DevMinds Works — our projects and work</a></li><li><a href="https://noorullah-azizi.devminds.net">Noorullah Azizi — founder portfolio</a></li></ul></nav>
-    </main></div>
+    <div id="root"><div class="boot-splash" aria-hidden="true"><img src="/favicon.svg" alt="" width="72" height="72" /></div><main class="seo-static"><!--seo-static--></main></div>
+    <noscript><p style="text-align:center;padding:24px;font-family:system-ui,sans-serif">DevMinds Notes needs JavaScript to run. <a href="/register">Sign up</a> · <a href="/login">Sign in</a></p></noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

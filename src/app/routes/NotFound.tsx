@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import Seo from '../../seo/Seo';
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   return (
     <section className="flex min-h-[70vh] items-center justify-center">
+      <Seo title="Page not found — DevMinds Notes" noindex />
       <div className="w-full max-w-2xl rounded-3xl border border-border bg-[color:var(--color-paper)] p-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.09)]">
         <p className="text-xs uppercase tracking-[0.2em] text-text/55">404</p>
         <h1 className="mt-3 font-display text-4xl text-text sm:text-5xl">Page not found</h1>

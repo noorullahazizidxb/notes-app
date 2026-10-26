@@ -11,6 +11,8 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { NavigationProvider } from '../lib/navigation/NavigationProvider';
 import SiteFooter from '../components/SiteFooter';
+import Landing from './routes/Landing';
+import Seo from '../seo/Seo';
 
 const Dashboard = React.lazy(() => import('./routes/Dashboard'));
 const Editor = React.lazy(() => import('./routes/Editor'));
@@ -23,6 +25,7 @@ const ProtectedLayout = () => {
 
   return (
     <NavigationProvider>
+      <Seo title="My notes — DevMinds Notes" noindex />
       <div className="flex min-h-screen flex-col">
         <Drawer />
         <Navbar />
@@ -60,7 +63,7 @@ const GuestLayout = () => {
         <div className="flex flex-1 flex-col">
           <Outlet />
         </div>
-        <SiteFooter to="/login" />
+        <SiteFooter to="/" />
       </div>
       <Toaster
         position="bottom-right"
@@ -80,12 +83,12 @@ const GuestLayout = () => {
 const routes = createRoutesFromElements(
   <>
     <Route element={<GuestLayout />}>
+      <Route index element={<Landing />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="auth/google/complete" element={<GoogleComplete />} />
     </Route>
     <Route element={<ProtectedLayout />}>
-      <Route index element={<Dashboard />} />
       <Route path="notes" element={<Dashboard />} />
       <Route path="editor/:id?" element={<Editor />} />
       <Route path="favorites" element={<Favorites />} />
