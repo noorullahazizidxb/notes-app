@@ -1,19 +1,33 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
 export const useOnClickOutside = (
   ref: RefObject<HTMLElement | null>,
-  handler: () => void
+  handler: () => void,
+  listenEscape = true
 ): void => {
+  const handlerRef = useRef(handler);
+  handlerRef.current = handler;
+
   useEffect(() => {
-    const listener = (event: MouseEvent | TouchEvent) => {
+    const clickListener = (event: MouseEvent | TouchEvent) => {
       if (!ref.current || ref.current.contains(event.target as Node)) return;
-      handler();
+      handlerRef.current();
     };
-    document.addEventListener('mousedown', listener);
-    document.addEventListener('touchstart', listener);
+
+    const keyListener = (event: KeyboardEvent) => {
+      if (listenEscape && event.key === 'Escape') {
+        handlerRef.current();
+      }
+    };
+
+    document.addEventListener('mousedown', clickListener);
+    document.addEventListener('touchstart', clickListener);
+    if (listenEscape) document.addEventListener('keydown', keyListener);
+
     return () => {
-      document.removeEventListener('mousedown', listener);
-      document.removeEventListener('touchstart', listener);
+      document.removeEventListener('mousedown', clickListener);
+      document.removeEventListener('touchstart', clickListener);
+      if (listenEscape) document.removeEventListener('keydown', keyListener);
     };
-  }, [ref, handler]);
+  }, [ref, listenEscape]);
 };
