@@ -4,27 +4,35 @@
 
 @layer base {
   :root {
-    --color-text: #1f2020;
-    --color-bg: #f7f2e7;
-    --color-paper: #fffcf6;
-    --color-paper-elevated: #fff8ed;
-    --color-card-bg: #fffdf9;
-    --color-nav-bg: #f2ead9;
-    --color-border: #ddd2bf;
-    --color-accent: #c34f2f;
-    --color-accent-soft: #de7f2f;
+    --color-text: #0f172a;
+    --color-text-muted: #475569;
+    --color-bg: #f5f8ff;
+    --color-paper: #ffffff;
+    --color-paper-elevated: #eff4ff;
+    --color-card-bg: #ffffff;
+    --color-nav-bg: #ffffff;
+    --color-border: #d8e3f8;
+    --color-accent: #1d4fe6;
+    --color-accent-hover: #153fc4;
+    --color-accent-2: #6a1fd2;
+    --color-accent-soft: #0ccaf0;
+    --color-accent-text: #ffffff;
   }
 
   .dark {
-    --color-text: #f5efe3;
-    --color-bg: #181a1e;
-    --color-paper: #232731;
-    --color-paper-elevated: #2a2f3b;
-    --color-card-bg: #222732;
-    --color-nav-bg: #1a1e28;
-    --color-border: #394353;
-    --color-accent: #e46c42;
-    --color-accent-soft: #e7934c;
+    --color-text: #ececec;
+    --color-text-muted: #9ca3af;
+    --color-bg: #121417;
+    --color-paper: #1c2024;
+    --color-paper-elevated: #252a30;
+    --color-card-bg: #1c2024;
+    --color-nav-bg: #16191d;
+    --color-border: #2e353d;
+    --color-accent: #ff8a1f;
+    --color-accent-hover: #fa7a0a;
+    --color-accent-2: #ff6a00;
+    --color-accent-soft: #ffbe0b;
+    --color-accent-text: #121417;
   }
 
   html,
@@ -36,19 +44,15 @@
   body {
     margin: 0;
     color: var(--color-text);
-    font-family: 'Work Sans', 'Segoe UI', sans-serif;
-    background:
-      radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--color-accent-soft) 18%, transparent), transparent 30%),
-      radial-gradient(circle at 85% 18%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 35%),
-      linear-gradient(180deg, var(--color-bg), var(--color-paper));
-    background-attachment: fixed;
+    font-family: 'Work Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-accent) 60%, white);
-    color: white;
+    background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    color: var(--color-text);
   }
 }
 
@@ -63,25 +67,21 @@
 }
 
 .brand-logo__dark {
-  display: none;
+  display: none !important;
 }
 
-.dark .brand-logo__light {
-  display: none;
+.brand-logo__light {
+  display: block !important;
 }
 
-.dark .brand-logo__dark {
-  display: block;
+.dark .brand-logo__light,
+html[data-theme='dark'] .brand-logo__light {
+  display: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .brand-logo__light {
-    display: none;
-  }
-
-  html:not([data-theme='light']) .brand-logo__dark {
-    display: block;
-  }
+.dark .brand-logo__dark,
+html[data-theme='dark'] .brand-logo__dark {
+  display: block !important;
 }
 
 .ProseMirror {
