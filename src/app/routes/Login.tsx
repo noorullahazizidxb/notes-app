@@ -117,10 +117,10 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-text transition hover:bg-accent-hover shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent-text/30 border-t-accent-text" />
             ) : (
               <LogIn className="h-4 w-4" />
             )}
@@ -130,11 +130,11 @@ const Login = () => {
 
         <GoogleButton />
 
-        <p className="text-center text-sm text-text/65">
+        <p className="text-center text-sm text-text-muted">
           No account yet?{' '}
           <Link
             to="/register"
-            className="font-semibold text-[color:var(--color-accent)] hover:underline"
+            className="font-semibold text-accent hover:underline"
           >
             Create one
           </Link>

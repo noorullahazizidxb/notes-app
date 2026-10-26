@@ -22,75 +22,119 @@ const formatDate = (isoDate: string): string =>
     year: 'numeric',
   });
 
-const NoteCard = ({ note, activeTag, onDelete, onToggleFavorite, onOpen, onTagClick }: NoteCardProps) => {
+export const NoteCard = ({
+  note,
+  activeTag,
+  onDelete,
+  onToggleFavorite,
+  onOpen,
+  onTagClick,
+}: NoteCardProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const preview = stripHtml(note.content) || 'Start writing your ideas…';
+  const preview = stripHtml(note.content) || 'No additional text in this note…';
 
   return (
     <>
-      <article className="group relative overflow-hidden rounded-2xl border border-border bg-card-bg p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[color:var(--color-accent)] via-[color:var(--color-accent-soft)] to-[color:var(--color-accent)] opacity-70" />
+      <article className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border bg-paper p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md">
+        {/* Top subtle accent line */}
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent via-accent-soft to-accent-2 opacity-80" />
 
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <button type="button" onClick={() => onOpen(note.id)} className="text-left">
-            <h3 className="line-clamp-1 font-display text-xl text-text">{note.title || 'Untitled note'}</h3>
-            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-text/55">
-              Updated {formatDate(note.updatedAt)}
-            </p>
-          </button>
+        <div>
+          {/* Header: Title, Timestamp, and Favorite Toggle */}
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => onOpen(note.id)}
+              className="text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-lg"
+            >
+              <h3 className="line-clamp-1 font-display text-lg font-bold text-text group-hover:text-accent transition-colors">
+                {note.title || 'Untitled note'}
+              </h3>
+              <p className="mt-1 text-xs text-text-muted">
+                Updated {formatDate(note.updatedAt)}
+              </p>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => onToggleFavorite(note.id)}
-            className={`rounded-lg p-2 transition ${
-              note.isFavorite ? 'bg-amber-400/20 text-amber-500' : 'text-text/45 hover:bg-card-bg hover:text-amber-500'
-            }`}
-            aria-label={note.isFavorite ? 'Remove favorite' : 'Mark as favorite'}
-          >
-            <Heart className="h-4 w-4" fill={note.isFavorite ? 'currentColor' : 'none'} />
-          </button>
-        </div>
-
-        <button type="button" onClick={() => onOpen(note.id)} className="mb-4 w-full text-left">
-          <p className="line-clamp-4 text-sm leading-6 text-text/75">{preview}</p>
-        </button>
-
-        {note.tags.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
-            {note.tags.slice(0, 4).map((tag) => (
-              <button
-                key={`${note.id}-${tag}`}
-                type="button"
-                onClick={() => onTagClick(tag)}
-                className={`rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide transition ${
-                  activeTag === tag
-                    ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent)]/10 text-[color:var(--color-accent)]'
-                    : 'border-border text-text/65 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]'
-                }`}
-              >
-                #{tag}
-              </button>
-            ))}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(note.id);
+              }}
+              className={`rounded-xl p-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
+                note.isFavorite
+                  ? 'bg-amber-500/15 text-amber-500 hover:bg-amber-500/25'
+                  : 'text-text-muted hover:bg-paper-elevated hover:text-amber-500'
+              }`}
+              aria-label={note.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <Heart
+                className="h-4 w-4"
+                fill={note.isFavorite ? 'currentColor' : 'none'}
+              />
+            </button>
           </div>
-        )}
 
-        <div className="flex items-center gap-2">
+          {/* Note text preview */}
           <button
             type="button"
             onClick={() => onOpen(note.id)}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            className="mb-4 w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-lg"
           >
-            <PencilLine className="h-3.5 w-3.5" />
-            Edit
+            <p className="line-clamp-3 text-sm leading-relaxed text-text-muted">
+              {preview}
+            </p>
           </button>
-          <button
-            type="button"
-            onClick={() => setShowDeleteModal(true)}
-            className="inline-flex items-center gap-1 rounded-lg border border-rose-500/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-500 transition hover:bg-rose-500 hover:text-white"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-            Delete
-          </button>
+        </div>
+
+        <div>
+          {/* Tags */}
+          {note.tags.length > 0 && (
+            <div className="mb-4 flex flex-wrap items-center gap-1.5">
+              {note.tags.slice(0, 4).map((tag) => {
+                const isSelected = activeTag === tag;
+                return (
+                  <button
+                    key={`${note.id}-${tag}`}
+                    type="button"
+                    onClick={() => onTagClick(tag)}
+                    aria-label={`Filter by tag ${tag}`}
+                    className={`rounded-md px-2 py-0.5 text-xs font-medium transition-colors ${
+                      isSelected
+                        ? 'bg-accent/15 text-accent font-semibold dark:bg-accent/25'
+                        : 'bg-paper-elevated text-text-muted hover:bg-accent/10 hover:text-accent'
+                    }`}
+                  >
+                    #{tag}
+                  </button>
+                );
+              })}
+              {note.tags.length > 4 && (
+                <span className="text-xs text-text-muted">+{note.tags.length - 4}</span>
+              )}
+            </div>
+          )}
+
+          {/* Actions: Edit & Delete */}
+          <div className="flex items-center gap-2 border-t border-border/80 pt-3">
+            <button
+              type="button"
+              onClick={() => onOpen(note.id)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-paper-elevated px-3 py-1.5 text-xs font-semibold text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+            >
+              <PencilLine className="h-3.5 w-3.5" />
+              <span>Edit</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowDeleteModal(true)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-500/10 dark:text-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              <span>Delete</span>
+            </button>
+          </div>
         </div>
       </article>
 
@@ -109,4 +153,3 @@ const NoteCard = ({ note, activeTag, onDelete, onToggleFavorite, onOpen, onTagCl
 };
 
 export default NoteCard;
-
