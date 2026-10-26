@@ -1,25 +1,19 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Database, Download, LogOut, Palette, Upload, User } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useNotesStore } from '../../store/notesStore';
 import { useAuthStore } from '../../store/authStore';
 import type { Note } from '../../types/note';
+import { useSignOut } from '../../hooks/useSignOut';
 import ThemeSelector from '../../components/ThemeSelector';
 
 const Settings = () => {
-  const navigate = useNavigate();
-  const { dataMode, notes, clearNotes } = useNotesStore();
-  const { user, clearAuth } = useAuthStore();
+  const { dataMode, notes } = useNotesStore();
+  const user = useAuthStore((s) => s.user);
   const importRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
 
-  const handleLogout = () => {
-    clearAuth();
-    clearNotes();
-    navigate('/login', { replace: true });
-    toast.success('Signed out.');
-  };
+  const handleLogout = useSignOut();
 
   const handleExport = () => {
     const json = JSON.stringify(notes, null, 2);
