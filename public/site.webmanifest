@@ -1,23 +1,19 @@
 {
-  "name": "DevMinds Notes",
-  "short_name": "Notes",
-  "description": "DevMinds Notes — free note taking app by DevMinds.",
-  "start_url": "/",
+  "id": "/",
+  "name": "DevMinds Notes — Free Note Taking App",
+  "short_name": "DevMinds Notes",
+  "description": "DevMinds Notes is a free online note taking app by DevMinds.",
+  "start_url": "/notes",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#f7f2e7",
   "theme_color": "#0a4fe0",
+  "categories": ["productivity"],
   "icons": [
-    {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
 }

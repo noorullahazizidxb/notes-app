@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
 import { useAuthStore } from '../../store/authStore';
 import Spinner from '../../components/Spinner';
+import Seo from '../../seo/Seo';
 
 /** Landing page after the Google callback: swaps the short-lived httpOnly cookie for the session. */
 const GoogleComplete = () => {
@@ -24,7 +25,12 @@ const GoogleComplete = () => {
       .catch(() => navigate('/login?error=google_state_mismatch', { replace: true }));
   }, [navigate, setAuth]);
 
-  return <Spinner />;
+  return (
+    <>
+      <Seo title="Signing in — DevMinds Notes" noindex />
+      <Spinner />
+    </>
+  );
 };
 
 export default GoogleComplete;

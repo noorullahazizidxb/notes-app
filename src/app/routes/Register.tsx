@@ -7,6 +7,8 @@ import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
 import BrandLogo from '../../components/BrandLogo';
 import GoogleButton from '../../components/GoogleButton';
+import Seo from '../../seo/Seo';
+import { pageJsonLd } from '../../seo/site';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-1 items-center justify-center bg-bg px-4 py-10">
+      <Seo title="Sign up free — DevMinds Notes | Free Note Taking App" description="Create a free DevMinds Notes account and start taking online notes in seconds. Sign up with Google or email." path="/register" jsonLd={pageJsonLd('Sign up', '/register')} />
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div className="mb-4 flex justify-center">

@@ -6,6 +6,10 @@ import { mergeTags } from '../utils/tags';
 import type { DataMode, Note, NoteCreateInput, NoteUpdateInput } from '../types/note';
 
 type Theme = 'light' | 'dark';
+
+/** Start from the theme index.html already applied so first paint and React agree. */
+const initialTheme = (): Theme =>
+  typeof document !== 'undefined' && document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
 export type SortKey = 'updatedAt' | 'createdAt' | 'title';
 
 type NotesState = {
@@ -80,7 +84,7 @@ export const useNotesStore = create<NotesState>()(
   persist(
     (set, get) => ({
       notes: [],
-      theme: 'dark',
+      theme: initialTheme(),
       drawerOpen: false,
       activeNoteId: null,
       searchQuery: '',
