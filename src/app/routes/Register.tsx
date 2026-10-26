@@ -60,7 +60,7 @@ const Register = () => {
 
         <form
           onSubmit={(e) => void handleSubmit(e)}
-          className="rounded-3xl border border-border bg-[color:var(--color-paper)] p-8 shadow-sm"
+          className="rounded-3xl border border-border bg-paper p-8 shadow-sm"
         >
           <div className="space-y-4">
             <div>
@@ -74,7 +74,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
                 autoComplete="name"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-[color:var(--color-accent)] focus:outline-none"
+                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -90,7 +90,7 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 autoComplete="email"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-[color:var(--color-accent)] focus:outline-none"
+                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -108,7 +108,7 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimum 8 characters"
                   autoComplete="new-password"
-                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-text/40 focus:border-[color:var(--color-accent)] focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
                 />
                 <button
                   type="button"
@@ -126,7 +126,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -143,7 +143,7 @@ const Register = () => {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[color:var(--color-accent)] hover:underline"
+            className="font-semibold text-accent hover:underline"
           >
             Sign in
           </Link>

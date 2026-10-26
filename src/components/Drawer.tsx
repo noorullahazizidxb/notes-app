@@ -20,7 +20,7 @@ const Drawer = () => {
       />
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-col border-r border-border bg-[color:var(--color-nav-bg)] p-5 shadow-2xl transition-transform duration-300 ${
+        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-col border-r border-border bg-nav-bg p-5 shadow-2xl transition-transform duration-300 ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-hidden={!drawerOpen}
@@ -34,7 +34,7 @@ const Drawer = () => {
             type="button"
             aria-label="Close navigation"
             onClick={() => setDrawerOpen(false)}
-            className="rounded-lg border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            className="rounded-lg border border-border bg-card-bg p-2 text-text transition hover:border-accent hover:text-accent"
           >
             <X className="h-4 w-4" />
           </button>
@@ -51,7 +51,7 @@ const Drawer = () => {
                 onClick={() => { navigate(item.to); setDrawerOpen(false); }}
                 className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition ${
                   active
-                    ? 'bg-[color:var(--color-accent)] text-white'
+                    ? 'bg-accent text-on-accent'
                     : 'bg-card-bg/70 text-text hover:bg-card-bg'
                 }`}
               >

@@ -64,8 +64,8 @@ const NoteCard = ({ note, activeTag, onDelete, onToggleFavorite, onOpen, onTagCl
                 onClick={() => onTagClick(tag)}
                 className={`rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide transition ${
                   activeTag === tag
-                    ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent)]/10 text-[color:var(--color-accent)]'
-                    : 'border-border text-text/65 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]'
+                    ? 'border-accent bg-accent-subtle text-accent'
+                    : 'border-border text-text/65 hover:border-accent hover:text-accent'
                 }`}
               >
                 #{tag}
@@ -78,7 +78,7 @@ const NoteCard = ({ note, activeTag, onDelete, onToggleFavorite, onOpen, onTagCl
           <button
             type="button"
             onClick={() => onOpen(note.id)}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-text transition hover:border-accent hover:text-accent"
           >
             <PencilLine className="h-3.5 w-3.5" />
             Edit

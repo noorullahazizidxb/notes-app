@@ -14,7 +14,7 @@ const Favorites = () => {
 
   return (
     <section className="space-y-5">
-      <div className="rounded-3xl border border-border bg-[color:var(--color-paper)] p-6 sm:p-8">
+      <div className="rounded-3xl border border-border bg-paper p-6 sm:p-8">
         <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-text/60">
           <Heart className="h-3.5 w-3.5" />
           Favorites
@@ -32,7 +32,7 @@ const Favorites = () => {
           <button
             type="button"
             onClick={() => navigate('/notes')}
-            className="mt-5 rounded-xl bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white"
+            className="mt-5 rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-on-accent"
           >
             Browse all notes
           </button>

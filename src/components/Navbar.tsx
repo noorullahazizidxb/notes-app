@@ -31,14 +31,14 @@ const Navbar = () => {
     : (user?.email?.[0] ?? '?').toUpperCase();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/80 bg-[color:var(--color-nav-bg)]/95 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/80 bg-nav-bg/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3">
           {!drawerOpen && (
             <button
               type="button"
               onClick={() => setDrawerOpen(true)}
-              className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+              className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-accent hover:text-accent"
               aria-label="Open navigation"
             >
               <Menu className="h-4 w-4" />
@@ -59,7 +59,7 @@ const Navbar = () => {
                 to={item.to}
                 className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
                   active
-                    ? 'bg-[color:var(--color-accent)] text-white shadow-sm'
+                    ? 'bg-accent text-on-accent shadow-sm'
                     : 'text-text/75 hover:bg-card-bg hover:text-text'
                 }`}
               >
@@ -83,7 +83,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            className="rounded-xl border border-border bg-card-bg p-2 text-text transition hover:border-accent hover:text-accent"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
@@ -92,7 +92,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => navigate('/editor')}
-            className="hidden items-center gap-1 rounded-xl bg-[color:var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition hover:brightness-110 sm:inline-flex"
+            className="hidden items-center gap-1 rounded-xl bg-accent px-3 py-2 text-sm font-semibold text-on-accent transition hover:brightness-110 sm:inline-flex"
           >
             <NotebookPen className="h-4 w-4" />
             New note
@@ -103,7 +103,7 @@ const Navbar = () => {
             <button
               type="button"
               onClick={() => setUserMenuOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[color:var(--color-accent)]/15 text-sm font-semibold text-[color:var(--color-accent)] transition hover:bg-[color:var(--color-accent)]/25"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-subtle text-sm font-semibold text-accent transition bg-accent-subtle-hover"
               aria-label="User menu"
               aria-expanded={userMenuOpen}
             >
@@ -111,7 +111,7 @@ const Navbar = () => {
             </button>
 
             {userMenuOpen && (
-              <div className="absolute right-0 top-11 z-50 w-56 rounded-2xl border border-border bg-[color:var(--color-paper)] p-2 shadow-xl">
+              <div className="absolute right-0 top-11 z-50 w-56 rounded-2xl border border-border bg-paper p-2 shadow-xl">
                 <div className="px-3 py-2">
                   <p className="text-sm font-semibold text-text">{user?.name ?? 'User'}</p>
                   <p className="truncate text-xs text-text/55">{user?.email}</p>

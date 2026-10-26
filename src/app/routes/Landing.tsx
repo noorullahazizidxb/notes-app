@@ -17,7 +17,7 @@ const Landing = () => (
         <Link to="/login" className="rounded-xl px-3 py-2 text-text/80 hover:text-text">
           Sign in
         </Link>
-        <Link to="/register" className="rounded-xl bg-[color:var(--color-accent)] px-4 py-2 text-white hover:brightness-110">
+        <Link to="/register" className="rounded-xl bg-accent px-4 py-2 text-on-accent hover:brightness-110">
           Sign up free
         </Link>
       </nav>
@@ -34,10 +34,10 @@ const Landing = () => (
           Simple, fast and free.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link to="/register" className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--color-accent)] px-5 py-3 text-sm font-semibold text-white hover:brightness-110">
+          <Link to="/register" className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-on-accent hover:brightness-110">
             Create a free account <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
-          <Link to="/login" className="rounded-xl border border-border bg-card-bg px-5 py-3 text-sm font-semibold text-text hover:border-[color:var(--color-accent)]">
+          <Link to="/login" className="rounded-xl border border-border bg-card-bg px-5 py-3 text-sm font-semibold text-text hover:border-accent">
             Sign in to your notes
           </Link>
         </div>
@@ -47,9 +47,9 @@ const Landing = () => (
         <h2 id="features" className="text-center font-display text-3xl text-text sm:text-4xl">Note taking features</h2>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
-            <li key={f.title} className="rounded-2xl border border-border bg-[color:var(--color-paper)] p-6">
+            <li key={f.title} className="rounded-2xl border border-border bg-paper p-6">
               <h3 className="flex items-center gap-2 font-semibold text-text">
-                <Check className="h-4 w-4 text-[color:var(--color-accent)]" aria-hidden="true" /> {f.title}
+                <Check className="h-4 w-4 text-accent" aria-hidden="true" /> {f.title}
               </h3>
               <p className="mt-2 text-sm text-text/70">{f.body}</p>
             </li>
@@ -62,7 +62,7 @@ const Landing = () => (
         <ol className="mt-8 grid gap-4 sm:grid-cols-3">
           {STEPS.map((s, i) => (
             <li key={s.title} className="rounded-2xl border border-border bg-card-bg p-6">
-              <span className="text-sm font-bold text-[color:var(--color-accent)]">Step {i + 1}</span>
+              <span className="text-sm font-bold text-accent">Step {i + 1}</span>
               <h3 className="mt-1 font-semibold text-text">{s.title}</h3>
               <p className="mt-2 text-sm text-text/70">{s.body}</p>
             </li>
@@ -74,7 +74,7 @@ const Landing = () => (
         <h2 id="faq" className="text-center font-display text-3xl text-text sm:text-4xl">Frequently asked questions</h2>
         <div className="mt-8 space-y-3">
           {FAQ.map((f) => (
-            <details key={f.q} className="rounded-2xl border border-border bg-[color:var(--color-paper)] p-5" open>
+            <details key={f.q} className="rounded-2xl border border-border bg-paper p-5" open>
               <summary className="cursor-pointer font-semibold text-text">{f.q}</summary>
               <p className="mt-2 text-sm text-text/75">{f.a}</p>
             </details>

@@ -27,7 +27,7 @@ const EditorButton = ({
     onClick={onClick}
     className={`rounded-lg border px-3 py-2 text-sm transition ${
       active
-        ? 'border-border bg-[color:var(--color-accent)] text-white'
+        ? 'border-border bg-accent text-on-accent'
         : 'border-border bg-card-bg text-text hover:bg-[color:var(--color-paper-elevated)]'
     }`}
   >

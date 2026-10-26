@@ -1,14 +1,15 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Database, Download, LogOut, MoonStar, Palette, Sun, Upload, User } from 'lucide-react';
+import { Database, Download, LogOut, Palette, Upload, User } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useNotesStore } from '../../store/notesStore';
 import { useAuthStore } from '../../store/authStore';
 import type { Note } from '../../types/note';
+import ThemeSelector from '../../components/ThemeSelector';
 
 const Settings = () => {
   const navigate = useNavigate();
-  const { theme, setTheme, dataMode, notes, clearNotes } = useNotesStore();
+  const { dataMode, notes, clearNotes } = useNotesStore();
   const { user, clearAuth } = useAuthStore();
   const importRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
@@ -64,7 +65,7 @@ const Settings = () => {
 
   return (
     <section className="space-y-5">
-      <div className="rounded-3xl border border-border bg-[color:var(--color-paper)] p-6 sm:p-8">
+      <div className="rounded-3xl border border-border bg-paper p-6 sm:p-8">
         <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-text/60">
           <Palette className="h-3.5 w-3.5" />
           Preferences
@@ -100,32 +101,9 @@ const Settings = () => {
         {/* Theme */}
         <div className="rounded-2xl border border-border bg-card-bg p-5">
           <h2 className="font-display text-2xl text-text">Theme</h2>
-          <p className="mt-1 text-sm text-text/70">Switch between warm daylight and low-light writing mode.</p>
-          <div className="mt-4 flex gap-2">
-            <button
-              type="button"
-              onClick={() => setTheme('light')}
-              className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                theme === 'light'
-                  ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent)] text-white'
-                  : 'border-border bg-bg text-text hover:border-[color:var(--color-accent)]'
-              }`}
-            >
-              <Sun className="h-4 w-4" />
-              Light
-            </button>
-            <button
-              type="button"
-              onClick={() => setTheme('dark')}
-              className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                theme === 'dark'
-                  ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent)] text-white'
-                  : 'border-border bg-bg text-text hover:border-[color:var(--color-accent)]'
-              }`}
-            >
-              <MoonStar className="h-4 w-4" />
-              Dark
-            </button>
+          <p className="mt-1 text-sm text-text/70">Pick light, dark, or follow your system setting.</p>
+          <div className="mt-4">
+            <ThemeSelector />
           </div>
         </div>
 
@@ -161,7 +139,7 @@ const Settings = () => {
               type="button"
               onClick={handleExport}
               disabled={notes.length === 0}
-              className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
               Export {notes.length > 0 ? `(${notes.length})` : ''}
@@ -170,7 +148,7 @@ const Settings = () => {
               type="button"
               onClick={() => importRef.current?.click()}
               disabled={importing}
-              className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Upload className="h-4 w-4" />
               {importing ? 'Importing…' : 'Import JSON'}

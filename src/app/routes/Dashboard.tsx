@@ -66,9 +66,9 @@ const Dashboard = () => {
   return (
     <section className="space-y-8">
       {/* Hero / quick-capture */}
-      <div className="relative overflow-hidden rounded-3xl border border-border bg-[color:var(--color-paper)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:p-8">
-        <div className="pointer-events-none absolute -right-10 -top-12 h-44 w-44 rounded-full bg-[color:var(--color-accent)]/20 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-12 left-10 h-36 w-36 rounded-full bg-[color:var(--color-accent-soft)]/35 blur-2xl" />
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-paper p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:p-8">
+        <div className="pointer-events-none absolute -right-10 -top-12 h-44 w-44 rounded-full bg-accent/20 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-12 left-10 h-36 w-36 rounded-full bg-accent-soft/35 blur-2xl" />
 
         <div className="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-4">
@@ -106,19 +106,19 @@ const Dashboard = () => {
               onChange={(e) => setDraftTitle(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') void handleQuickCreate(); }}
               placeholder="What are you thinking about?"
-              className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-text placeholder:text-text/45 focus:border-[color:var(--color-accent)] focus:outline-none"
+              className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-text placeholder:text-text/45 focus:border-accent focus:outline-none"
             />
             <button
               type="button"
               onClick={() => void handleQuickCreate()}
-              className="w-full rounded-xl bg-[color:var(--color-accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+              className="w-full rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent transition hover:brightness-110"
             >
               Create and open editor
             </button>
             <button
               type="button"
               onClick={() => navigate('/editor')}
-              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-text transition hover:border-accent hover:text-accent"
             >
               Open blank editor
             </button>
@@ -145,7 +145,7 @@ const Dashboard = () => {
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
-                className="rounded-xl border border-border bg-card-bg py-2 pl-8 pr-3 text-sm text-text focus:border-[color:var(--color-accent)] focus:outline-none"
+                className="rounded-xl border border-border bg-card-bg py-2 pl-8 pr-3 text-sm text-text focus:border-accent focus:outline-none"
                 aria-label="Sort notes"
               >
                 {SORT_OPTIONS.map((o) => (
@@ -161,7 +161,7 @@ const Dashboard = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search notes…"
-                className="w-full rounded-xl border border-border bg-card-bg py-2.5 pl-10 pr-3 text-sm text-text placeholder:text-text/45 focus:border-[color:var(--color-accent)] focus:outline-none"
+                className="w-full rounded-xl border border-border bg-card-bg py-2.5 pl-10 pr-3 text-sm text-text placeholder:text-text/45 focus:border-accent focus:outline-none"
               />
             </label>
           </div>
@@ -181,8 +181,8 @@ const Dashboard = () => {
                 onClick={() => handleTagClick(tag)}
                 className={`rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide transition ${
                   activeTag === tag
-                    ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent)]/10 text-[color:var(--color-accent)]'
-                    : 'border-border text-text/60 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]'
+                    ? 'border-accent bg-accent-subtle text-accent'
+                    : 'border-border text-text/60 hover:border-accent hover:text-accent'
                 }`}
               >
                 #{tag}
@@ -219,7 +219,7 @@ const Dashboard = () => {
               <button
                 type="button"
                 onClick={() => { setSearchQuery(''); setActiveTag(null); }}
-                className="mt-5 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)]"
+                className="mt-5 rounded-xl border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-accent"
               >
                 Clear filters
               </button>

@@ -18,7 +18,7 @@ const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalPr
       onClick={onCancel}
       aria-hidden="true"
     />
-    <div className="relative w-full max-w-sm rounded-2xl border border-border bg-[color:var(--color-paper)] p-6 shadow-2xl">
+    <div className="relative w-full max-w-sm rounded-2xl border border-border bg-paper p-6 shadow-2xl">
       <button
         type="button"
         onClick={onCancel}
@@ -44,7 +44,7 @@ const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalPr
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-xl border border-border bg-card-bg px-4 py-2 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)]"
+          className="flex-1 rounded-xl border border-border bg-card-bg px-4 py-2 text-sm font-semibold text-text transition hover:border-accent"
         >
           Cancel
         </button>
