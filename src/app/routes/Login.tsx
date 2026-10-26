@@ -57,7 +57,7 @@ const Login = () => {
             <BrandLogo className="h-12" />
           </div>
           <h1 className="font-display text-3xl text-text">Welcome back</h1>
-          <p className="mt-1 text-sm text-text/65">Sign in to your notes workspace</p>
+          <p className="mt-1 text-sm text-muted">Sign in to your notes workspace</p>
         </div>
 
         <form
@@ -77,7 +77,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 autoComplete="email"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
+                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -94,12 +94,12 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   autoComplete="current-password"
-                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text/45 hover:text-text"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -130,7 +130,7 @@ const Login = () => {
 
         <GoogleButton />
 
-        <p className="text-center text-sm text-text/65">
+        <p className="text-center text-sm text-muted">
           No account yet?{' '}
           <Link
             to="/register"

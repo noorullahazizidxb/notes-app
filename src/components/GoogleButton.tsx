@@ -28,7 +28,7 @@ const GoogleButton = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-text/50">
+      <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-muted">
         <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
       </div>
       <a

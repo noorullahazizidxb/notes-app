@@ -8,9 +8,9 @@ const NotFound = () => {
     <section className="flex min-h-[70vh] items-center justify-center">
       <Seo title="Page not found — DevMinds Notes" noindex />
       <div className="w-full max-w-2xl rounded-3xl border border-border bg-paper p-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.09)]">
-        <p className="text-xs uppercase tracking-[0.2em] text-text/55">404</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted">404</p>
         <h1 className="mt-3 font-display text-4xl text-text sm:text-5xl">Page not found</h1>
-        <p className="mx-auto mt-3 max-w-md text-sm text-text/70 sm:text-base">
+        <p className="mx-auto mt-3 max-w-md text-sm text-muted sm:text-base">
           The page you requested does not exist in this workspace. Jump back to the notebook dashboard.
         </p>
         <button

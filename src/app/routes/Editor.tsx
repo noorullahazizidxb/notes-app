@@ -133,7 +133,7 @@ const Editor = () => {
     return (
       <section className="rounded-2xl border border-border bg-card-bg p-10 text-center">
         <h1 className="font-display text-3xl text-text">This note does not exist</h1>
-        <p className="mt-2 text-sm text-text/70">It may have been deleted or not synced yet.</p>
+        <p className="mt-2 text-sm text-muted">It may have been deleted or not synced yet.</p>
         <button
           type="button"
           onClick={() => navigate('/notes')}
@@ -198,7 +198,7 @@ const Editor = () => {
               value={title}
               onChange={(e) => { setTitle(e.target.value); setIsDirty(true); }}
               placeholder="Untitled note"
-              className="w-full border-b border-border bg-transparent pb-3 font-display text-3xl text-text placeholder:text-text/35 focus:border-accent focus:outline-none"
+              className="w-full border-b border-border bg-transparent pb-3 font-display text-3xl text-text placeholder:text-muted focus:border-accent focus:outline-none"
             />
 
             <div className="flex flex-wrap gap-2 rounded-xl border border-border bg-card-bg p-3">
@@ -206,7 +206,7 @@ const Editor = () => {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleTagAdd(); } }}
-                className="min-w-[180px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text placeholder:text-text/45 focus:border-accent focus:outline-none"
+                className="min-w-[180px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
                 placeholder="Add tag (press Enter)"
               />
               <button
@@ -221,7 +221,7 @@ const Editor = () => {
                   key={tag}
                   type="button"
                   onClick={() => setTagList(tags.filter((t) => t !== tag))}
-                  className="rounded-full border border-border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-text/70 transition hover:border-rose-500/50 hover:text-rose-500"
+                  className="rounded-full border border-border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-muted transition hover:border-rose-500/50 hover:text-rose-500"
                   title="Remove tag"
                 >
                   #{tag} ×
@@ -235,7 +235,7 @@ const Editor = () => {
               placeholder="Write naturally. Add #tags in the text and they'll be auto-captured."
             />
 
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.15em] text-text/55">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.15em] text-muted">
               <span>{wordCount} {wordCount === 1 ? 'word' : 'words'}</span>
               <span>
                 {isSaving

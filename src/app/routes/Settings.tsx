@@ -60,12 +60,12 @@ const Settings = () => {
   return (
     <section className="space-y-5">
       <div className="rounded-3xl border border-border bg-paper p-6 sm:p-8">
-        <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-text/60">
+        <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
           <Palette className="h-3.5 w-3.5" />
           Preferences
         </p>
         <h1 className="mt-3 font-display text-3xl text-text">Workspace settings</h1>
-        <p className="mt-2 max-w-2xl text-sm text-text/70">
+        <p className="mt-2 max-w-2xl text-sm text-muted">
           Manage your account, appearance, and data.
         </p>
       </div>
@@ -78,9 +78,9 @@ const Settings = () => {
             Account
           </h2>
           <div className="mt-4 rounded-xl border border-border bg-bg p-4">
-            <p className="text-xs uppercase tracking-[0.16em] text-text/55">Signed in as</p>
+            <p className="text-xs uppercase tracking-[0.16em] text-muted">Signed in as</p>
             <p className="mt-1 font-semibold text-text">{user?.name ?? '—'}</p>
-            <p className="text-sm text-text/65">{user?.email}</p>
+            <p className="text-sm text-muted">{user?.email}</p>
           </div>
           <button
             type="button"
@@ -95,7 +95,7 @@ const Settings = () => {
         {/* Theme */}
         <div className="rounded-2xl border border-border bg-card-bg p-5">
           <h2 className="font-display text-2xl text-text">Theme</h2>
-          <p className="mt-1 text-sm text-text/70">Pick light, dark, or follow your system setting.</p>
+          <p className="mt-1 text-sm text-muted">Pick light, dark, or follow your system setting.</p>
           <div className="mt-4">
             <ThemeSelector />
           </div>
@@ -107,11 +107,11 @@ const Settings = () => {
             <Database className="h-5 w-5" />
             Data mode
           </h2>
-          <p className="mt-1 text-sm text-text/70">
+          <p className="mt-1 text-sm text-muted">
             Notes are saved through the API when available, with local fallback when offline.
           </p>
           <div className="mt-4 rounded-xl border border-border bg-bg p-4">
-            <p className="text-xs uppercase tracking-[0.16em] text-text/55">Current mode</p>
+            <p className="text-xs uppercase tracking-[0.16em] text-muted">Current mode</p>
             <p
               className={`mt-2 text-sm font-semibold ${
                 dataMode === 'api' ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'
@@ -125,7 +125,7 @@ const Settings = () => {
         {/* Export / Import */}
         <div className="rounded-2xl border border-border bg-card-bg p-5">
           <h2 className="font-display text-2xl text-text">Data portability</h2>
-          <p className="mt-1 text-sm text-text/70">
+          <p className="mt-1 text-sm text-muted">
             Export your notes as JSON or import from a previous export.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">

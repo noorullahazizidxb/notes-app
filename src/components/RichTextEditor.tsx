@@ -63,7 +63,7 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
 
   if (!editor) {
     return (
-      <div className="rounded-2xl border border-border bg-card-bg p-4 text-sm text-text/70">
+      <div className="rounded-2xl border border-border bg-card-bg p-4 text-sm text-muted">
         Loading editor...
       </div>
     );
@@ -96,7 +96,7 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
       </div>
       <EditorContent editor={editor} />
       {placeholder ? (
-        <p className="border-t border-border px-5 py-3 text-xs text-text/60">{placeholder}</p>
+        <p className="border-t border-border px-5 py-3 text-xs text-muted">{placeholder}</p>
       ) : null}
     </div>
   );

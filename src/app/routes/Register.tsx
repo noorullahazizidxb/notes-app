@@ -55,7 +55,7 @@ const Register = () => {
             <BrandLogo className="h-12" />
           </div>
           <h1 className="font-display text-3xl text-text">Create your workspace</h1>
-          <p className="mt-1 text-sm text-text/65">Start writing notes in seconds</p>
+          <p className="mt-1 text-sm text-muted">Start writing notes in seconds</p>
         </div>
 
         <form
@@ -65,7 +65,7 @@ const Register = () => {
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-text">
-                Name <span className="text-text/45">(optional)</span>
+                Name <span className="text-muted">(optional)</span>
               </label>
               <input
                 id="name"
@@ -74,7 +74,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
                 autoComplete="name"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
+                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -90,7 +90,7 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 autoComplete="email"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
+                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -108,18 +108,18 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimum 8 characters"
                   autoComplete="new-password"
-                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-text/40 focus:border-accent focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text/45 hover:text-text"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-text/45">At least 8 characters</p>
+              <p className="mt-1 text-xs text-muted">At least 8 characters</p>
             </div>
           </div>
 
@@ -139,7 +139,7 @@ const Register = () => {
 
         <GoogleButton />
 
-        <p className="text-center text-sm text-text/65">
+        <p className="text-center text-sm text-muted">
           Already have an account?{' '}
           <Link
             to="/login"
