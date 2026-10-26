@@ -1,60 +1,46 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
-import NoteCard from '../../components/NoteCard';
 import { useNotesStore } from '../../store/notesStore';
+import { useNoteActions } from '../../hooks/useNoteActions';
+import PageHeader from '../../components/PageHeader';
+import NotesGrid from '../../components/NotesGrid';
+import EmptyState from '../../components/EmptyState';
 
 const Favorites = () => {
-  const navigate = useNavigate();
-  const { notes, deleteNote, toggleFavorite, activeTag, setActiveTag } = useNotesStore();
-
+  const notes = useNotesStore((s) => s.notes);
+  const isLoading = useNotesStore((s) => s.isLoading);
+  const actions = useNoteActions();
   const favoriteNotes = useMemo(() => notes.filter((n) => n.isFavorite), [notes]);
 
-  const handleTagClick = (tag: string) => setActiveTag(activeTag === tag ? null : tag);
-
   return (
-    <section className="space-y-5">
-      <div className="rounded-3xl border border-border bg-[color:var(--color-paper)] p-6 sm:p-8">
-        <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-text/60">
-          <Heart className="h-3.5 w-3.5" />
-          Favorites
-        </p>
-        <h1 className="mt-3 font-display text-3xl text-text">Your highlighted notes</h1>
-        <p className="mt-2 max-w-2xl text-sm text-text/70">
-          This is your shortlist of reusable references, templates, and ideas worth revisiting.
-        </p>
-      </div>
+    <section className="space-y-6">
+      <PageHeader
+        eyebrow="Favorites"
+        icon={<Heart className="h-3.5 w-3.5 text-accent" aria-hidden="true" />}
+        title="Your highlighted notes"
+        description="This is your shortlist of reusable references, templates, and ideas worth revisiting."
+      />
 
-      {favoriteNotes.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border bg-card-bg p-10 text-center">
-          <h2 className="font-display text-2xl text-text">No favorites yet</h2>
-          <p className="mt-2 text-sm text-text/65">Open a note and mark it with the star to pin it here.</p>
-          <button
-            type="button"
-            onClick={() => navigate('/notes')}
-            className="mt-5 rounded-xl bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white"
-          >
-            Browse all notes
-          </button>
-        </div>
+      {!isLoading && favoriteNotes.length === 0 ? (
+        <EmptyState
+          icon={<Heart className="h-6 w-6" aria-hidden="true" />}
+          title="No favorites yet"
+          description="Open a note and mark it with the heart to pin it here."
+          action={
+            <Link
+              to="/notes"
+              className="inline-flex rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition hover:bg-accent-hover"
+            >
+              Browse all notes
+            </Link>
+          }
+        />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {favoriteNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              note={note}
-              activeTag={activeTag}
-              onDelete={(id) => void deleteNote(id)}
-              onToggleFavorite={(id) => void toggleFavorite(id)}
-              onOpen={(id) => navigate(`/editor/${id}`)}
-              onTagClick={handleTagClick}
-            />
-          ))}
-        </div>
+        <NotesGrid notes={favoriteNotes} isLoading={isLoading} {...actions} />
       )}
     </section>
   );
 };
 
 export default Favorites;
-

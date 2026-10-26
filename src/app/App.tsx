@@ -4,21 +4,16 @@ import { RouterProvider } from 'react-router-dom';
 import { useNotesStore } from '../store/notesStore';
 import { useAuthStore } from '../store/authStore';
 import { router } from './root';
+import { useApplyTheme } from '../hooks/useTheme';
 
 function App() {
-  const { theme, loadNotes } = useNotesStore();
+  const loadNotes = useNotesStore((s) => s.loadNotes);
   const token = useAuthStore((s) => s.token);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+  useApplyTheme();
 
   useEffect(() => {
     if (token) void loadNotes();
   }, [token, loadNotes]);
-
-  // pages/components can import `useProgress()` directly from '@bprogress/react'
 
   return (
     <div className="transition-theme min-h-screen bg-bg text-text">

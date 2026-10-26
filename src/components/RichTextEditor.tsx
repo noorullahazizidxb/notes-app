@@ -27,7 +27,7 @@ const EditorButton = ({
     onClick={onClick}
     className={`rounded-lg border px-3 py-2 text-sm transition ${
       active
-        ? 'border-border bg-[color:var(--color-accent)] text-white'
+        ? 'border-border bg-accent text-on-accent'
         : 'border-border bg-card-bg text-text hover:bg-[color:var(--color-paper-elevated)]'
     }`}
   >
@@ -63,7 +63,7 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
 
   if (!editor) {
     return (
-      <div className="rounded-2xl border border-border bg-card-bg p-4 text-sm text-text/70">
+      <div className="rounded-2xl border border-border bg-card-bg p-4 text-sm text-muted">
         Loading editor...
       </div>
     );
@@ -96,7 +96,7 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
       </div>
       <EditorContent editor={editor} />
       {placeholder ? (
-        <p className="border-t border-border px-5 py-3 text-xs text-text/60">{placeholder}</p>
+        <p className="border-t border-border px-5 py-3 text-xs text-muted">{placeholder}</p>
       ) : null}
     </div>
   );

@@ -18,11 +18,11 @@ const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalPr
       onClick={onCancel}
       aria-hidden="true"
     />
-    <div className="relative w-full max-w-sm rounded-2xl border border-border bg-[color:var(--color-paper)] p-6 shadow-2xl">
+    <div className="relative w-full max-w-sm rounded-2xl border border-border bg-paper p-6 shadow-2xl">
       <button
         type="button"
         onClick={onCancel}
-        className="absolute right-4 top-4 rounded-lg p-1 text-text/50 hover:text-text"
+        className="absolute right-4 top-4 rounded-lg p-1 text-muted hover:text-text"
         aria-label="Cancel"
       >
         <X className="h-4 w-4" />
@@ -35,7 +35,7 @@ const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalPr
       <h2 id="delete-modal-title" className="font-display text-xl text-text">
         Delete this note?
       </h2>
-      <p className="mt-1 text-sm text-text/65">
+      <p className="mt-1 text-sm text-muted">
         <span className="font-medium text-text">"{title}"</span> will be permanently deleted.
         This cannot be undone.
       </p>
@@ -44,7 +44,7 @@ const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalPr
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-xl border border-border bg-card-bg px-4 py-2 text-sm font-semibold text-text transition hover:border-[color:var(--color-accent)]"
+          className="flex-1 rounded-xl border border-border bg-card-bg px-4 py-2 text-sm font-semibold text-text transition hover:border-accent"
         >
           Cancel
         </button>

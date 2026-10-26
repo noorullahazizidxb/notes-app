@@ -1,23 +1,37 @@
 /** @type {import('tailwindcss').Config} */
+const token = (name) => `var(--color-${name})`;
+
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        accent: {
+          DEFAULT: token('accent'),
+          hover: token('accent-hover'),
+          soft: token('accent-soft'),
+          2: token('accent-2'),
+        },
+        'on-accent': token('on-accent'),
+        muted: token('muted'),
+        focus: token('focus'),
+      },
       textColor: {
-        text: 'var(--color-text)',
+        text: token('text'),
       },
       backgroundColor: {
-        bg: 'var(--color-bg)',
-        paper: 'var(--color-paper)',
-        'card-bg': 'var(--color-card-bg)',
-        'nav-bg': 'var(--color-nav-bg)',
+        bg: token('bg'),
+        paper: token('paper'),
+        'paper-elevated': token('paper-elevated'),
+        'card-bg': token('card-bg'),
+        'nav-bg': token('nav-bg'),
       },
       borderColor: {
-        border: 'var(--color-border)',
+        border: token('border'),
+      },
+      boxShadow: {
+        elevated: 'var(--shadow-elevated)',
       },
       fontFamily: {
         sans: ['Work Sans', 'Segoe UI', 'sans-serif'],

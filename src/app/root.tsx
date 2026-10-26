@@ -1,13 +1,11 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from 'react-router-dom';
-import React, { Suspense } from 'react';
-import Spinner from '../components/Spinner';
-import Navbar from '../components/Navbar';
-import Drawer from '../components/Drawer';
+import React from 'react';
+import AppShell from '../components/layout/AppShell';
+import AppToaster from '../components/layout/AppToaster';
 import NotFound from './routes/NotFound';
 import Login from './routes/Login';
 import Register from './routes/Register';
 import GoogleComplete from './routes/GoogleComplete';
-import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { NavigationProvider } from '../lib/navigation/NavigationProvider';
 import SiteFooter from '../components/SiteFooter';
@@ -26,29 +24,8 @@ const ProtectedLayout = () => {
   return (
     <NavigationProvider>
       <Seo title="My notes — DevMinds Notes" noindex />
-      <div className="flex min-h-screen flex-col">
-        <Drawer />
-        <Navbar />
-        <Suspense fallback={<Spinner />}>
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-10 pt-24 sm:px-6 lg:px-10">
-            <Outlet />
-          </main>
-        </Suspense>
-        <SiteFooter to="/notes" />
-      </div>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-        toastOptions={{
-          duration: 2800,
-          style: {
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-card-bg)',
-            color: 'var(--color-text)',
-          },
-        }}
-        containerStyle={{ zIndex: 9999 }}
-      />
+      <AppShell />
+      <AppToaster />
     </NavigationProvider>
   );
 };
@@ -65,17 +42,7 @@ const GuestLayout = () => {
         </div>
         <SiteFooter to="/" />
       </div>
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          duration: 2800,
-          style: {
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-card-bg)',
-            color: 'var(--color-text)',
-          },
-        }}
-      />
+      <AppToaster />
     </NavigationProvider>
   );
 };

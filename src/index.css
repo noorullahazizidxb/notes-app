@@ -3,28 +3,48 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Design tokens. Light theme derives from the light logo (cobalt #1d4fe6,
+   * cyan #0ccaf0, violet #6a1fd2); dark theme from the dark logo (orange
+   * #ff6a00..#ffbe0b on silver #ececec / sage-grey #a3aeaa).
+   * All text/background pairs meet WCAG AA (>= 4.5:1).
+   */
   :root {
-    --color-text: #1f2020;
-    --color-bg: #f7f2e7;
-    --color-paper: #fffcf6;
-    --color-paper-elevated: #fff8ed;
-    --color-card-bg: #fffdf9;
-    --color-nav-bg: #f2ead9;
-    --color-border: #ddd2bf;
-    --color-accent: #c34f2f;
-    --color-accent-soft: #de7f2f;
+    color-scheme: light;
+    --color-text: #0f172a;
+    --color-muted: #475569;
+    --color-bg: #f5f8ff;
+    --color-paper: #ffffff;
+    --color-paper-elevated: #ffffff;
+    --color-card-bg: #ffffff;
+    --color-nav-bg: #eef3fe;
+    --color-border: #d5def0;
+    --color-accent: #1d4fe6;
+    --color-accent-hover: #1740c4;
+    --color-accent-soft: #0ccaf0;
+    --color-accent-2: #6a1fd2;
+    --color-on-accent: #ffffff;
+    --color-focus: #0a4fe0;
+    --shadow-elevated: 0 18px 50px -20px rgba(29, 79, 230, 0.25);
   }
 
   .dark {
-    --color-text: #f5efe3;
-    --color-bg: #181a1e;
-    --color-paper: #232731;
-    --color-paper-elevated: #2a2f3b;
-    --color-card-bg: #222732;
-    --color-nav-bg: #1a1e28;
-    --color-border: #394353;
-    --color-accent: #e46c42;
-    --color-accent-soft: #e7934c;
+    color-scheme: dark;
+    --color-text: #ececec;
+    --color-muted: #a3aeaa;
+    --color-bg: #121417;
+    --color-paper: #181b1f;
+    --color-paper-elevated: #20242a;
+    --color-card-bg: #1c2024;
+    --color-nav-bg: #15181c;
+    --color-border: #30363d;
+    --color-accent: #ff8a1f;
+    --color-accent-hover: #ffa31a;
+    --color-accent-soft: #ffbe0b;
+    --color-accent-2: #ff6a00;
+    --color-on-accent: #1a1206;
+    --color-focus: #ffbe0b;
+    --shadow-elevated: 0 18px 50px -20px rgba(0, 0, 0, 0.7);
   }
 
   html,
@@ -47,8 +67,20 @@
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-accent) 60%, white);
-    color: white;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -62,6 +94,7 @@
   }
 }
 
+/* index.html sets .dark before first paint, so the class alone picks the logo. */
 .brand-logo__dark {
   display: none;
 }
@@ -72,16 +105,6 @@
 
 .dark .brand-logo__dark {
   display: block;
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .brand-logo__light {
-    display: none;
-  }
-
-  html:not([data-theme='light']) .brand-logo__dark {
-    display: block;
-  }
 }
 
 .ProseMirror {
@@ -135,4 +158,14 @@
   border-radius: 0.75rem;
   background: color-mix(in srgb, var(--color-nav-bg) 80%, transparent);
   padding: 0.75rem;
+}
+
+@layer components {
+  .bg-accent-subtle {
+    background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  .bg-accent-subtle-hover:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  }
 }

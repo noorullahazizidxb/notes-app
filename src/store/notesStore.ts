@@ -5,11 +5,9 @@ import { notesApi, isNetworkFailure } from '../lib/notesApi';
 import { mergeTags } from '../utils/tags';
 import type { DataMode, Note, NoteCreateInput, NoteUpdateInput } from '../types/note';
 
-type Theme = 'light' | 'dark';
+import type { ThemePreference } from '../theme/theme';
 
-/** Start from the theme index.html already applied so first paint and React agree. */
-const initialTheme = (): Theme =>
-  typeof document !== 'undefined' && document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+type Theme = ThemePreference;
 export type SortKey = 'updatedAt' | 'createdAt' | 'title';
 
 type NotesState = {
@@ -41,7 +39,6 @@ type NotesState = {
 type PersistedState = {
   notes: Note[];
   theme: Theme;
-  drawerOpen: boolean;
   searchQuery: string;
   sortKey: SortKey;
   hasImportedLegacyNotes: boolean;
@@ -84,7 +81,7 @@ export const useNotesStore = create<NotesState>()(
   persist(
     (set, get) => ({
       notes: [],
-      theme: initialTheme(),
+      theme: 'system',
       drawerOpen: false,
       activeNoteId: null,
       searchQuery: '',
@@ -231,7 +228,6 @@ export const useNotesStore = create<NotesState>()(
       partialize: (state): PersistedState => ({
         notes: state.notes,
         theme: state.theme,
-        drawerOpen: state.drawerOpen,
         searchQuery: state.searchQuery,
         sortKey: state.sortKey,
         hasImportedLegacyNotes: state.hasImportedLegacyNotes,
