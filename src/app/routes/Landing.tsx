@@ -12,17 +12,17 @@ export const Landing = () => (
       <Link to="/" aria-label="DevMinds Notes home" className="inline-flex items-center">
         <BrandLogo className="h-9 sm:h-10" />
       </Link>
-      <nav aria-label="Account" className="flex items-center gap-3 text-sm font-semibold">
-        <ThemeToggle compact />
+      <nav aria-label="Account" className="flex items-center gap-1.5 sm:gap-3">
+        <ThemeToggle compact className="hidden sm:inline-flex" />
         <Link
           to="/login"
-          className="rounded-xl px-3.5 py-2 text-text-muted hover:text-text transition-colors"
+          className="btn btn-ghost"
         >
           Sign in
         </Link>
         <Link
           to="/register"
-          className="rounded-xl bg-accent px-4 py-2 text-accent-text font-semibold hover:bg-accent-hover shadow-sm transition-colors"
+          className="btn btn-primary"
         >
           Sign up free
         </Link>

@@ -126,7 +126,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-text transition hover:bg-accent-hover shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn btn-primary mt-6 w-full"
           >
             {isLoading ? (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent-text/30 border-t-accent-text" />
