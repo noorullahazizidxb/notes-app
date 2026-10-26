@@ -7,20 +7,25 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      textColor: {
+      colors: {
         text: 'var(--color-text)',
-      },
-      backgroundColor: {
+        'text-muted': 'var(--color-text-muted)',
         bg: 'var(--color-bg)',
         paper: 'var(--color-paper)',
+        'paper-elevated': 'var(--color-paper-elevated)',
         'card-bg': 'var(--color-card-bg)',
         'nav-bg': 'var(--color-nav-bg)',
-      },
-      borderColor: {
         border: 'var(--color-border)',
+        accent: {
+          DEFAULT: 'var(--color-accent)',
+          hover: 'var(--color-accent-hover)',
+          2: 'var(--color-accent-2)',
+          soft: 'var(--color-accent-soft)',
+          text: 'var(--color-accent-text)',
+        },
       },
       fontFamily: {
-        sans: ['Work Sans', 'Segoe UI', 'sans-serif'],
+        sans: ['Work Sans', 'Inter', 'Segoe UI', 'sans-serif'],
         display: ['Newsreader', 'Times New Roman', 'serif'],
       },
     },

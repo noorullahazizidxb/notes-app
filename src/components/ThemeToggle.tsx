@@ -1,48 +1,53 @@
+import { Monitor, MoonStar, Sun } from 'lucide-react';
+import { useNotesStore, type ThemeMode } from '../store/notesStore';
 
-import { useNotesStore } from '../store/notesStore';
+type ThemeToggleProps = {
+  compact?: boolean;
+  className?: string;
+};
 
-const ThemeToggle = () => {
+const THEME_OPTIONS: Array<{
+  value: ThemeMode;
+  label: string;
+  icon: typeof Sun;
+}> = [
+  { value: 'light', label: 'Light', icon: Sun },
+  { value: 'dark', label: 'Dark', icon: MoonStar },
+  { value: 'system', label: 'System', icon: Monitor },
+];
+
+export const ThemeToggle = ({ compact = false, className = '' }: ThemeToggleProps) => {
   const { theme, setTheme } = useNotesStore();
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    
-    // Update the class on the html element
-    document.documentElement.dataset.theme = newTheme;
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
   return (
-    <button
-      onClick={toggleTheme}
-      className="p-2 rounded-full bg-card-bg text-card hover:bg-button-hover transition-theme"
-      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+    <div
+      role="radiogroup"
+      aria-label="Theme preference"
+      className={`inline-flex items-center gap-0.5 rounded-xl border border-border bg-paper p-1 shadow-sm ${className}`}
     >
-      {theme === 'dark' ? (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
-      ) : (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-          />
-        </svg>
-      )}
-    </button>
+      {THEME_OPTIONS.map(({ value, label, icon: Icon }) => {
+        const isActive = theme === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-checked={isActive}
+            aria-label={`${label} mode`}
+            title={`${label} mode`}
+            onClick={() => setTheme(value)}
+            className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all ${
+              isActive
+                ? 'bg-accent text-accent-text font-semibold shadow-sm'
+                : 'text-text-muted hover:text-text hover:bg-paper-elevated'
+            } ${compact ? 'px-2' : ''}`}
+          >
+            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+            {!compact && <span>{label}</span>}
+          </button>
+        );
+      })}
+    </div>
   );
 };
 

@@ -5,16 +5,32 @@ import { notesApi, isNetworkFailure } from '../lib/notesApi';
 import { mergeTags } from '../utils/tags';
 import type { DataMode, Note, NoteCreateInput, NoteUpdateInput } from '../types/note';
 
-type Theme = 'light' | 'dark';
+export type ThemeMode = 'light' | 'dark' | 'system';
+
+const getSystemTheme = (): 'light' | 'dark' =>
+  typeof window !== 'undefined' &&
+  window.matchMedia &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+
+export const resolveTheme = (theme: ThemeMode): 'light' | 'dark' =>
+  theme === 'system' ? getSystemTheme() : theme;
 
 /** Start from the theme index.html already applied so first paint and React agree. */
-const initialTheme = (): Theme =>
-  typeof document !== 'undefined' && document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+const initialTheme = (): ThemeMode => {
+  if (typeof document !== 'undefined') {
+    const mode = document.documentElement.dataset.themeMode;
+    if (mode === 'light' || mode === 'dark' || mode === 'system') return mode as ThemeMode;
+  }
+  return 'system';
+};
+
 export type SortKey = 'updatedAt' | 'createdAt' | 'title';
 
 type NotesState = {
   notes: Note[];
-  theme: Theme;
+  theme: ThemeMode;
   drawerOpen: boolean;
   activeNoteId: string | null;
   searchQuery: string;
@@ -29,7 +45,7 @@ type NotesState = {
   deleteNote: (id: string) => Promise<void>;
   toggleFavorite: (id: string) => Promise<void>;
   clearNotes: () => void;
-  setTheme: (theme: Theme) => void;
+  setTheme: (theme: ThemeMode) => void;
   setDrawerOpen: (isOpen: boolean) => void;
   setActiveNote: (id: string | null) => void;
   setSearchQuery: (query: string) => void;
@@ -40,7 +56,7 @@ type NotesState = {
 
 type PersistedState = {
   notes: Note[];
-  theme: Theme;
+  theme: ThemeMode;
   drawerOpen: boolean;
   searchQuery: string;
   sortKey: SortKey;
