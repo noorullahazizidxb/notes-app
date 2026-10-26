@@ -1,77 +1,101 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotesStore } from '../store/notesStore';
-import { NAV_ITEMS } from '../constants/nav';
+import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import BrandLogo from './BrandLogo';
+import DrawerUserCard from './drawer/DrawerUserCard';
+import DrawerNav from './drawer/DrawerNav';
+import DrawerFooter from './drawer/DrawerFooter';
 
-const Drawer = () => {
-  const navigate = useNavigate();
+export const Drawer = () => {
   const { pathname } = useLocation();
   const { drawerOpen, setDrawerOpen } = useNotesStore();
 
+  const handleClose = () => setDrawerOpen(false);
+
+  // Lock body scroll while open
+  useBodyScrollLock(drawerOpen);
+
+  // Focus trap + return focus to mobile-drawer-trigger button
+  const drawerRef = useFocusTrap<HTMLElement>({
+    isOpen: drawerOpen,
+    onClose: handleClose,
+  });
+
+  // Close on route change
+  useEffect(() => {
+    useNotesStore.getState().setDrawerOpen(false);
+  }, [pathname]);
+
+  // Close on window resize if viewport reaches desktop (md: 768px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && drawerOpen) {
+        setDrawerOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [drawerOpen, setDrawerOpen]);
+
   return (
     <>
+      {/* Overlay Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-black/35 backdrop-blur-sm transition-opacity duration-200 ${
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
           drawerOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
-        onClick={() => setDrawerOpen(false)}
+        onClick={handleClose}
         aria-hidden="true"
       />
 
+      {/* Modal Slide-in Drawer */}
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-col border-r border-border bg-[color:var(--color-nav-bg)] p-5 shadow-2xl transition-transform duration-300 ${
+        id="mobile-drawer"
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="drawer-title"
+        aria-hidden={!drawerOpen}
+        // React 18 has no boolean `inert` typing; '' sets the attribute, undefined removes it.
+        {...{ inert: drawerOpen ? undefined : '' }}
+        tabIndex={-1}
+        className={`fixed inset-y-0 left-0 z-50 flex h-full w-80 max-w-[85vw] flex-col border-r border-border bg-paper p-5 shadow-2xl transition-transform duration-300 ease-out focus:outline-none ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
-        aria-hidden={!drawerOpen}
       >
-        <div className="flex items-center justify-between">
-          <div>
+        {/* Header with Brand and Close Button */}
+        <div className="flex items-center justify-between border-b border-border/80 pb-4">
+          <div className="flex items-center">
+            <h2 id="drawer-title" className="sr-only">
+              Navigation Menu
+            </h2>
             <BrandLogo className="h-8" />
-            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-text/55">Navigation</p>
           </div>
+
           <button
             type="button"
+            onClick={handleClose}
             aria-label="Close navigation"
-            onClick={() => setDrawerOpen(false)}
-            className="rounded-lg border border-border bg-card-bg p-2 text-text transition hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            className="rounded-xl border border-border bg-paper-elevated p-2 text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <nav className="mt-8 space-y-2">
-          {NAV_ITEMS.map((item) => {
-            const active = pathname === item.to || (pathname === '/' && item.to === '/notes');
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.to}
-                type="button"
-                onClick={() => { navigate(item.to); setDrawerOpen(false); }}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition ${
-                  active
-                    ? 'bg-[color:var(--color-accent)] text-white'
-                    : 'bg-card-bg/70 text-text hover:bg-card-bg'
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </button>
-            );
-          })}
-        </nav>
-
-        <div className="mt-auto rounded-2xl border border-border bg-card-bg/70 p-4 text-sm text-text/70">
-          <p className="font-semibold text-text">Tip</p>
-          <p className="mt-1 leading-relaxed">
-            Use #hashtags inside notes to auto-capture topic tags while writing.
-          </p>
+        {/* Content Body with scroll if needed */}
+        <div className="flex-1 space-y-6 overflow-y-auto py-5 pr-1">
+          <DrawerUserCard />
+          <DrawerNav onItemClick={handleClose} />
         </div>
+
+        {/* Footer with Theme Selector and Sign out */}
+        <DrawerFooter onClose={handleClose} />
       </aside>
     </>
   );
 };
 
 export default Drawer;
-

@@ -30,7 +30,11 @@ const ProtectedLayout = () => {
         <Drawer />
         <Navbar />
         <Suspense fallback={<Spinner />}>
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-10 pt-24 sm:px-6 lg:px-10">
+          <main
+            id="main-content"
+            tabIndex={-1}
+            className="mx-auto w-full max-w-7xl flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pt-8 lg:px-8 focus:outline-none"
+          >
             <Outlet />
           </main>
         </Suspense>
@@ -43,8 +47,11 @@ const ProtectedLayout = () => {
           duration: 2800,
           style: {
             border: '1px solid var(--color-border)',
-            background: 'var(--color-card-bg)',
+            background: 'var(--color-paper)',
             color: 'var(--color-text)',
+            borderRadius: '1rem',
+            fontSize: '0.875rem',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
           },
         }}
         containerStyle={{ zIndex: 9999 }}
@@ -71,8 +78,11 @@ const GuestLayout = () => {
           duration: 2800,
           style: {
             border: '1px solid var(--color-border)',
-            background: 'var(--color-card-bg)',
+            background: 'var(--color-paper)',
             color: 'var(--color-text)',
+            borderRadius: '1rem',
+            fontSize: '0.875rem',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
           },
         }}
       />
