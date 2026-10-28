@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import BrandLogo from './BrandLogo';
+import { DevmindsProducts } from './DevmindsProducts';
 
 type SiteFooterProps = {
   to: string;
@@ -15,6 +16,9 @@ export const SiteFooter = ({ to }: SiteFooterProps) => {
         <p className="text-xs text-text-muted">
           Offline-first Notes Workspace &copy; {new Date().getFullYear()} DevMinds
         </p>
+      </div>
+      <div className="mx-auto w-full max-w-7xl">
+        <DevmindsProducts current="notes" />
       </div>
     </footer>
   );
