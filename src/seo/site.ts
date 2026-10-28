@@ -28,15 +28,6 @@ export const FAQ = [
   { q: 'Who makes DevMinds Notes?', a: 'DevMinds Notes is built by DevMinds, the software studio of Noorullah Azizi, alongside the DevMinds Budget App, Marketplace and Jobs.' },
 ] as const;
 
-export const PRODUCTS = [
-  { name: 'DevMinds', label: 'DevMinds — software studio', url: 'https://devminds.net' },
-  { name: 'DevMinds Budget App', label: 'DevMinds Budget App — free budget planner and budget manager', url: 'https://budget-manager.devminds.net' },
-  { name: 'DevMinds Marketplace', label: 'DevMinds Marketplace — buy and sell online', url: 'https://marketplace.devminds.net' },
-  { name: 'DevMinds Jobs', label: 'DevMinds Jobs — jobs platform and education hub', url: 'https://jobs.devminds.net' },
-  { name: 'DevMinds Works', label: 'DevMinds Works — our projects and work', url: 'https://ourworks.devminds.net' },
-  { name: 'Noorullah Azizi', label: 'Noorullah Azizi — founder portfolio', url: 'https://noorullah-azizi.devminds.net' },
-] as const;
-
 const organization = {
   '@type': 'Organization',
   '@id': 'https://devminds.net/#organization',

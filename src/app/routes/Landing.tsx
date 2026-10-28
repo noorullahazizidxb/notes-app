@@ -3,7 +3,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import BrandLogo from '../../components/BrandLogo';
 import ThemeToggle from '../../components/ThemeToggle';
 import Seo from '../../seo/Seo';
-import { FAQ, FEATURES, PRODUCTS, STEPS, homeJsonLd } from '../../seo/site';
+import { FAQ, FEATURES, STEPS, homeJsonLd } from '../../seo/site';
 
 export const Landing = () => (
   <>
@@ -115,25 +115,6 @@ export const Landing = () => (
         </div>
       </section>
 
-      <nav aria-label="DevMinds products" className="py-12 text-center border-t border-border mt-12">
-        <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-text-muted">
-          More tools from DevMinds
-        </h2>
-        <ul className="mt-4 flex flex-wrap justify-center gap-4 text-sm font-medium">
-          {PRODUCTS.map((p) => (
-            <li key={p.url}>
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-text-muted hover:text-accent transition-colors"
-              >
-                {p.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </main>
   </>
 );
