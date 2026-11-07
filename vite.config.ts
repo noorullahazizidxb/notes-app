@@ -16,6 +16,10 @@ const staticSeo = (): Plugin => ({
 });
 
 
+function releaseName() {
+  return process.env.SENTRY_RELEASE || process.env.VERCEL_GIT_COMMIT_SHA || undefined;
+}
+
 function sentryVitePlugins() {
   const authToken = process.env.SENTRY_AUTH_TOKEN;
   if (!authToken) return [];
@@ -25,7 +29,7 @@ function sentryVitePlugins() {
       project: process.env.SENTRY_PROJECT,
       authToken,
       disable: !authToken,
-      release: { name: process.env.VERCEL_GIT_COMMIT_SHA },
+      release: { name: releaseName() },
       sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
     }),
   ];
@@ -33,7 +37,7 @@ function sentryVitePlugins() {
 
 export default defineConfig({
   define: {
-    'import.meta.env.VITE_SENTRY_RELEASE': JSON.stringify(process.env.VERCEL_GIT_COMMIT_SHA || ''),
+    'import.meta.env.VITE_SENTRY_RELEASE': JSON.stringify(releaseName() || ''),
     'import.meta.env.VITE_SENTRY_ENVIRONMENT': JSON.stringify(process.env.VERCEL_ENV || process.env.NODE_ENV || 'development'),
   },
   plugins: [react(), staticSeo(), ...sentryVitePlugins()],
