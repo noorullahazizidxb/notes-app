@@ -64,6 +64,7 @@ const Login = () => {
         <div className="space-y-4">
           <TextField
             label="Email"
+            name="email"
             type="email"
             required
             value={email}
@@ -74,6 +75,7 @@ const Login = () => {
           />
           <PasswordField
             label="Password"
+            name="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}

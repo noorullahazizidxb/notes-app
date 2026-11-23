@@ -66,6 +66,7 @@ const Register = () => {
                 Name <span className="font-normal text-text-muted">(optional)</span>
               </>
             }
+            name="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -74,6 +75,7 @@ const Register = () => {
           />
           <TextField
             label="Email"
+            name="email"
             type="email"
             required
             value={email}
@@ -83,6 +85,7 @@ const Register = () => {
           />
           <PasswordField
             label="Password"
+            name="password"
             hint="At least 8 characters"
             required
             minLength={8}
