@@ -28,7 +28,7 @@ const GoogleButton = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-text-muted">
+      <div className="flex items-center gap-3 text-xs font-medium text-text-muted">
         <span aria-hidden="true" className="h-px flex-1 bg-border" /> or <span aria-hidden="true" className="h-px flex-1 bg-border" />
       </div>
       <a

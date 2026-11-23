@@ -12,3 +12,9 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Favorites', to: '/favorites', icon: Heart },
   { label: 'Settings', to: '/settings', icon: Settings },
 ];
+
+/** Whether a nav item represents the current route (shared by desktop nav and mobile drawer). */
+export const isNavItemActive = (item: NavItem, pathname: string): boolean =>
+  pathname === item.to ||
+  (pathname === '/' && item.to === '/notes') ||
+  (item.to === '/editor' && pathname.startsWith('/editor'));

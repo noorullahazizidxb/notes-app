@@ -1,3 +1,12 @@
+/**
+ * Theme colors are CSS variables (hex per theme), so Tailwind cannot apply `/<opacity>`
+ * modifiers to them natively. Resolve the modifier with color-mix instead.
+ */
+const themeColor = (name) => ({ opacityValue }) =>
+  opacityValue === undefined
+    ? `var(${name})`
+    : `color-mix(in srgb, var(${name}) calc(${opacityValue} * 100%), transparent)`;
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,24 +17,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        text: 'var(--color-text)',
-        'text-muted': 'var(--color-text-muted)',
-        bg: 'var(--color-bg)',
-        paper: 'var(--color-paper)',
-        'paper-elevated': 'var(--color-paper-elevated)',
-        'card-bg': 'var(--color-card-bg)',
-        'nav-bg': 'var(--color-nav-bg)',
-        'bg-glass': 'var(--color-bg-glass)',
-        border: 'var(--color-border)',
+        text: themeColor('--color-text'),
+        'text-muted': themeColor('--color-text-muted'),
+        bg: themeColor('--color-bg'),
+        paper: themeColor('--color-paper'),
+        'paper-elevated': themeColor('--color-paper-elevated'),
+        'card-bg': themeColor('--color-card-bg'),
+        'nav-bg': themeColor('--color-nav-bg'),
+        'bg-glass': themeColor('--color-bg-glass'),
+        border: themeColor('--color-border'),
         accent: {
-          DEFAULT: 'var(--color-accent)',
-          hover: 'var(--color-accent-hover)',
-          2: 'var(--color-accent-2)',
-          soft: 'var(--color-accent-soft)',
-          text: 'var(--color-accent-text)',
-          subtle: 'var(--color-accent-subtle)',
-          line: 'var(--color-accent-line)',
-          ring: 'var(--color-accent-ring)',
+          DEFAULT: themeColor('--color-accent'),
+          hover: themeColor('--color-accent-hover'),
+          2: themeColor('--color-accent-2'),
+          soft: themeColor('--color-accent-soft'),
+          text: themeColor('--color-accent-text'),
+          subtle: themeColor('--color-accent-subtle'),
+          line: themeColor('--color-accent-line'),
+          ring: themeColor('--color-accent-ring'),
         },
       },
       fontFamily: {

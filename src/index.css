@@ -108,7 +108,27 @@
 
   /* Shared touch-friendly buttons: >=44px tap target, never wraps. */
   .btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 text-sm font-semibold transition active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-sm {
+    @apply min-h-[40px] px-3.5;
+  }
+
+  /* Icon-only control with a 40px tap target. */
+  .icon-btn {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-paper text-text-muted transition hover:border-accent hover:text-accent active:scale-[0.95];
+  }
+
+  /* Extends a compact chip's hit area vertically to 40px without changing its look. */
+  .tap-target {
+    @apply relative;
+  }
+
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    inset: -4px 0;
   }
 
   .btn-primary {

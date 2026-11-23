@@ -44,12 +44,12 @@ export const FilterToolbar = ({
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Sort Selector */}
           <div className="relative">
-            <ArrowUpDown className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" />
+            <ArrowUpDown className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" aria-hidden="true" />
             <select
               value={sortKey}
               onChange={(e) => onSortChange(e.target.value as SortKey)}
               aria-label="Sort notes"
-              className="rounded-xl border border-border bg-paper py-2 pl-9 pr-8 text-xs sm:text-sm font-medium text-text transition hover:border-accent focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+              className="min-h-[40px] rounded-xl border border-border bg-paper py-2 pl-9 pr-8 text-sm font-medium text-text transition hover:border-accent focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent-ring"
             >
               {SORT_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
@@ -60,23 +60,24 @@ export const FilterToolbar = ({
           </div>
 
           {/* Search Input */}
-          <div className="relative flex-1 sm:w-64">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <div className="relative min-w-0 flex-1 basis-48 sm:w-64 sm:flex-none">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" aria-hidden="true" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search notes"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search notes…"
-              className="w-full rounded-xl border border-border bg-paper py-2 pl-9 pr-8 text-xs sm:text-sm text-text placeholder:text-text-muted transition hover:border-accent focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+              className="min-h-[40px] w-full rounded-xl border border-border bg-paper py-2 pl-9 pr-10 text-sm text-text placeholder:text-text-muted transition hover:border-accent focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent-ring [&::-webkit-search-cancel-button]:hidden"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => onSearchChange('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-text-muted hover:text-text"
+                className="absolute inset-y-0 right-0 inline-flex w-10 items-center justify-center rounded-r-xl text-text-muted hover:text-text"
                 aria-label="Clear search query"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -85,10 +86,10 @@ export const FilterToolbar = ({
 
       {/* Tag Filter Chips */}
       {allTags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
-          <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-text-muted mr-1">
-            <Tag className="h-3 w-3" />
-            Tags:
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-2 pt-1">
+          <span className="mr-1 inline-flex items-center gap-1.5 text-xs font-medium text-text-muted">
+            <Tag className="h-3.5 w-3.5" aria-hidden="true" />
+            Filter by tag
           </span>
 
           {allTags.map((tag) => {
@@ -98,7 +99,8 @@ export const FilterToolbar = ({
                 key={tag}
                 type="button"
                 onClick={() => onTagClick(tag)}
-                className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-all ${
+                aria-pressed={isSelected}
+                className={`tap-target inline-flex h-8 items-center rounded-lg px-3 text-xs font-medium transition-colors ${
                   isSelected
                     ? 'bg-accent text-accent-text font-semibold shadow-sm'
                     : 'border border-border bg-paper text-text-muted hover:border-accent/50 hover:text-text'
@@ -113,9 +115,9 @@ export const FilterToolbar = ({
             <button
               type="button"
               onClick={onClearTag}
-              className="inline-flex items-center gap-1 rounded-lg border border-border bg-paper px-2 py-1 text-xs text-text-muted hover:border-rose-400 hover:text-rose-500 transition-colors ml-1"
+              className="tap-target ml-1 inline-flex h-8 items-center gap-1 rounded-lg border border-border bg-paper px-2.5 text-xs text-text-muted transition-colors hover:border-rose-400 hover:text-rose-500"
             >
-              <X className="h-3 w-3" />
+              <X className="h-3 w-3" aria-hidden="true" />
               <span>Clear tag</span>
             </button>
           )}

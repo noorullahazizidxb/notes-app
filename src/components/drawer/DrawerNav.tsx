@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-import { NAV_ITEMS } from '../../constants/nav';
+import { NAV_ITEMS, isNavItemActive } from '../../constants/nav';
 
 type DrawerNavProps = {
   onItemClick: () => void;
@@ -21,19 +21,16 @@ export const DrawerNav = ({ onItemClick }: DrawerNavProps) => {
       <button
         type="button"
         onClick={() => handleNavigate('/editor')}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-text transition hover:bg-accent-hover shadow-sm"
+        className="btn btn-primary w-full"
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-4 w-4" aria-hidden="true" />
         <span>Create new note</span>
       </button>
 
       {/* Nav List */}
       <nav aria-label="Mobile Navigation" className="space-y-1.5">
         {NAV_ITEMS.map((item) => {
-          const isActive =
-            pathname === item.to ||
-            (pathname === '/' && item.to === '/notes') ||
-            (item.to === '/editor' && pathname.startsWith('/editor'));
+          const isActive = isNavItemActive(item, pathname);
           const Icon = item.icon;
 
           return (
@@ -42,15 +39,15 @@ export const DrawerNav = ({ onItemClick }: DrawerNavProps) => {
               type="button"
               onClick={() => handleNavigate(item.to)}
               aria-current={isActive ? 'page' : undefined}
-              className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium transition-all ${
+              className={`flex min-h-[44px] w-full items-center gap-3 rounded-xl px-3.5 text-left text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-accent/15 text-accent font-semibold dark:bg-accent/20 dark:text-accent-soft'
+                  ? 'bg-accent-subtle font-semibold text-accent'
                   : 'text-text-muted hover:bg-paper-elevated hover:text-text'
               }`}
             >
               <Icon
                 className={`h-4 w-4 ${
-                  isActive ? 'text-accent dark:text-accent-soft' : 'text-text-muted'
+                  isActive ? 'text-accent' : 'text-text-muted'
                 }`}
               />
               <span>{item.label}</span>

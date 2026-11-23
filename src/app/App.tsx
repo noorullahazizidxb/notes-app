@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { resolveTheme, useNotesStore } from '../store/notesStore';
 import { useAuthStore } from '../store/authStore';
 import { router } from './root';
+import MotionProvider from '../lib/motion/MotionProvider';
 
 function App() {
   const { theme, loadNotes } = useNotesStore();
@@ -35,7 +36,9 @@ function App() {
 
   return (
     <div className="transition-theme min-h-screen bg-bg text-text">
-      <RouterProvider router={router} />
+      <MotionProvider>
+        <RouterProvider router={router} />
+      </MotionProvider>
     </div>
   );
 }

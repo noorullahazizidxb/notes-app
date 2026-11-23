@@ -25,15 +25,15 @@ export const Navbar = () => {
               aria-label="Open navigation menu"
               aria-expanded={drawerOpen}
               aria-controls="mobile-drawer"
-              className="inline-flex items-center justify-center rounded-xl border border-border bg-paper p-2 text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/40 md:hidden"
+              className="icon-btn text-text md:hidden"
             >
-              <Menu className="h-4 w-4" />
+              <Menu className="h-5 w-5" aria-hidden="true" />
             </button>
 
             <Link
               to="/notes"
               aria-label="DevMinds Notes home"
-              className="flex items-center rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/40"
+              className="flex min-h-[40px] items-center rounded-lg"
             >
               <BrandLogo className="h-8 sm:h-9" />
             </Link>
@@ -71,9 +71,10 @@ export const Navbar = () => {
             <button
               type="button"
               onClick={() => navigate('/editor')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2 text-xs sm:text-sm font-semibold text-accent-text transition hover:bg-accent-hover shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/40 whitespace-nowrap"
+              aria-label="New note"
+              className="btn btn-primary btn-sm min-w-10 px-2.5 sm:px-3.5"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">New note</span>
             </button>
 

@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { m } from 'framer-motion';
 import { AlertTriangle, X } from 'lucide-react';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
+import { backdrop, dialog } from '../lib/motion/tokens';
 
 type DeleteConfirmModalProps = {
   title: string;
@@ -9,79 +11,80 @@ type DeleteConfirmModalProps = {
   onCancel: () => void;
 };
 
+/**
+ * Confirmation dialog, portalled to <body> so transformed ancestors (animated cards)
+ * never trap its fixed positioning. Render inside <AnimatePresence> for the exit animation.
+ */
 export const DeleteConfirmModal = ({ title, onConfirm, onCancel }: DeleteConfirmModalProps) => {
   useBodyScrollLock(true);
 
+  // Handles Escape, Tab cycling and focus return.
   const modalRef = useFocusTrap<HTMLDivElement>({
     isOpen: true,
     onClose: onCancel,
   });
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onCancel();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onCancel]);
-
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="delete-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      aria-describedby="delete-modal-body"
+      className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
     >
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+      <m.div
+        variants={backdrop}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
         aria-hidden="true"
       />
-      <div
+      <m.div
         ref={modalRef}
-        className="relative w-full max-w-sm rounded-2xl border border-border bg-paper p-6 shadow-2xl transition-all"
+        variants={dialog}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        className="relative w-full max-w-sm rounded-2xl border border-border bg-paper p-6 shadow-2xl"
       >
         <button
           type="button"
           onClick={onCancel}
-          className="absolute right-4 top-4 rounded-xl p-1.5 text-text-muted hover:bg-paper-elevated hover:text-text focus:outline-none focus:ring-2 focus:ring-accent/40"
+          className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl text-text-muted transition hover:bg-paper-elevated hover:text-text"
           aria-label="Cancel deletion"
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4" aria-hidden="true" />
         </button>
 
         <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400">
-          <AlertTriangle className="h-5 w-5" />
+          <AlertTriangle className="h-5 w-5" aria-hidden="true" />
         </div>
 
         <h2 id="delete-modal-title" className="font-display text-xl font-bold text-text">
           Delete this note?
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-text-muted">
+        <p id="delete-modal-body" className="mt-2 text-sm leading-relaxed text-text-muted">
           <span className="font-semibold text-text">"{title}"</span> will be permanently removed.
           This action cannot be undone.
         </p>
 
-        <div className="mt-6 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 rounded-xl border border-border bg-paper-elevated px-4 py-2 text-sm font-semibold text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
-          >
+        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row">
+          <button type="button" onClick={onCancel} className="btn btn-secondary flex-1">
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="flex-1 rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+            className="btn flex-1 bg-rose-600 text-white shadow-sm hover:bg-rose-700"
           >
-            Delete
+            Delete note
           </button>
         </div>
-      </div>
-    </div>
+      </m.div>
+    </div>,
+    document.body,
   );
 };
 

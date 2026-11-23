@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { m } from 'framer-motion';
 import BrandLogo from '../BrandLogo';
 import GoogleButton from '../GoogleButton';
+import { fadeUp, staggerChildren } from '../../lib/motion/tokens';
 
 type AuthLayoutProps = {
   title: string;
@@ -26,16 +28,24 @@ export const AuthLayout = ({ title, subtitle, children, switchPrompt, switchLabe
         <p className="mt-2 text-sm text-text-muted">{subtitle}</p>
       </div>
 
-      {children}
+      {/* Heading stays static (LCP); the form and alternatives settle in beneath it. */}
+      <m.div variants={staggerChildren} initial="hidden" animate="show" className="space-y-6">
+        <m.div variants={fadeUp}>{children}</m.div>
 
-      <GoogleButton />
+        <m.div variants={fadeUp}>
+          <GoogleButton />
+        </m.div>
 
-      <p className="text-center text-sm text-text-muted">
-        {switchPrompt}{' '}
-        <Link to={switchTo} className="font-semibold text-accent underline-offset-4 hover:underline">
-          {switchLabel}
-        </Link>
-      </p>
+        <m.p variants={fadeUp} className="text-center text-sm text-text-muted">
+          {switchPrompt}{' '}
+          <Link
+            to={switchTo}
+            className="inline-flex min-h-[40px] items-center font-semibold text-accent underline-offset-4 hover:underline"
+          >
+            {switchLabel}
+          </Link>
+        </m.p>
+      </m.div>
     </div>
   </main>
 );

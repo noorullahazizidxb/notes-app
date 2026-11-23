@@ -7,12 +7,25 @@ import NotFound from './routes/NotFound';
 import Login from './routes/Login';
 import Register from './routes/Register';
 import GoogleComplete from './routes/GoogleComplete';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, type ToasterProps } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { NavigationProvider } from '../lib/navigation/NavigationProvider';
 import SiteFooter from '../components/SiteFooter';
 import Landing from './routes/Landing';
 import Seo from '../seo/Seo';
+import RouteTransition from '../components/motion/RouteTransition';
+
+const TOAST_OPTIONS: ToasterProps['toastOptions'] = {
+  duration: 2800,
+  style: {
+    border: '1px solid var(--color-border)',
+    background: 'var(--color-paper)',
+    color: 'var(--color-text)',
+    borderRadius: '1rem',
+    fontSize: '0.875rem',
+    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+  },
+};
 
 const Dashboard = React.lazy(() => import('./routes/Dashboard'));
 const Editor = React.lazy(() => import('./routes/Editor'));
@@ -35,7 +48,9 @@ const ProtectedLayout = () => {
             tabIndex={-1}
             className="mx-auto w-full max-w-7xl flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pt-8 lg:px-8 focus:outline-none"
           >
-            <Outlet />
+            <RouteTransition>
+              <Outlet />
+            </RouteTransition>
           </main>
         </Suspense>
         <SiteFooter to="/notes" />
@@ -43,17 +58,7 @@ const ProtectedLayout = () => {
       <Toaster
         position="bottom-right"
         reverseOrder={false}
-        toastOptions={{
-          duration: 2800,
-          style: {
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-paper)',
-            color: 'var(--color-text)',
-            borderRadius: '1rem',
-            fontSize: '0.875rem',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-          },
-        }}
+        toastOptions={TOAST_OPTIONS}
         containerStyle={{ zIndex: 9999 }}
       />
     </NavigationProvider>
@@ -74,17 +79,7 @@ const GuestLayout = () => {
       </div>
       <Toaster
         position="bottom-right"
-        toastOptions={{
-          duration: 2800,
-          style: {
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-paper)',
-            color: 'var(--color-text)',
-            borderRadius: '1rem',
-            fontSize: '0.875rem',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-          },
-        }}
+        toastOptions={TOAST_OPTIONS}
       />
     </NavigationProvider>
   );

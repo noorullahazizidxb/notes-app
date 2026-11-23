@@ -1,4 +1,6 @@
+import { AnimatePresence, m } from 'framer-motion';
 import { ArrowLeft, Check, Heart, Loader2, Save, Trash2 } from 'lucide-react';
+import { statusSwap } from '../../lib/motion/tokens';
 
 type EditorHeaderProps = {
   onBack: () => void;
@@ -11,6 +13,45 @@ type EditorHeaderProps = {
   onSave: () => void;
   wordCount: number;
 };
+
+type SaveState = 'saving' | 'dirty' | 'saved' | 'idle';
+
+const resolveSaveState = (isSaving: boolean, isDirty: boolean, lastSaved: Date | null): SaveState => {
+  if (isSaving) return 'saving';
+  if (isDirty) return 'dirty';
+  return lastSaved ? 'saved' : 'idle';
+};
+
+const SaveStatus = ({ state }: { state: SaveState }) => (
+  <div role="status" aria-live="polite" className="flex items-center text-xs text-text-muted sm:min-w-[7.5rem]">
+    <AnimatePresence mode="wait" initial={false}>
+      {state !== 'idle' && (
+        <m.span
+          key={state}
+          variants={statusSwap}
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          className="inline-flex items-center gap-1.5"
+        >
+          {state === 'saving' && (
+            <>
+              <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" aria-hidden="true" />
+              Saving…
+            </>
+          )}
+          {state === 'dirty' && <span className="text-amber-700 dark:text-amber-400">Unsaved changes</span>}
+          {state === 'saved' && (
+            <>
+              <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+              Saved
+            </>
+          )}
+        </m.span>
+      )}
+    </AnimatePresence>
+  </div>
+);
 
 export const EditorHeader = ({
   onBack,
@@ -25,74 +66,43 @@ export const EditorHeader = ({
 }: EditorHeaderProps) => {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/80 pb-4">
-      {/* Back button & Status */}
       <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          aria-label="Back to notes"
-          className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-paper px-3 py-2 text-sm font-semibold text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
-        >
-          <ArrowLeft className="h-4 w-4" />
+        <button type="button" onClick={onBack} aria-label="Back to notes" className="btn btn-secondary btn-sm">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           <span className="hidden sm:inline">Notes</span>
         </button>
 
-        {/* Save status indicator */}
-        <div className="flex items-center gap-1.5 text-xs text-text-muted">
-          {isSaving ? (
-            <>
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" />
-              <span>Saving…</span>
-            </>
-          ) : isDirty ? (
-            <span className="text-amber-600 dark:text-amber-400">Unsaved changes</span>
-          ) : lastSaved ? (
-            <>
-              <Check className="h-3.5 w-3.5 text-emerald-500" />
-              <span>Saved</span>
-            </>
-          ) : null}
-        </div>
+        <SaveStatus state={resolveSaveState(isSaving, isDirty, lastSaved)} />
       </div>
 
-      {/* Meta & Actions */}
       <div className="flex items-center gap-2">
-        <span className="hidden text-xs text-text-muted sm:inline-block tabular-nums mr-2">
+        <span className="mr-2 hidden text-xs tabular-nums text-text-muted sm:inline-block">
           {wordCount} {wordCount === 1 ? 'word' : 'words'}
         </span>
 
-        {/* Favorite */}
         <button
           type="button"
           onClick={onToggleFavorite}
           aria-label={isFavorite ? 'Remove from favorites' : 'Mark as favorite'}
-          className={`rounded-xl border p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/30 ${
-            isFavorite
-              ? 'border-amber-500/40 bg-amber-500/15 text-amber-500'
-              : 'border-border bg-paper text-text-muted hover:border-amber-400 hover:text-amber-500'
+          aria-pressed={isFavorite}
+          className={`icon-btn ${
+            isFavorite ? 'border-amber-500/40 bg-amber-500/15 text-amber-500 hover:border-amber-500 hover:text-amber-500' : 'hover:border-amber-400 hover:text-amber-500'
           }`}
         >
-          <Heart className="h-4 w-4" fill={isFavorite ? 'currentColor' : 'none'} />
+          <Heart className="h-4 w-4" fill={isFavorite ? 'currentColor' : 'none'} aria-hidden="true" />
         </button>
 
-        {/* Delete */}
         <button
           type="button"
           onClick={onDelete}
           aria-label="Delete note"
-          className="rounded-xl border border-border bg-paper p-2 text-text-muted transition hover:border-rose-400 hover:bg-rose-500/10 hover:text-rose-600 dark:hover:text-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/30"
+          className="icon-btn hover:border-rose-400 hover:bg-rose-500/10 hover:text-rose-600 dark:hover:text-rose-400"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" aria-hidden="true" />
         </button>
 
-        {/* Save button */}
-        <button
-          type="button"
-          onClick={onSave}
-          disabled={isSaving}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-text transition hover:bg-accent-hover shadow-sm disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-        >
-          <Save className="h-4 w-4" />
+        <button type="button" onClick={onSave} disabled={isSaving} className="btn btn-primary btn-sm">
+          <Save className="h-4 w-4" aria-hidden="true" />
           <span>Save</span>
         </button>
       </div>

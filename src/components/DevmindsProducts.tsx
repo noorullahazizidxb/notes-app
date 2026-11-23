@@ -1,6 +1,7 @@
 import "./devminds-products.css";
 
-import { MotionConfig, motion } from "framer-motion";
+import { m } from "framer-motion";
+import { VIEWPORT_ONCE, fadeUp, staggerChildren } from "../lib/motion/tokens";
 import { DEVMINDS_PRODUCTS, LOGO_HEIGHT, productLogoSrc, type DevmindsProduct, type LogoVariant, type ProductSlug } from "../seo/devminds-products";
 
 interface DevmindsProductsProps {
@@ -47,36 +48,27 @@ function CardBody({ product, isCurrent }: { product: DevmindsProduct; isCurrent:
 /** "More from DevMinds" footer section: every DevMinds product in two rows of four on desktop. */
 export function DevmindsProducts({ current }: DevmindsProductsProps) {
   return (
-    <MotionConfig reducedMotion="user">
-      <nav className="dmp" aria-labelledby="dmp-title">
-        <h2 id="dmp-title" className="dmp-title">More from DevMinds</h2>
-        <ul className="dmp-grid">
-          {DEVMINDS_PRODUCTS.map((product, index) => {
-            const isCurrent = product.slug === current;
-            const label = `${product.name}: ${product.descriptor}`;
-            return (
-              <motion.li
-                key={product.slug}
-                className="dmp-item"
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-                transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.05 }}
-              >
-                {isCurrent ? (
-                  <div className="dmp-card" aria-current="page">
-                    <CardBody product={product} isCurrent />
-                  </div>
-                ) : (
-                  <a className="dmp-card" href={product.url} target="_blank" rel="noopener" aria-label={`${label} (opens in new tab)`}>
-                    <CardBody product={product} isCurrent={false} />
-                  </a>
-                )}
-              </motion.li>
-            );
-          })}
-        </ul>
-      </nav>
-    </MotionConfig>
+    <nav className="dmp" aria-labelledby="dmp-title">
+      <h2 id="dmp-title" className="dmp-title">More from DevMinds</h2>
+      <m.ul className="dmp-grid" variants={staggerChildren} initial="hidden" whileInView="show" viewport={VIEWPORT_ONCE}>
+        {DEVMINDS_PRODUCTS.map((product) => {
+          const isCurrent = product.slug === current;
+          const label = `${product.name}: ${product.descriptor}`;
+          return (
+            <m.li key={product.slug} className="dmp-item" variants={fadeUp}>
+              {isCurrent ? (
+                <div className="dmp-card" aria-current="page">
+                  <CardBody product={product} isCurrent />
+                </div>
+              ) : (
+                <a className="dmp-card" href={product.url} target="_blank" rel="noopener" aria-label={`${label} (opens in new tab)`}>
+                  <CardBody product={product} isCurrent={false} />
+                </a>
+              )}
+            </m.li>
+          );
+        })}
+      </m.ul>
+    </nav>
   );
 }
