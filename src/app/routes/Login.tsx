@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Loader2, LogIn } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { authApi } from '../../lib/notesApi';
 import { executeRecaptcha, preloadRecaptcha } from '../../lib/recaptcha';
 import { useAuthStore } from '../../store/authStore';
-import BrandLogo from '../../components/BrandLogo';
+import AuthLayout from '../../components/auth/AuthLayout';
+import { PasswordField, TextField } from '../../components/auth/FormFields';
 import Seo from '../../seo/Seo';
 import { pageJsonLd } from '../../seo/site';
-import GoogleButton from '../../components/GoogleButton';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -49,98 +48,53 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-bg px-4 py-10">
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Sign in to your notes workspace"
+      switchPrompt="No account yet?"
+      switchLabel="Create one"
+      switchTo="/register"
+    >
       <Seo title="Sign in — DevMinds Notes | Online Notes" description="Sign in to DevMinds Notes, the free note taking app, to open your online notes on any device. Continue with Google or email." path="/login" jsonLd={pageJsonLd('Sign in', '/login')} />
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <div className="mb-4 flex justify-center">
-            <BrandLogo className="h-12" />
-          </div>
-          <h1 className="font-display text-3xl text-text">Welcome back</h1>
-          <p className="mt-1 text-sm text-text/65">Sign in to your notes workspace</p>
+      <form
+        onSubmit={(e) => void handleSubmit(e)}
+        aria-busy={isLoading}
+        className="surface-card rounded-3xl p-6 sm:p-8"
+      >
+        <div className="space-y-4">
+          <TextField
+            label="Email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
+            aria-invalid={errorMessage ? true : undefined}
+          />
+          <PasswordField
+            label="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            autoComplete="current-password"
+            aria-invalid={errorMessage ? true : undefined}
+          />
         </div>
 
-        <form
-          onSubmit={(e) => void handleSubmit(e)}
-          className="rounded-3xl border border-border bg-[color:var(--color-paper)] p-8 shadow-sm"
-        >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-text">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-                className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-text/40 focus:border-[color:var(--color-accent)] focus:outline-none"
-              />
-            </div>
+        {errorMessage ? (
+          <p role="alert" className="mt-4 text-sm font-medium text-[color:var(--color-danger)]">
+            {errorMessage}
+          </p>
+        ) : null}
 
-            <div>
-              <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-text">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 pr-10 text-sm text-text placeholder:text-text/40 focus:border-[color:var(--color-accent)] focus:outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text/45 hover:text-text"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {errorMessage ? (
-            <p role="alert" className="mt-4 text-sm font-medium text-rose-600 dark:text-rose-300">
-              {errorMessage}
-            </p>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="btn btn-primary mt-6 w-full"
-          >
-            {isLoading ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent-text/30 border-t-accent-text" />
-            ) : (
-              <LogIn className="h-4 w-4" />
-            )}
-            {isLoading ? 'Signing in…' : 'Sign in'}
-          </button>
-        </form>
-
-        <GoogleButton />
-
-        <p className="text-center text-sm text-text-muted">
-          No account yet?{' '}
-          <Link
-            to="/register"
-            className="font-semibold text-accent hover:underline"
-          >
-            Create one
-          </Link>
-        </p>
-      </div>
-    </div>
+        <button type="submit" disabled={isLoading} className="btn btn-primary btn-lg mt-6 w-full">
+          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <LogIn className="h-4 w-4" aria-hidden="true" />}
+          {isLoading ? 'Signing in…' : 'Sign in'}
+        </button>
+      </form>
+    </AuthLayout>
   );
 };
 

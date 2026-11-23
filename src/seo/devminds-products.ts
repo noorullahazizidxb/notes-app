@@ -29,8 +29,6 @@ export interface DevmindsProduct {
 }
 
 export const LOGO_HEIGHT = 32;
-/** Logos at least this wide get a double-width card. */
-const WIDE_LOGO_MIN_WIDTH = 260;
 
 export const DEVMINDS_PRODUCTS: readonly DevmindsProduct[] = [
   { slug: "portfolio", name: "DevMinds", url: "https://devminds.net/", descriptor: "Digital product studio", description: "DevMinds digital product studio: web platforms, mobile apps and live products by Noorullah Azizi.", category: null, logoWidths: { light: 98, dark: 116, "icon-light": 38, "icon-dark": 38 } },
@@ -45,8 +43,4 @@ export const DEVMINDS_PRODUCTS: readonly DevmindsProduct[] = [
 
 export function productLogoSrc(slug: ProductSlug, variant: LogoVariant): string {
   return `/brand/products/${slug}-${variant}.svg`;
-}
-
-export function hasWideLogo(product: DevmindsProduct): boolean {
-  return Math.max(product.logoWidths.light, product.logoWidths.dark) >= WIDE_LOGO_MIN_WIDTH;
 }

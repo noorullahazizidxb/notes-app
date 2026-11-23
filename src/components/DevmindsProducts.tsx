@@ -1,7 +1,7 @@
 import "./devminds-products.css";
 
 import { MotionConfig, motion } from "framer-motion";
-import { DEVMINDS_PRODUCTS, LOGO_HEIGHT, hasWideLogo, productLogoSrc, type DevmindsProduct, type LogoVariant, type ProductSlug } from "../seo/devminds-products";
+import { DEVMINDS_PRODUCTS, LOGO_HEIGHT, productLogoSrc, type DevmindsProduct, type LogoVariant, type ProductSlug } from "../seo/devminds-products";
 
 interface DevmindsProductsProps {
   /** The product this app is; highlighted as "You are here". */
@@ -33,20 +33,23 @@ function CardBody({ product, isCurrent }: { product: DevmindsProduct; isCurrent:
       <span className="dmp-compact">
         <Logo product={product} variant="icon-light" className="dmp-light" />
         <Logo product={product} variant="icon-dark" className="dmp-dark" />
-        <span className="dmp-name">{product.name}</span>
+        <span className="dmp-text">
+          <span className="dmp-name">{product.name}</span>
+          <span className="dmp-desc">{product.descriptor}</span>
+        </span>
       </span>
-      <span className="dmp-desc">{product.descriptor}</span>
+      <span className="dmp-desc dmp-desc--wordmark">{product.descriptor}</span>
       {isCurrent && <span className="dmp-badge">You are here</span>}
     </>
   );
 }
 
-/** "Our products" footer section listing every DevMinds product. */
+/** "More from DevMinds" footer section: every DevMinds product in two rows of four on desktop. */
 export function DevmindsProducts({ current }: DevmindsProductsProps) {
   return (
     <MotionConfig reducedMotion="user">
       <nav className="dmp" aria-labelledby="dmp-title">
-        <h2 id="dmp-title" className="dmp-title">Our products</h2>
+        <h2 id="dmp-title" className="dmp-title">More from DevMinds</h2>
         <ul className="dmp-grid">
           {DEVMINDS_PRODUCTS.map((product, index) => {
             const isCurrent = product.slug === current;
@@ -54,7 +57,7 @@ export function DevmindsProducts({ current }: DevmindsProductsProps) {
             return (
               <motion.li
                 key={product.slug}
-                className={hasWideLogo(product) ? "dmp-item dmp-item--wide" : "dmp-item"}
+                className="dmp-item"
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -40px 0px" }}
