@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import { WifiOff } from 'lucide-react';
 import { useNotesStore } from '../../store/notesStore';
-import NoteCard from '../../components/NoteCard';
+import NoteGrid from '../../components/NoteGrid';
 import SkeletonCard from '../../components/SkeletonCard';
 import DashboardHero from '../../components/dashboard/DashboardHero';
 import FilterToolbar from '../../components/dashboard/FilterToolbar';
@@ -111,29 +110,14 @@ export const Dashboard = () => {
             }}
           />
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <AnimatePresence mode="popLayout">
-              {displayedNotes.map((note, index) => (
-                <motion.div
-                  key={note.id}
-                  layout
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.22, delay: Math.min(index * 0.02, 0.2) }}
-                >
-                  <NoteCard
-                    note={note}
-                    activeTag={activeTag}
-                    onDelete={(id) => void deleteNote(id)}
-                    onToggleFavorite={(id) => void toggleFavorite(id)}
-                    onOpen={(id) => navigate(`/editor/${id}`)}
-                    onTagClick={handleTagClick}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+          <NoteGrid
+            notes={displayedNotes}
+            activeTag={activeTag}
+            onDelete={(id) => void deleteNote(id)}
+            onToggleFavorite={(id) => void toggleFavorite(id)}
+            onOpen={(id) => navigate(`/editor/${id}`)}
+            onTagClick={handleTagClick}
+          />
         )}
       </div>
     </section>

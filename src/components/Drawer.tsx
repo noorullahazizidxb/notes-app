@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { m } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useNotesStore } from '../store/notesStore';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import BrandLogo from './BrandLogo';
+import { DURATION, SPRING } from '../lib/motion/tokens';
 import DrawerUserCard from './drawer/DrawerUserCard';
 import DrawerNav from './drawer/DrawerNav';
 import DrawerFooter from './drawer/DrawerFooter';
@@ -43,16 +45,17 @@ export const Drawer = () => {
   return (
     <>
       {/* Overlay Backdrop */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-          drawerOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+      <m.div
+        initial={false}
+        animate={{ opacity: drawerOpen ? 1 : 0 }}
+        transition={{ duration: DURATION.base }}
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm ${drawerOpen ? '' : 'pointer-events-none'}`}
         onClick={handleClose}
         aria-hidden="true"
       />
 
       {/* Modal Slide-in Drawer */}
-      <aside
+      <m.aside
         id="mobile-drawer"
         ref={drawerRef}
         role="dialog"
@@ -62,9 +65,10 @@ export const Drawer = () => {
         // React 18 has no boolean `inert` typing; '' sets the attribute, undefined removes it.
         {...{ inert: drawerOpen ? undefined : '' }}
         tabIndex={-1}
-        className={`fixed inset-y-0 left-0 z-50 flex h-full w-80 max-w-[85vw] flex-col border-r border-border bg-paper p-5 shadow-2xl transition-transform duration-300 ease-out focus:outline-none ${
-          drawerOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        initial={false}
+        animate={{ x: drawerOpen ? '0%' : '-100%' }}
+        transition={SPRING.snappy}
+        className="fixed inset-y-0 left-0 z-50 flex h-full w-80 max-w-[85vw] -translate-x-full flex-col border-r border-border bg-paper p-5 shadow-2xl focus:outline-none"
       >
         {/* Header with Brand and Close Button */}
         <div className="flex items-center justify-between border-b border-border/80 pb-4">
@@ -79,9 +83,9 @@ export const Drawer = () => {
             type="button"
             onClick={handleClose}
             aria-label="Close navigation"
-            className="rounded-xl border border-border bg-paper-elevated p-2 text-text transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+            className="icon-btn bg-paper-elevated text-text"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
@@ -93,7 +97,7 @@ export const Drawer = () => {
 
         {/* Footer with Theme Selector and Sign out */}
         <DrawerFooter onClose={handleClose} />
-      </aside>
+      </m.aside>
     </>
   );
 };

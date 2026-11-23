@@ -1,48 +1,44 @@
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_ITEMS } from '../../constants/nav';
+import { m } from 'framer-motion';
+import { NAV_ITEMS, isNavItemActive } from '../../constants/nav';
+import { SPRING } from '../../lib/motion/tokens';
 
 type NavLinksProps = {
   className?: string;
-  onNavigate?: () => void;
 };
 
-export const NavLinks = ({ className = '', onNavigate }: NavLinksProps) => {
+export const NavLinks = ({ className = '' }: NavLinksProps) => {
   const { pathname } = useLocation();
 
   return (
     <nav aria-label="Main Navigation" className={className}>
       {NAV_ITEMS.map((item) => {
-        const isActive =
-          pathname === item.to ||
-          (pathname === '/' && item.to === '/notes') ||
-          (item.to === '/editor' && pathname.startsWith('/editor'));
-
+        const isActive = isNavItemActive(item, pathname);
         const Icon = item.icon;
 
         return (
           <Link
             key={item.to}
             to={item.to}
-            onClick={onNavigate}
             aria-current={isActive ? 'page' : undefined}
-            className={`group relative inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium whitespace-nowrap transition-all ${
-              isActive
-                ? 'bg-accent/15 text-accent font-semibold dark:bg-accent/20 dark:text-accent-soft'
-                : 'text-text-muted hover:bg-paper-elevated hover:text-text'
+            className={`group relative inline-flex min-h-[40px] items-center gap-2 whitespace-nowrap rounded-xl px-3.5 text-sm font-medium transition-colors ${
+              isActive ? 'font-semibold text-accent' : 'text-text-muted hover:bg-paper-elevated hover:text-text'
             }`}
           >
-            <Icon
-              className={`h-4 w-4 transition-transform group-hover:scale-110 ${
-                isActive ? 'text-accent dark:text-accent-soft' : 'text-text-muted group-hover:text-text'
-              }`}
-            />
-            <span>{item.label}</span>
             {isActive && (
-              <span
-                className="absolute inset-x-2 -bottom-[13px] hidden h-[2px] rounded-full bg-accent dark:bg-accent-soft md:block"
+              <m.span
+                layoutId="nav-active-pill"
+                transition={SPRING.snappy}
                 aria-hidden="true"
+                className="absolute inset-0 rounded-xl bg-accent-subtle"
               />
             )}
+            <Icon
+              className={`relative h-4 w-4 transition-transform group-hover:scale-110 ${
+                isActive ? 'text-accent' : 'text-text-muted group-hover:text-text'
+              }`}
+            />
+            <span className="relative">{item.label}</span>
           </Link>
         );
       })}

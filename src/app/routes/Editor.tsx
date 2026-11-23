@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { AnimatePresence } from 'framer-motion';
 import RichTextEditor from '../../components/RichTextEditor';
 import DeleteConfirmModal from '../../components/DeleteConfirmModal';
 import EditorHeader from '../../components/editor/EditorHeader';
@@ -185,7 +186,7 @@ export const Editor = () => {
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           placeholder="Untitled note"
-          className="w-full bg-transparent font-display text-3xl sm:text-4xl font-bold text-text placeholder:text-text-muted/50 focus:outline-none"
+          className="w-full border-0 bg-transparent px-0 font-display text-3xl font-bold text-text placeholder:text-text-muted/50 focus:outline-none focus:ring-0 sm:text-4xl"
         />
       </div>
 
@@ -204,16 +205,18 @@ export const Editor = () => {
       />
 
       {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <DeleteConfirmModal
-          title={title || 'Untitled note'}
-          onConfirm={() => {
-            setShowDeleteModal(false);
-            void handleDelete();
-          }}
-          onCancel={() => setShowDeleteModal(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showDeleteModal && (
+          <DeleteConfirmModal
+            title={title || 'Untitled note'}
+            onConfirm={() => {
+              setShowDeleteModal(false);
+              void handleDelete();
+            }}
+            onCancel={() => setShowDeleteModal(false)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

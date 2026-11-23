@@ -10,10 +10,13 @@ import {
   Tags,
   type LucideIcon,
 } from 'lucide-react';
+import { m } from 'framer-motion';
 import BrandLogo from '../../components/BrandLogo';
+import HeroNotePreview from '../../components/landing/HeroNotePreview';
 import ThemeToggle from '../../components/ThemeToggle';
 import Seo from '../../seo/Seo';
 import { FAQ, FEATURES, STEPS, homeJsonLd } from '../../seo/site';
+import { VIEWPORT_ONCE, fadeUp, staggerChildren } from '../../lib/motion/tokens';
 
 type FeatureTitle = (typeof FEATURES)[number]['title'];
 
@@ -26,13 +29,25 @@ const FEATURE_ICONS: Record<FeatureTitle, LucideIcon> = {
   'Light and dark themes': SunMoon,
 };
 
-const SectionHeading = ({ id, eyebrow, title }: { id: string; eyebrow: string; title: string }) => (
-  <div className="text-center">
-    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{eyebrow}</p>
-    <h2 id={id} className="mt-3 font-display text-3xl font-bold text-text sm:text-4xl">
-      {title}
-    </h2>
-  </div>
+/** Shared whileInView props: children with `fadeUp` variants reveal in sequence, once. */
+const revealGroup = {
+  variants: staggerChildren,
+  initial: 'hidden',
+  whileInView: 'show',
+  viewport: VIEWPORT_ONCE,
+} as const;
+
+const SectionHeading = ({ id, title }: { id: string; title: string }) => (
+  <m.h2
+    id={id}
+    variants={fadeUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={VIEWPORT_ONCE}
+    className="text-center font-display text-3xl font-bold text-text sm:text-4xl"
+  >
+    {title}
+  </m.h2>
 );
 
 export const Landing = () => (
@@ -40,7 +55,7 @@ export const Landing = () => (
     <Seo path="/" jsonLd={homeJsonLd} />
     <header className="sticky top-0 z-30 bg-bg-glass backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4">
-        <Link to="/" aria-label="DevMinds Notes home" className="inline-flex shrink-0 items-center">
+        <Link to="/" aria-label="DevMinds Notes home" className="inline-flex min-h-[40px] shrink-0 items-center">
           <BrandLogo className="h-8 sm:h-10" />
         </Link>
         <nav aria-label="Account" className="flex items-center gap-1 sm:gap-3">
@@ -56,54 +71,60 @@ export const Landing = () => (
     </header>
 
     <main id="main-content" className="flex-1">
-      <section className="hero-glow">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-24 lg:py-28">
-          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-paper px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent shadow-sm sm:text-xs sm:tracking-[0.18em]">
-            Free online notes by DevMinds
-          </p>
-          <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-bold leading-[1.1] text-text sm:text-6xl">
-            The free note taking app for your online ideas
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-muted sm:text-lg">
-            Write rich-text notes, organize them with tags and favorites, search instantly, and access them
-            from any device. Offline-first, fast, and completely free.
-          </p>
-          <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <Link to="/register" className="btn btn-primary btn-lg shadow-md hover:-translate-y-0.5">
-              <span>Create a free account</span>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-            <Link to="/login" className="btn btn-secondary btn-lg">
-              Sign in to your notes
-            </Link>
+      <section className="hero-glow overflow-hidden">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 py-16 text-center sm:px-6 sm:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:py-28 lg:text-left">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-border bg-paper px-3.5 py-1.5 text-xs font-semibold text-accent shadow-sm sm:text-sm">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              Free online notes by DevMinds
+            </p>
+            <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-bold leading-[1.1] text-text sm:text-6xl lg:mx-0">
+              The free note taking app for your online ideas
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-muted sm:text-lg lg:mx-0">
+              Write rich-text notes, organize them with tags and favorites, search instantly, and access them
+              from any device. Offline-first, fast, and completely free.
+            </p>
+            <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
+              <Link to="/register" className="btn btn-primary btn-lg shadow-md hover:-translate-y-0.5">
+                <span>Create a free account</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link to="/login" className="btn btn-secondary btn-lg">
+                Sign in to your notes
+              </Link>
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            <HeroNotePreview />
           </div>
         </div>
       </section>
 
       <div className="mx-auto w-full max-w-6xl space-y-20 px-4 pb-20 pt-4 sm:space-y-24 sm:px-6">
         <section aria-labelledby="features">
-          <SectionHeading id="features" eyebrow="Features" title="Note taking features" />
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          <SectionHeading id="features" title="Note taking features" />
+          <m.ul {...revealGroup} className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {FEATURES.map((f) => {
               const Icon = FEATURE_ICONS[f.title];
               return (
-                <li key={f.title} className="surface-card group p-6 transition hover:-translate-y-0.5 hover:border-accent-line hover:shadow-md">
+                <m.li key={f.title} variants={fadeUp} className="surface-card group p-6 transition-[border-color,box-shadow] hover:border-accent-line hover:shadow-md">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-subtle text-accent transition group-hover:bg-accent group-hover:text-accent-text">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-4 font-semibold text-text">{f.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-text-muted">{f.body}</p>
-                </li>
+                </m.li>
               );
             })}
-          </ul>
+          </m.ul>
         </section>
 
         <section aria-labelledby="how">
-          <SectionHeading id="how" eyebrow="Get started" title="How it works" />
-          <ol className="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5">
+          <SectionHeading id="how" title="How it works" />
+          <m.ol {...revealGroup} className="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="surface-card relative p-6">
+              <m.li key={s.title} variants={fadeUp} className="surface-card relative p-6">
                 <span
                   aria-hidden="true"
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-accent font-display text-base font-bold text-accent-text"
@@ -112,16 +133,16 @@ export const Landing = () => (
                 </span>
                 <h3 className="mt-4 font-display text-xl font-bold text-text">{s.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-text-muted">{s.body}</p>
-              </li>
+              </m.li>
             ))}
-          </ol>
+          </m.ol>
         </section>
 
         <section aria-labelledby="faq">
-          <SectionHeading id="faq" eyebrow="FAQ" title="Frequently asked questions" />
-          <div className="mx-auto mt-10 max-w-3xl space-y-3">
+          <SectionHeading id="faq" title="Frequently asked questions" />
+          <m.div {...revealGroup} className="mx-auto mt-10 max-w-3xl space-y-3">
             {FAQ.map((f, i) => (
-              <details key={f.q} open={i === 0} className="surface-card group overflow-hidden open:border-accent-line">
+              <m.details key={f.q} variants={fadeUp} open={i === 0} className="surface-card group overflow-hidden open:border-accent-line">
                 <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-text transition hover:text-accent sm:px-6 [&::-webkit-details-marker]:hidden">
                   <h3>{f.q}</h3>
                   <ChevronDown
@@ -130,12 +151,19 @@ export const Landing = () => (
                   />
                 </summary>
                 <p className="px-5 pb-5 text-sm leading-relaxed text-text-muted sm:px-6">{f.a}</p>
-              </details>
+              </m.details>
             ))}
-          </div>
+          </m.div>
         </section>
 
-        <section className="surface-card hero-glow overflow-hidden rounded-3xl px-6 py-12 text-center sm:px-12 sm:py-14" aria-labelledby="cta">
+        <m.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT_ONCE}
+          className="surface-card hero-glow overflow-hidden rounded-3xl px-6 py-12 text-center sm:px-12 sm:py-14"
+          aria-labelledby="cta"
+        >
           <h2 id="cta" className="font-display text-3xl font-bold text-text sm:text-4xl">
             Start writing in seconds
           </h2>
@@ -148,7 +176,7 @@ export const Landing = () => (
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-        </section>
+        </m.section>
       </div>
     </main>
   </>
