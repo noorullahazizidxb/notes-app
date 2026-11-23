@@ -72,8 +72,8 @@ export const Dashboard = () => {
 
       {/* Offline Mode Banner */}
       {dataMode === 'local' && (
-        <div className="flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
-          <WifiOff className="h-4 w-4 shrink-0" />
+        <div role="status" className="flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
+          <WifiOff className="h-4 w-4 shrink-0" aria-hidden="true" />
           <p>
             Working in offline mode — your notes are safely saved to local device storage.
           </p>
@@ -96,7 +96,8 @@ export const Dashboard = () => {
 
         {/* Content list */}
         {isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div role="status" aria-live="polite" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <span className="sr-only">Loading your notes…</span>
             {Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}

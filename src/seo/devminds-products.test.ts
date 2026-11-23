@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEVMINDS_PRODUCTS, hasWideLogo, productLogoSrc } from './devminds-products';
+import { DEVMINDS_PRODUCTS, productLogoSrc } from './devminds-products';
 
 describe('DEVMINDS_PRODUCTS registry', () => {
   it('lists all eight products once, with absolute https URLs', () => {
@@ -16,9 +16,13 @@ describe('DEVMINDS_PRODUCTS registry', () => {
     expect(DEVMINDS_PRODUCTS.find((p) => p.slug === 'restaurant-maps')?.url).toBe('https://resturant-maps.devminds.net/');
   });
 
-  it('builds themed logo paths and flags wide logos', () => {
+  it('builds themed logo paths', () => {
     expect(productLogoSrc('notes', 'dark')).toBe('/brand/products/notes-dark.svg');
-    expect(hasWideLogo(DEVMINDS_PRODUCTS.find((p) => p.slug === 'ourworks')!)).toBe(true);
-    expect(hasWideLogo(DEVMINDS_PRODUCTS.find((p) => p.slug === 'notes')!)).toBe(false);
+    expect(productLogoSrc('budget-manager', 'icon-light')).toBe('/brand/products/budget-manager-icon-light.svg');
+  });
+
+  it('fills exactly two rows of four footer cards on desktop', () => {
+    expect(DEVMINDS_PRODUCTS.length % 4).toBe(0);
+    expect(DEVMINDS_PRODUCTS.length / 4).toBe(2);
   });
 });

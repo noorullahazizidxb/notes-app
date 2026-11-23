@@ -15,6 +15,7 @@ export default {
         'paper-elevated': 'var(--color-paper-elevated)',
         'card-bg': 'var(--color-card-bg)',
         'nav-bg': 'var(--color-nav-bg)',
+        'bg-glass': 'var(--color-bg-glass)',
         border: 'var(--color-border)',
         accent: {
           DEFAULT: 'var(--color-accent)',
@@ -22,6 +23,9 @@ export default {
           2: 'var(--color-accent-2)',
           soft: 'var(--color-accent-soft)',
           text: 'var(--color-accent-text)',
+          subtle: 'var(--color-accent-subtle)',
+          line: 'var(--color-accent-line)',
+          ring: 'var(--color-accent-ring)',
         },
       },
       fontFamily: {
